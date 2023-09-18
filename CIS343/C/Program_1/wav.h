@@ -3,17 +3,31 @@
 //a struct for a wave file header/////
 #include <stddef.h>
 typedef struct wav_header {
+    //byte segments in header
+
+    //RIFF section of header
     char bytes0to3[4];
+    //file size - 8
     char bytes4to7[4];
+    //WAVE section of header
     char bytes8to11[4];
+    //fmt section of header(unchecked)
     char bytes12to15[4];
+    //length of format data(unchecked)
     char bytes16to19[4];
+    //format type(should be 1)
     char bytes20to21[2];
+    //number of channels(should be 2)
     char bytes22to23[2];
+    //sample rate(unchecked but printed)
     char bytes24to27[4];
+    //sample rate * bits per sample(unchecked)
     char bytes28to31[4];
+    //bits per sample(unchecked)
     char bytes32to35[4];
+    //data header(unchecked)
     char bytes36to39[4];
+    //data section size(unchecked except for errors)
     char bytes40to43[4];
 
 } wav_header;
@@ -21,8 +35,13 @@ typedef struct wav_header {
 //a struct for a wav_file that has a pointer to the header,
 //file size, and a pointer to the data////
 typedef struct wav_file {
+    //pointer to header
     wav_header* header_p;
+
+    //pointer to file size
     size_t* filesize_p;
+
+    //pointer to data section
     char* data_p;
 } wav_file;
 
