@@ -28,22 +28,22 @@ public:
     NPC(std::string name, std::string description);
 
     // getters
-    std::string getName() const;
-    std::string getDescription() const;
+    std::string get_name() const;
+    std::string get_description() const;
     // may need parameter
-    std::string getCurrentMessage();
+    std::string get_currentMessage();
     // may not need
-    int getMessageNumber() const;
-    std::vector<std::string> getMessages() const;
+    int get_messageNumber() const;
+    std::vector<std::string> get_messages() const;
 
     // setters
     // think about what return type these should be
-    void setName(std::string name);
-    void setDescription(std::string description);
+    void set_name(std::string name);
+    void set_description(std::string description);
     // may not need
-    void setCurrentMessage(std::string message);
-    void setMessageNumber(int number);
-    void setMessages(std::vector<std::string> messages);
+    void set_currentMessage(std::string message);
+    void set_messageNumber(int number);
+    void set_messages(std::vector<std::string> messages);
 
     // increment message number
     void incrementMessageNumber();

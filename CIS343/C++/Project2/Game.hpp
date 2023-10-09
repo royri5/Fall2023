@@ -177,9 +177,7 @@ public:
     void create_world();
 
     // setup commands
-    // std::map<std::string, void (*)(std::vector<std::string>)> setup_commands();
     std::map<std::string, void (Game::*)()> setup_commands();
-    // std::map<std::string, void(Game::*)(std::vector<std::string>)> setup_commands();
 
     // random location
     Location& random_location();
@@ -236,9 +234,21 @@ public:
     int get_current_weight() const;
 
     // get locations
-    // std::vector<Location> get_locations() const;
-    std::vector<Location> get_locations() const;
-    std::vector<std::reference_wrapper<Location>> get_ref_locations();
+    //made by create world
+    //split create world into 
+    //create world
+    //create items (per location)
+    //create npcs (per location)
+    //create neighbors (per location)
+
+    //create world makes locations
+    //then calls create items and create npcs
+    //then calls create neighbors
+    //for all locations
+
+    std::vector<Location> get_locs() const;
+    //used by everything else
+    std::vector<std::reference_wrapper<Location>> get_locations();
 
     // get current location
     Location& get_current_location() const;
@@ -259,10 +269,8 @@ private:
     // current weight
     int current_weight;
     // vector of locations
-    std::vector<Location> locations;
-
-    // vector of reference wrappers
-    std::vector<std::reference_wrapper<Location>> ref_locations;
+    std::vector<Location> locs;
+    std::vector<std::reference_wrapper<Location>> locations;
     // current location
     Location curr;
     Location& current_location = curr;

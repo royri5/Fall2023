@@ -47,15 +47,9 @@ Location::Location()
     this->name = "noname";
     this->description = "no description";
     this->visited = false;
-    // reference wrapped
-    this->neighbors = std::map<std::string, Location>();
-    this->ref_neighbors = std::map<std::string, std::reference_wrapper<Location>>();
-    // reference wrapped
-    this->npcs = std::vector<NPC>();
-    this->ref_npcs = std::vector<std::reference_wrapper<NPC>>();
-    // reference wrapped
-    this->items = std::vector<Item>();
-    this->ref_items = std::vector<std::reference_wrapper<Item>>();
+    this->neighbors = std::map<std::string, std::reference_wrapper<Location> >();
+    this->npcs = std::vector<std::reference_wrapper<NPC> >();
+    this->items = std::vector<std::reference_wrapper<Item> >();
 }
 
 // constructor with parameters
@@ -78,15 +72,9 @@ Location::Location(std::string locName, std::string locDescription)
     this->name = locName;
     this->description = locDescription;
     this->visited = false;
-    // reference wrapped
-    this->neighbors = std::map<std::string, Location>();
-    this->ref_neighbors = std::map<std::string, std::reference_wrapper<Location>>();
-    // reference wrapped
-    this->npcs = std::vector<NPC>();
-    this->ref_npcs = std::vector<std::reference_wrapper<NPC>>();
-    // reference wrapped
-    this->items = std::vector<Item>();
-    this->ref_items = std::vector<std::reference_wrapper<Item>>();
+    this->neighbors = std::map<std::string, std::reference_wrapper<Location> >();
+    this->npcs = std::vector<std::reference_wrapper<NPC> >();
+    this->items = std::vector<std::reference_wrapper<Item> >();
 }
 
 // getters
@@ -109,41 +97,25 @@ bool Location::get_visited() const
 }
 
 // get_locations
-std::map<std::string, Location> Location::get_locations() const
+std::map<std::string, std::reference_wrapper<Location> > Location::get_locations() const
 {
     return this->neighbors;
 }
-std::map<std::string, std::reference_wrapper<Location>> Location::get_ref_locations() const
-{
-    return this->ref_neighbors;
-}
 
 // get_npcs
-std::vector<NPC> Location::get_npcs() const
+std::vector<std::reference_wrapper<NPC> > Location::get_npcs() const
 {
     return this->npcs;
 }
 
-//get_ref_npcs
-std::vector<std::reference_wrapper<NPC>> Location::get_ref_npcs() const
-{
-    return this->ref_npcs;
-}
-
 // get_items
-std::vector<Item> Location::get_items() const
+std::vector<std::reference_wrapper<Item> > Location::get_items() const
 {
     return this->items;
 }
 
-// get_ref_items
-std::vector<std::reference_wrapper<Item>> Location::get_ref_items() const
-{
-    return this->ref_items;
-}
-
 // adders
-void Location::add_location(std::string direction, Location location)
+void Location::add_location(std::string direction, std::reference_wrapper<Location> location)
 {
     // exception checking
 
@@ -161,92 +133,32 @@ void Location::add_location(std::string direction, Location location)
 
     // below is copilot code
     // add location to map
-    this->neighbors.insert(std::pair<std::string, Location>(direction, location));
-}
-
-// add_location (make sure direction is not blank) (make sure location is not already in map)
-void Location::add_ref_location(std::string direction, Location &location)
-{
-    // exception checking
-
-    // check if direction is blank
-    if (direction == "")
-    {
-        throw std::invalid_argument("Direction cannot be blank");
-    }
-    // below is copilot code
-    // check if location is already in map
-    if (this->ref_neighbors.find(direction) != this->ref_neighbors.end())
-    {
-        throw std::invalid_argument("RefLocation already exists in map");
-    }
-
-    // below is copilot code
-    // add location to map
-    // reference wrapped
-    this->ref_neighbors.insert(std::pair<std::string, std::reference_wrapper<Location>>(direction, location));
-    add_location(direction, location);
-    // this->neighbors.insert(std::pair<std::string, Location>(direction, location));
+    this->neighbors.insert(std::pair<std::string, std::reference_wrapper<Location> >(direction, location));
 }
 
 // add_npc
-void Location::add_npc(NPC npc)
+void Location::add_npc(std::reference_wrapper<NPC> npc)
 {
     // add npc to vector
     this->npcs.push_back(npc);
 }
-void Location::add_ref_npc(NPC &npc)
-{
-    // add npc to vector
-    //this->ref_npcs.push_back(npc);
-    add_npc(npc);
-    // this->npcs.push_back(npc);
-}
-// set_ref_npc
-void Location::set_ref_npc(std::vector<std::reference_wrapper<NPC> > setnpcs)
-{
-    // set npcs
-    //this->ref_npcs = std::vector<std::reference_wrapper<NPC> >(setnpcs.begin(), setnpcs.end());
-    this->ref_npcs = setnpcs;
-}
 
 // add_item
-void Location::add_item(Item item)
+void Location::add_item(std::reference_wrapper<Item>  item)
 {
     // add item to vector
     this->items.push_back(item);
 }
-void Location::add_ref_item(Item &item)
-{
-    // add item to vector
-    //this->ref_items.push_back(item);
-    //this->ref_items = std::
-    // this->items.push_back(item);
-    add_item(item);
-}
-
-// set_ref_item
-void Location::set_ref_item(std::vector<std::reference_wrapper<Item> > setitems)
-{
-    // set items
-    //this->ref_items = std::vector<std::reference_wrapper<Item> >(setitems.begin(), setitems.end());
-    this->ref_items = setitems;
-}
 
 // remove item
-void Location::remove_item(Item item)
+void Location::remove_item(std::reference_wrapper<Item> item)
 {
     // remove item from vector
     // copilot code
+
+    //this should remove the last item from inv
+    // not correct but busy right now
     this->items.erase(std::remove(this->items.begin(), this->items.end(), item), this->items.end());
-}
-void Location::remove_ref_item(Item &item)
-{
-    // remove item from vector
-    // copilot code
-    this->ref_items.erase(std::remove(this->ref_items.begin(), this->ref_items.end(), item), this->ref_items.end());
-    remove_item(item);
-    // this->items.erase(std::remove(this->items.begin(), this->items.end(), item), this->items.end());
 }
 
 // set_visited
@@ -260,21 +172,21 @@ void Location::set_visited()
 std::ostream &operator<<(std::ostream &output, const Location &location)
 {
     // iterator for npcs
-    std::vector<std::reference_wrapper<NPC>>::const_iterator npcIterator = location.ref_npcs.begin();
+    std::vector<std::reference_wrapper<NPC>>::const_iterator npcIterator = location.npcs.begin();
     // iterator for items
-    std::vector<std::reference_wrapper<Item>>::const_iterator itemIterator = location.ref_items.begin();
+    std::vector<std::reference_wrapper<Item>>::const_iterator itemIterator = location.items.begin();
     // iterator for neighbors
     // copilot code
-    std::map<std::string, std::reference_wrapper<Location>>::const_iterator neighborIterator = location.ref_neighbors.begin();
+    std::map<std::string, std::reference_wrapper<Location>>::const_iterator neighborIterator = location.neighbors.begin();
     // loop through npcs, items, and neighbors and add to output
     // add: if there are no npcs, items, or neighbors, say so,
     // instead of just leaving the section blank
     output << location.name << " - " << location.description << "\n\n";
-    if (location.get_ref_npcs().size() > 0)
+    if (location.get_npcs().size() > 0)
     {
         output << "You see the following NPCs:\n";
         // loop through npcs
-        while (npcIterator != location.ref_npcs.end())
+        while (npcIterator != location.npcs.end())
         {
             //output << "     - " << *(&((*npcIterator).get())) << "\n";
             output << "     - " << ((*npcIterator).get()) << "\n";
@@ -286,11 +198,11 @@ std::ostream &operator<<(std::ostream &output, const Location &location)
     {
         output << "There are no NPCs here.\n";
     }
-    if (location.get_ref_items().size() > 0)
+    if (location.get_items().size() > 0)
     {
         output << "\nYou see the following Items:\n";
         // loop through items
-        while (itemIterator != location.ref_items.end())
+        while (itemIterator != location.items.end())
         {
             output << "     - " << ((*itemIterator).get()) << "\n";
             itemIterator++;
@@ -300,11 +212,11 @@ std::ostream &operator<<(std::ostream &output, const Location &location)
     {
         output << "There are no items here.\n";
     }
-    if (location.get_ref_locations().size() > 0)
+    if (location.get_locations().size() > 0)
     {
         output << "\nYou can go in the following Directions:\n";
         // loop through neighbors
-        while (neighborIterator != location.ref_neighbors.end())
+        while (neighborIterator != location.neighbors.end())
         {
             // check if neighbor has been visited
             if ((*neighborIterator).second.get().visited == true)
@@ -323,38 +235,6 @@ std::ostream &operator<<(std::ostream &output, const Location &location)
         output << "There are no locations here.\n";
     }
     return output;
-
-    // output << location.name << " - " << location.description << "\n\n"
-    //        << "You see the following NPCs:\n";
-    // // loop through npcs
-    // while (npcIterator != location.ref_npcs.end())
-    // {
-    //     output << "     - " << (*npcIterator).get();
-    //     npcIterator++;
-    // }
-    // output << "\nYou see the following Items:\n";
-    // // loop through items
-    // while (itemIterator != location.ref_items.end())
-    // {
-    //     output << "     - " << (*itemIterator).get();
-    //     itemIterator++;
-    // }
-    // output << "\nYou can go in the following Directions:\n";
-    // // loop through neighbors
-    // while (neighborIterator != location.ref_neighbors.end())
-    // {
-    //     // check if neighbor has been visited
-    //     if ((*neighborIterator).second.get().visited == true)
-    //     {
-    //         output << "     - " << (*neighborIterator).first << " - " << (*neighborIterator).second.get().name << " (Visited)\n";
-    //     }
-    //     else
-    //     {
-    //         output << "     - " << (*neighborIterator).first << " - " << (*neighborIterator).second.get().name << "\n";
-    //     }
-    //     neighborIterator++;
-    // }
-    // return output;
 }
 
 // overloaded equality operator

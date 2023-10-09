@@ -49,20 +49,20 @@ NPC::NPC(std::string npcname, std::string npcdescription)
 
 // getters
 // getName
-std::string NPC::getName() const
+std::string NPC::get_name() const
 {
     return this->name;
 }
 
 // getDescription
-std::string NPC::getDescription() const
+std::string NPC::get_description() const
 {
     return this->description;
 }
 
 // getCurrentMessage (if increments over max message number, resets to 0)
 // below is Github Copilot code
-std::string NPC::getCurrentMessage()
+std::string NPC::get_currentMessage()
 {
     std::string retval = this->messages.at(this->messageNumber);
     this->incrementMessageNumber();
@@ -71,20 +71,20 @@ std::string NPC::getCurrentMessage()
 
 // may not need below getters
 // getMessageNumber
-int NPC::getMessageNumber() const
+int NPC::get_messageNumber() const
 {
     return this->messageNumber;
 }
 
 // getMessages
-std::vector<std::string> NPC::getMessages() const
+std::vector<std::string> NPC::get_messages() const
 {
     return this->messages;
 }
 
 // setters
 // setName
-void NPC::setName(std::string npcname)
+void NPC::set_name(std::string npcname)
 {
     // exception checking
 
@@ -99,7 +99,7 @@ void NPC::setName(std::string npcname)
 }
 
 // setDescription
-void NPC::setDescription(std::string npcdescription)
+void NPC::set_description(std::string npcdescription)
 {
     // exception checking
 
@@ -117,7 +117,7 @@ void NPC::setDescription(std::string npcdescription)
 // make sure not to override messages
 // increment message number
 // below is Github Copilot code
-void NPC::setCurrentMessage(std::string currentmessage)
+void NPC::set_currentMessage(std::string currentmessage)
 {
     // add message to end of messages vector
     this->messages.push_back(currentmessage);
@@ -128,7 +128,7 @@ void NPC::setCurrentMessage(std::string currentmessage)
 // setMessageNumber (make sure message number cannot be
 // greater than the size of the messages vector
 // or less than 0)
-void NPC::setMessageNumber(int number)
+void NPC::set_messageNumber(int number)
 {
     // exception checking
 
@@ -148,7 +148,7 @@ void NPC::setMessageNumber(int number)
 }
 
 // setMessages
-void NPC::setMessages(std::vector<std::string> newmessages)
+void NPC::set_messages(std::vector<std::string> newmessages)
 {
     this->messages = newmessages;
 }

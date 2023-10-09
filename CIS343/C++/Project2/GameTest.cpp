@@ -19,10 +19,10 @@
 void test_create_world_locations_list(Game game)
 {
     // print all location names
-    std::vector<Location> locations = game.get_locations();
+    std::vector<std::reference_wrapper<Location> > locations = game.get_locations();
     for (int i = 0; i < locations.size(); i++)
     {
-        std::cout << locations[i].get_name() << std::endl;
+        std::cout << locations[i].get().get_name() << std::endl;
     }
 }
 

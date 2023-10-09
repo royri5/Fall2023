@@ -33,17 +33,17 @@ public:
         float weight);
 
     // getters
-    std::string getName() const;
-    std::string getDescription() const;
-    int getCalories() const;
-    float getWeight() const;
+    std::string get_name() const;
+    std::string get_description() const;
+    int get_calories() const;
+    float get_weight() const;
 
     // setters
     // think about what return type these should be
-    void setName(std::string name);
-    void setDescription(std::string description);
-    void setCalories(int calories);
-    void setWeight(float weight);
+    void set_name(std::string name);
+    void set_description(std::string description);
+    void set_calories(int calories);
+    void set_weight(float weight);
 
     // overloaded stream operator
     // think about if you need const here

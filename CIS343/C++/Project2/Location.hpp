@@ -57,37 +57,17 @@ public:
     Location(std::string name, std::string description); //
 
     // neighboring locations
-    std::map<std::string, Location> get_locations() const; //
-
-    std::map<std::string, std::reference_wrapper<Location>> get_ref_locations() const;
+    std::map<std::string, std::reference_wrapper<Location> > get_locations() const; //
 
     // add location
-    // reference wrapped?
-    void add_ref_location(std::string direction, Location &location); //
-
-    void add_location(std::string direction, Location location);
+    void add_location(std::string direction, std::reference_wrapper<Location> location);
 
     // add npc
-    // reference wrapped
-    void add_ref_npc(NPC &npc); //
+    void add_npc(std::reference_wrapper<NPC> npc);
 
-    //void set_ref_npc(std::vector<NPC> npcs);
-    void set_ref_npc(std::vector<std::reference_wrapper<NPC>> setnpcs);
+    void add_item(std::reference_wrapper<Item> item);
 
-    void add_npc(NPC npc);
-
-    // add item
-    // reference wrapped
-    void add_ref_item(Item &item); //
-
-    //void set_ref_item(std::vector<Item> items);
-    void set_ref_item(std::vector<std::reference_wrapper<Item> > setitems);
-
-    void add_item(Item item);
-
-    void remove_item(Item item);
-
-    void remove_ref_item(Item &item);
+    void remove_item(std::reference_wrapper<Item> item);
 
     // set visited
     void set_visited();
@@ -102,16 +82,10 @@ public:
     bool get_visited() const; //
 
     // get npcs
-    std::vector<NPC> get_npcs() const; //
-
-    // get ref npcs
-    std::vector<std::reference_wrapper<NPC>> get_ref_npcs() const; //
+    std::vector<std::reference_wrapper<NPC> > get_npcs() const; //
 
     // get items
-    std::vector<Item> get_items() const; //
-
-    // get ref items
-    std::vector<std::reference_wrapper<Item>> get_ref_items() const; //
+    std::vector<std::reference_wrapper<Item> > get_items() const; //
 
     // overloaded stream operator
     friend std::ostream &operator<<(std::ostream &output, const Location &location);
@@ -125,25 +99,14 @@ private:
     bool visited;
 
     // map of neighboring locations
-    // change to be a reference wrapper
-    std::map<std::string, Location> neighbors;
-
-    // ref neighbors
-    std::map<std::string, std::reference_wrapper<Location>> ref_neighbors;
+    std::map<std::string, std::reference_wrapper<Location> > neighbors;
 
     // vector of NPCs
-    // change to be a reference wrapper
-    std::vector<NPC> npcs;
-
-    // ref npcs
-    std::vector<std::reference_wrapper<NPC>> ref_npcs;
+    std::vector<std::reference_wrapper<NPC> > npcs;
 
     // vector of items
-    // change to be a reference wrapper
-    std::vector<Item> items;
+    std::vector<std::reference_wrapper<Item> > items;
 
-    // ref items
-    std::vector<std::reference_wrapper<Item>> ref_items;
 };
 
 #endif

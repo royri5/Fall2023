@@ -70,29 +70,29 @@ Item::Item(std::string itemname,
 
 // getters
 // getName
-std::string Item::getName() const
+std::string Item::get_name() const
 {
     return this->name;
 }
 // getDescription
-std::string Item::getDescription() const
+std::string Item::get_description() const
 {
     return this->description;
 }
 // getCalories
-int Item::getCalories() const
+int Item::get_calories() const
 {
     return this->calories;
 }
 // getWeight
-float Item::getWeight() const
+float Item::get_weight() const
 {
     return this->weight;
 }
 
 // setters
 // setName (make sure name is not set to blank)
-void Item::setName(std::string newname)
+void Item::set_name(std::string newname)
 {
     if (newname == "")
     {
@@ -101,7 +101,7 @@ void Item::setName(std::string newname)
     this->name = newname;
 }
 // setDescription (make sure description is not set to blank)
-void Item::setDescription(std::string newdescription)
+void Item::set_description(std::string newdescription)
 {
     if (newdescription == "")
     {
@@ -110,7 +110,7 @@ void Item::setDescription(std::string newdescription)
     this->description = newdescription;
 }
 // setCalories (make sure calories are not set to < 0 or > 1000)
-void Item::setCalories(int newcalories)
+void Item::set_calories(int newcalories)
 {
     if (newcalories < 0)
     {
@@ -123,7 +123,7 @@ void Item::setCalories(int newcalories)
     this->calories = newcalories;
 }
 // setWeight (make sure weight is not set to < 0 or > 500)
-void Item::setWeight(float newweight)
+void Item::set_weight(float newweight)
 {
     if (newweight < 0)
     {
@@ -149,11 +149,14 @@ std::ostream &operator<<(std::ostream &output, const Item &item)
 // overloaded equality operator
 bool operator==(const Item &a, const Item &b)
 {
-    return a.getName() == b.getName() && a.getDescription() == b.getDescription() && a.getCalories() == b.getCalories() && a.getWeight() == b.getWeight();
+    //return a.getName() == b.getName() && a.getDescription() == b.getDescription() && a.getCalories() == b.getCalories() && a.getWeight() == b.getWeight();
+    return a.name == b.name && a.description == b.description && a.calories == b.calories && a.weight == b.weight;
+    
 }
 
 // overloaded inequality operator
 bool operator!=(const Item &a, const Item &b)
 {
-    return a.getName() != b.getName() || a.getDescription() != b.getDescription() || a.getCalories() != b.getCalories() || a.getWeight() != b.getWeight();
+    //return a.getName() != b.getName() || a.getDescription() != b.getDescription() || a.getCalories() != b.getCalories() || a.getWeight() != b.getWeight();
+    return a.name != b.name || a.description != b.description || a.calories != b.calories || a.weight != b.weight;
 }
