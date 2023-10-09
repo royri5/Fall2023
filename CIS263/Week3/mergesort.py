@@ -95,7 +95,7 @@ def mergesort(numlist):
             #move to the next element in the second sorted list
             i+=1
         return retlist
-
+    
 
 #mergesort's complexity is:
 #O(nlogn) for best, average, and worst cases
@@ -108,18 +108,7 @@ def mergesort(numlist):
 #is n
 #so the complexity is O(nlogn)
 
-#mergesort's space complexity is:
-#O(n) for best, average, and worst cases
-#because it 
 
 print(mergesort([5,4,3,2,1]))
 print(mergesort([1,2,3,4,5]))
 print(mergesort([1,6,2,8,3,89,3,9,32]))
-
-#merge sort's time complexity is O(nlogn) in all cases,
-#this is because the time it takes to divide all the lists
-#down to their return cases is O(logn) since it divides
-#the list in half each time
-#and the time it takes to merge all the lists back together
-#is O(n) since it merges the lists together linearly
-#thus when you merge n lists together after dividing them
