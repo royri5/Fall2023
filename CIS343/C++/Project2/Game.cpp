@@ -69,17 +69,17 @@ void Game::create_world()
     // Mary Idema Pew Library
     // 5 floors (1 basement, 4 above ground)
     // base library(1st floor)
-    Location maryIdemaPewLibrary("Mary Idema Pew Library",
-                                 "The campus library. There are books, computers, and places to study.");
-    this->locs.push_back(maryIdemaPewLibrary);
-    int maryIdemaPewLibraryIndex = this->locs.size() - 1;
+    // Location maryIdemaPewLibrary("Mary Idema Pew Library",
+    //                              "The campus library. There are books, computers, and places to study.");
+    // this->locs.push_back(maryIdemaPewLibrary);
+    // int maryIdemaPewLibraryIndex = this->locs.size() - 1;
 
-    // Mackinac Hall (labyrinth)
-    // 4 wings, varying floors
-    Location mackinacHall("Mackinac Hall",
-                          "The home of the CIS department...and others, the bane of freshman.");
-    this->locs.push_back(mackinacHall);
-    int mackinacHallIndex = this->locs.size() - 1;
+    // // Mackinac Hall (labyrinth)
+    // // 4 wings, varying floors
+    // Location mackinacHall("Mackinac Hall",
+    //                       "The home of the CIS department...and others, the bane of freshman.");
+    // this->locs.push_back(mackinacHall);
+    // int mackinacHallIndex = this->locs.size() - 1;
 
     // Laker Village (houses are boarded up (1 location))
     Location lakerVillage("Laker Village",
@@ -101,47 +101,47 @@ void Game::create_world()
     this->locs.push_back(kirkhofCenterParkingLot);
     int kirkhofCenterParkingLotIndex = this->locs.size() - 1;
 
-    // Clock Tower
-    Location clockTower("Clock Tower",
-                        "A large clock tower, the center of campus.");
-    this->locs.push_back(clockTower);
-    int clockTowerIndex = this->locs.size() - 1;
+    // // Clock Tower
+    // Location clockTower("Clock Tower",
+    //                     "A large clock tower, the center of campus.");
+    // this->locs.push_back(clockTower);
+    // int clockTowerIndex = this->locs.size() - 1;
 
-    // Kirkhof Center
-    // 2 floors?
-    Location kirkhofCenter("Kirkhof Center",
-                           "This building was once the pinnacle of the campus commons,\
-    now decrepit.");
-    this->locs.push_back(kirkhofCenter);
-    int kirkhofCenterIndex = this->locs.size() - 1;
+    // // Kirkhof Center
+    // // 2 floors?
+    // Location kirkhofCenter("Kirkhof Center",
+    //                        "This building was once the pinnacle of the campus commons,\
+    // now decrepit.");
+    // this->locs.push_back(kirkhofCenter);
+    // int kirkhofCenterIndex = this->locs.size() - 1;
 
-    // Fresh
-    // 2 floors
-    Location fresh("Fresh",
-                   "A buffet-style cafeteria.");
-    this->locs.push_back(fresh);
-    int freshIndex = this->locs.size() - 1;
+    // // Fresh
+    // // 2 floors
+    // Location fresh("Fresh",
+    //                "A buffet-style cafeteria.");
+    // this->locs.push_back(fresh);
+    // int freshIndex = this->locs.size() - 1;
 
-    // Marketplace
-    // 1 floor (2 rooms)
-    Location marketplace("Marketplace",
-                         "Along the main road of campus, this building contains\
-    a small food court and the campus store.");
-    this->locs.push_back(marketplace);
-    int marketplaceIndex = this->locs.size() - 1;
+    // // Marketplace
+    // // 1 floor (2 rooms)
+    // Location marketplace("Marketplace",
+    //                      "Along the main road of campus, this building contains\
+    // a small food court and the campus store.");
+    // this->locs.push_back(marketplace);
+    // int marketplaceIndex = this->locs.size() - 1;
 
-    // Henry Hall
-    // 2 floors?
-    Location henryHall("Henry Hall",
-                       "This building contains several computer labs.");
-    this->locs.push_back(henryHall);
-    int henryHallIndex = this->locs.size() - 1;
+    // // Henry Hall
+    // // 2 floors?
+    // Location henryHall("Henry Hall",
+    //                    "This building contains several computer labs.");
+    // this->locs.push_back(henryHall);
+    // int henryHallIndex = this->locs.size() - 1;
 
-    // Woods
-    Location woods("Woods",
-                   "A small patch of woods behind campus. The elf lives here.");
-    this->locs.push_back(woods);
-    int woodsIndex = this->locs.size() - 1;
+    // // Woods
+    // Location woods("Woods",
+    //                "A small patch of woods behind campus. The elf lives here.");
+    // this->locs.push_back(woods);
+    // int woodsIndex = this->locs.size() - 1;
 
 //end of create world function
 this->locations = std::vector<std::reference_wrapper<Location> >(this->locs.begin(), this->locs.end());
@@ -168,226 +168,270 @@ this->locations = std::vector<std::reference_wrapper<Location> >(this->locs.begi
     Item connectionSandwich = Item("Stingin' Honey Chicken Sandwich",
                                    "Spicy and crispy chicken sandwich, the pinnacle of campus food",
                                    55, 1);
-    this->locations[blueConnectionIndex].add_item(connectionSandwich);
+    this->locations[blueConnectionIndex].get().add_item(connectionSandwich);
+    // int blueSandwichIndex = this->locations[blueConnectionIndex].get().get_items_storage().size() - 1;
+    // this->locations[blueConnectionIndex].get().add_item(this->locations[blueConnectionIndex].get().get_items_storage()[blueSandwichIndex]);
     Item lakerBowl = Item("Laker Bowl",
                           "The legendary Laker Bowl, popcorn chicken, mashed potatoes, corn\
     , and gravy",
                           50, 1.5);
-    this->locations[blueConnectionIndex].add_item(lakerBowl);
+    this->locations[blueConnectionIndex].get().add_item(lakerBowl);
+    // int blueBowlIndex = this->locations[blueConnectionIndex].get().get_items_storage().size() - 1;
+    // this->locations[blueConnectionIndex].get().add_item(this->locations[blueConnectionIndex].get().get_items_storage()[blueBowlIndex]);
     Item italianSub = Item("Italian Sub",
                            "A classic Italian sub, with ham, salami, pepperoni,\
     and provolone.",
                            45, 1);
-    this->locations[blueConnectionIndex].add_item(italianSub);
+    this->locations[blueConnectionIndex].get().add_item(italianSub);
+    // int blueSubIndex = this->locations[blueConnectionIndex].get().get_items_storage().size() - 1;
+    // this->locations[blueConnectionIndex].get().add_item(this->locations[blueConnectionIndex].get().get_items_storage()[blueSubIndex]);
     Item energyBarConnection = Item("Energy Bar",
                                     "A protein bar.", 10, .5);
-    this->locations[blueConnectionIndex].add_item(energyBarConnection);
+    this->locations[blueConnectionIndex].get().add_item(energyBarConnection);
+    // int blueEnergyBarIndex = this->locations[blueConnectionIndex].get().get_items_storage().size() - 1;
+    // this->locations[blueConnectionIndex].get().add_item(this->locations[blueConnectionIndex].get().get_items_storage()[blueEnergyBarIndex]);
     Item bagOfChipsConnection = Item("Barbecue Chips",
                                      "A bag of delicious barbecue chips.", 10, .5);
-    this->locations[blueConnectionIndex].add_item(bagOfChipsConnection);
+    this->locations[blueConnectionIndex].get().add_item(bagOfChipsConnection);
+    // int blueChipsIndex = this->locations[blueConnectionIndex].get().get_items_storage().size() - 1;
+    // this->locations[blueConnectionIndex].get().add_item(this->locations[blueConnectionIndex].get().get_items_storage()[blueChipsIndex]);
     Item coffeeConnection = Item("Coffee",
                                  "The lifeblood of college students.", 10, .5);
-    this->locations[blueConnectionIndex].add_item(coffeeConnection);
+    this->locations[blueConnectionIndex].get().add_item(coffeeConnection);
+    // int blueCoffeeIndex = this->locations[blueConnectionIndex].get().get_items_storage().size() - 1;
+    // this->locations[blueConnectionIndex].get().add_item(this->locations[blueConnectionIndex].get().get_items_storage()[blueCoffeeIndex]);
 
-    // fresh
-    Item freshPizza = Item("Pizza",
-                           "A slice of cheese pizza.", 50, 1);
-    this->locations[freshIndex].add_item(freshPizza);
-    Item freshBurger = Item("Burger",
-                            "A cold cheeseburger.", 40, 1);
-    this->locations[freshIndex].add_item(freshBurger);
-    Item freshSalad = Item("Salad",
-                           "A caesar salad.", 25, 1);
-    this->locations[freshIndex].add_item(freshSalad);
-    Item coffeeFresh = Item("Coffee",
-                            "The lifeblood of college students.", 10, .5);
-    this->locations[freshIndex].add_item(coffeeFresh);
 
-    // marketplace
-    Item marketplaceRamen = Item("Ramen",
-                                 "A cup of ramen.", 45, .5);
-    this->locations[marketplaceIndex].add_item(marketplaceRamen);
-    Item marketplaceSushi = Item("Sushi",
-                                 "A tray of old sushi. It's probably still good...", 20, 1);
-    this->locations[marketplaceIndex].add_item(marketplaceSushi);
-    Item coffeeMarketplace = Item("Coffee",
-                                  "The lifeblood of college students.", 10, .5);
-    this->locations[marketplaceIndex].add_item(coffeeMarketplace);
+    // // fresh
+    // Item freshPizza = Item("Pizza",
+    //                        "A slice of cheese pizza.", 50, 1);
+    // this->locations[freshIndex].add_item(freshPizza);
+    // Item freshBurger = Item("Burger",
+    //                         "A cold cheeseburger.", 40, 1);
+    // this->locations[freshIndex].add_item(freshBurger);
+    // Item freshSalad = Item("Salad",
+    //                        "A caesar salad.", 25, 1);
+    // this->locations[freshIndex].add_item(freshSalad);
+    // Item coffeeFresh = Item("Coffee",
+    //                         "The lifeblood of college students.", 10, .5);
+    // this->locations[freshIndex].add_item(coffeeFresh);
 
-    // mackinacHall
-    Item energyBarMac = Item("Energy Bar",
-                             "A protein bar.", 10, .5);
-    this->locations[mackinacHallIndex].add_item(energyBarMac);
-    Item bagOfChipsMac = Item("Barbecue Chips",
-                              "A bag of delicious barbecue chips.", 10, .5);
-    this->locations[mackinacHallIndex].add_item(bagOfChipsMac);
-    Item coffeeMac = Item("Coffee",
-                          "The lifeblood of college students.", 10, .5);
-    this->locations[mackinacHallIndex].add_item(coffeeMac);
+    // // marketplace
+    // Item marketplaceRamen = Item("Ramen",
+    //                              "A cup of ramen.", 45, .5);
+    // this->locations[marketplaceIndex].add_item(marketplaceRamen);
+    // Item marketplaceSushi = Item("Sushi",
+    //                              "A tray of old sushi. It's probably still good...", 20, 1);
+    // this->locations[marketplaceIndex].add_item(marketplaceSushi);
+    // Item coffeeMarketplace = Item("Coffee",
+    //                               "The lifeblood of college students.", 10, .5);
+    // this->locations[marketplaceIndex].add_item(coffeeMarketplace);
 
-    // kirhofCenter
-    Item trailMixKirkhof = Item("Trail Mix",
-                                "A bag of trail mix. Contains peanuts.", 10, .5);
-    this->locations[kirkhofCenterIndex].add_item(trailMixKirkhof);
-    Item coffeeKirkhof = Item("Coffee",
-                              "The lifeblood of college students.", 10, .5);
-    this->locations[kirkhofCenterIndex].add_item(coffeeKirkhof);
+    // // mackinacHall
+    // Item energyBarMac = Item("Energy Bar",
+    //                          "A protein bar.", 10, .5);
+    // this->locations[mackinacHallIndex].add_item(energyBarMac);
+    // Item bagOfChipsMac = Item("Barbecue Chips",
+    //                           "A bag of delicious barbecue chips.", 10, .5);
+    // this->locations[mackinacHallIndex].add_item(bagOfChipsMac);
+    // Item coffeeMac = Item("Coffee",
+    //                       "The lifeblood of college students.", 10, .5);
+    // this->locations[mackinacHallIndex].add_item(coffeeMac);
 
-    // clockTower
-    Item trailMixClockTower = Item("Trail Mix",
-                                   "A bag of trail mix. Contains peanuts.", 10, .5);
-    this->locations[clockTowerIndex].add_item(trailMixClockTower);
+    // // kirhofCenter
+    // Item trailMixKirkhof = Item("Trail Mix",
+    //                             "A bag of trail mix. Contains peanuts.", 10, .5);
+    // this->locations[kirkhofCenterIndex].add_item(trailMixKirkhof);
+    // Item coffeeKirkhof = Item("Coffee",
+    //                           "The lifeblood of college students.", 10, .5);
+    // this->locations[kirkhofCenterIndex].add_item(coffeeKirkhof);
 
-    // henryHall
-    Item bagOfChipsHenry = Item("Barbecue Chips",
-                                "A bag of delicious barbecue chips.", 10, .5);
-    this->locations[henryHallIndex].add_item(bagOfChipsHenry);
-    Item trailMixHenry = Item("Trail Mix",
-                              "A bag of trail mix. Contains peanuts.", 10, .5);
-    this->locations[henryHallIndex].add_item(trailMixHenry);
-    Item coffeeHenry = Item("Coffee",
-                            "The lifeblood of college students.", 10, .5);
-    this->locations[henryHallIndex].add_item(coffeeHenry);
+    // // clockTower
+    // Item trailMixClockTower = Item("Trail Mix",
+    //                                "A bag of trail mix. Contains peanuts.", 10, .5);
+    // this->locations[clockTowerIndex].add_item(trailMixClockTower);
+
+    // // henryHall
+    // Item bagOfChipsHenry = Item("Barbecue Chips",
+    //                             "A bag of delicious barbecue chips.", 10, .5);
+    // this->locations[henryHallIndex].add_item(bagOfChipsHenry);
+    // Item trailMixHenry = Item("Trail Mix",
+    //                           "A bag of trail mix. Contains peanuts.", 10, .5);
+    // this->locations[henryHallIndex].add_item(trailMixHenry);
+    // Item coffeeHenry = Item("Coffee",
+    //                         "The lifeblood of college students.", 10, .5);
+    // this->locations[henryHallIndex].add_item(coffeeHenry);
 
     // lakerVillage
     Item energyBarVillage = Item("Energy Bar",
                                  "A protein bar.", 10, .5);
-    this->locations[lakerVillageIndex].add_item(energyBarVillage);
+    this->locations[lakerVillageIndex].get().add_item(energyBarVillage);
+    // int lakerEnergyBarIndex = this->locations[lakerVillageIndex].get().get_items_storage().size() - 1;
+    // this->locations[lakerVillageIndex].get().add_item(this->locations[lakerVillageIndex].get().get_items_storage()[lakerEnergyBarIndex]);
     Item bagOfChipsVillage = Item("Barbecue Chips",
                                   "A bag of delicious barbecue chips.", 10, .5);
-    this->locations[lakerVillageIndex].add_item(bagOfChipsVillage);
+    this->locations[lakerVillageIndex].get().add_item(bagOfChipsVillage);
+    // int lakerChipsIndex = this->locations[lakerVillageIndex].get().get_items_storage().size() - 1;
+    // this->locations[lakerVillageIndex].get().add_item(this->locations[lakerVillageIndex].get().get_items_storage()[lakerChipsIndex]);
 
     // kirkhofCenterParkingLot
     Item bagOfChipsParking = Item("Barbecue Chips",
                                   "A bag of delicious barbecue chips.", 10, .5);
-    this->locations[kirkhofCenterParkingLotIndex].add_item(bagOfChipsParking);
+    this->locations[kirkhofCenterParkingLotIndex].get().add_item(bagOfChipsParking);
+    // int parkingChipsIndex = this->locations[kirkhofCenterParkingLotIndex].get().get_items_storage().size() - 1;
+    // this->locations[kirkhofCenterParkingLotIndex].get().add_item(this->locations[kirkhofCenterParkingLotIndex].get().get_items_storage()[parkingChipsIndex]);
     Item trailMixParking = Item("Trail Mix",
                                 "A bag of trail mix. Contains peanuts.", 10, .5);
-    this->locations[kirkhofCenterParkingLotIndex].add_item(trailMixParking);
+    this->locations[kirkhofCenterParkingLotIndex].get().add_item(trailMixParking);
+    // int parkingTrailMixIndex = this->locations[kirkhofCenterParkingLotIndex].get().get_items_storage().size() - 1;
+    // this->locations[kirkhofCenterParkingLotIndex].get().add_item(this->locations[kirkhofCenterParkingLotIndex].get().get_items_storage()[parkingTrailMixIndex]);
 
-    // Mary Idema Pew Library
-    Item bagOfChipsLibrary = Item("Barbecue Chips",
-                                  "A bag of delicious barbecue chips.", 10, .5);
-    this->locations[maryIdemaPewLibraryIndex].add_item(bagOfChipsLibrary);
-    Item trailMixLibrary = Item("Trail Mix",
-                                "A bag of trail mix. Contains peanuts.", 10, .5);
-    this->locations[maryIdemaPewLibraryIndex].add_item(trailMixLibrary);
-    Item coffeeLibrary = Item("Coffee",
-                              "The lifeblood of college students.", 10, .5);
-    this->locations[maryIdemaPewLibraryIndex].add_item(coffeeLibrary);
+    // // Mary Idema Pew Library
+    // Item bagOfChipsLibrary = Item("Barbecue Chips",
+    //                               "A bag of delicious barbecue chips.", 10, .5);
+    // this->locations[maryIdemaPewLibraryIndex].add_item(bagOfChipsLibrary);
+    // Item trailMixLibrary = Item("Trail Mix",
+    //                             "A bag of trail mix. Contains peanuts.", 10, .5);
+    // this->locations[maryIdemaPewLibraryIndex].add_item(trailMixLibrary);
+    // Item coffeeLibrary = Item("Coffee",
+    //                           "The lifeblood of college students.", 10, .5);
+    // this->locations[maryIdemaPewLibraryIndex].add_item(coffeeLibrary);
 
-    // nonfood items
+    // // nonfood items
 
     // connection
     // will be able to trade for food items with frantic student
     Item missingStudentID = Item("Missing Student ID",
                                  "A student ID, the owner is nowhere to be found.", 0, .5);
-    this->locations[blueConnectionIndex].add_item(missingStudentID);
+    this->locations[blueConnectionIndex].get().add_item(missingStudentID);
+    // int blueIDIndex = this->locations[blueConnectionIndex].get().get_items_storage().size() - 1;
+    // this->locations[blueConnectionIndex].get().add_item(this->locations[blueConnectionIndex].get().get_items_storage()[blueIDIndex]);
     Item penConnection = Item("Pen",
                               "A ballpoint pen, writes surprisingly well. Blue ink", 0, .5);
-    this->locations[blueConnectionIndex].add_item(penConnection);
+    this->locations[blueConnectionIndex].get().add_item(penConnection);
+    // int bluePenIndex = this->locations[blueConnectionIndex].get().get_items_storage().size() - 1;
+    // this->locations[blueConnectionIndex].get().add_item(this->locations[blueConnectionIndex].get().get_items_storage()[bluePenIndex]);
 
-    // fresh
-    Item droppedFork = Item("Dirty fork",
-                            "A dirty fork, dropped by a careless student.", 0, .5);
-    this->locations[freshIndex].add_item(droppedFork);
-    Item penFresh = Item("Pen",
-                         "A ballpoint pen, writes surprisingly well. Blue ink", 0, .5);
-    this->locations[freshIndex].add_item(penFresh);
+    // // fresh
+    // Item droppedFork = Item("Dirty fork",
+    //                         "A dirty fork, dropped by a careless student.", 0, .5);
+    // this->locations[freshIndex].add_item(droppedFork);
+    // Item penFresh = Item("Pen",
+    //                      "A ballpoint pen, writes surprisingly well. Blue ink", 0, .5);
+    // this->locations[freshIndex].add_item(penFresh);
 
-    // marketplace
-    Item claTextbook = Item("CLA 250 Textbook",
-                            "Greek and Roman Art and Architecture", 0, 2);
-    this->locations[marketplaceIndex].add_item(claTextbook);
+    // // marketplace
+    // Item claTextbook = Item("CLA 250 Textbook",
+    //                         "Greek and Roman Art and Architecture", 0, 2);
+    // this->locations[marketplaceIndex].add_item(claTextbook);
 
-    // mackinacHall
-    Item pencilMac = Item("Pencil",
-                          "A #2 pencil, tool of choice for scantrons.", 0, .5);
-    this->locations[mackinacHallIndex].add_item(pencilMac);
-    Item penMac = Item("Pen",
-                       "A ballpoint pen, writes surprisingly well. Blue ink", 0, .5);
-    this->locations[mackinacHallIndex].add_item(penMac);
+    // // mackinacHall
+    // Item pencilMac = Item("Pencil",
+    //                       "A #2 pencil, tool of choice for scantrons.", 0, .5);
+    // this->locations[mackinacHallIndex].add_item(pencilMac);
+    // Item penMac = Item("Pen",
+    //                    "A ballpoint pen, writes surprisingly well. Blue ink", 0, .5);
+    // this->locations[mackinacHallIndex].add_item(penMac);
 
-    // kirhofCenter
-    Item pencilKirkhof = Item("Pencil",
-                              "A #2 pencil, tool of choice for scantrons.", 0, .5);
-    this->locations[kirkhofCenterIndex].add_item(pencilKirkhof);
+    // // kirhofCenter
+    // Item pencilKirkhof = Item("Pencil",
+    //                           "A #2 pencil, tool of choice for scantrons.", 0, .5);
+    // this->locations[kirkhofCenterIndex].add_item(pencilKirkhof);
 
-    // henryHall
-    Item pencilHenry = Item("Pencil",
-                            "A #2 pencil, tool of choice for scantrons.", 0, .5);
-    this->locations[henryHallIndex].add_item(pencilHenry);
+    // // henryHall
+    // Item pencilHenry = Item("Pencil",
+    //                         "A #2 pencil, tool of choice for scantrons.", 0, .5);
+    // this->locations[henryHallIndex].add_item(pencilHenry);
 
     // kirkhofCenterParkingLot
     Item penParking = Item("Pen",
                            "A ballpoint pen, writes surprisingly well. Blue ink", 0, .5);
-    this->locations[kirkhofCenterParkingLotIndex].add_item(penParking);
+    this->locations[kirkhofCenterParkingLotIndex].get().add_item(penParking);
+    // int parkingPenIndex = this->locations[kirkhofCenterParkingLotIndex].get().get_items_storage().size() - 1;
+    // this->locations[kirkhofCenterParkingLotIndex].get().add_item(this->locations[kirkhofCenterParkingLotIndex].get().get_items_storage()[parkingPenIndex]);
 
-    // Mary Idema Pew Library
-    Item pencilLibrary = Item("Pencil",
-                              "A #2 pencil, tool of choice for scantrons.", 0, .5);
-    this->locations[maryIdemaPewLibraryIndex].add_item(pencilLibrary);
-    Item penLibrary = Item("Pen",
-                           "A ballpoint pen, writes surprisingly well. Blue ink", 0, .5);
-    this->locations[maryIdemaPewLibraryIndex].add_item(penLibrary);
-    Item missingNotebook = Item("Notebook",
-                                "A misplaced notebook,\
-     the owner must be looking for this...",
-                                0, 1);
-    this->locations[maryIdemaPewLibraryIndex].add_item(missingNotebook);
+    // // Mary Idema Pew Library
+    // Item pencilLibrary = Item("Pencil",
+    //                           "A #2 pencil, tool of choice for scantrons.", 0, .5);
+    // this->locations[maryIdemaPewLibraryIndex].add_item(pencilLibrary);
+    // Item penLibrary = Item("Pen",
+    //                        "A ballpoint pen, writes surprisingly well. Blue ink", 0, .5);
+    // this->locations[maryIdemaPewLibraryIndex].add_item(penLibrary);
+    // Item missingNotebook = Item("Notebook",
+    //                             "A misplaced notebook,\
+    //  the owner must be looking for this...",
+    //                             0, 1);
+    // this->locations[maryIdemaPewLibraryIndex].add_item(missingNotebook);
 
 
 
 //then create npcs
 // create npcs
     // Mackinac Hall
-    NPC studentNoTextbook = NPC("Frantic Student",
-                                "A stressed student, they seem to be looking for something...");
-    this->locations[mackinacHallIndex].add_npc(studentNoTextbook);
+    // NPC studentNoTextbook = NPC("Frantic Student",
+    //                             "A stressed student, they seem to be looking for something...");
+    // this->locations[mackinacHallIndex].add_npc(studentNoTextbook);
 
-    // Library
-    NPC libraryDeskWorker = NPC("Library Desk Worker",
-                                "A student employee, sitting idly at the main desk.");
-    this->locations[maryIdemaPewLibraryIndex].add_npc(libraryDeskWorker);
+    // // Library
+    // NPC libraryDeskWorker = NPC("Library Desk Worker",
+    //                             "A student employee, sitting idly at the main desk.");
+    // this->locations[maryIdemaPewLibraryIndex].add_npc(libraryDeskWorker);
 
-    // Fresh
-    NPC freshEmployee = NPC("Fresh Employee",
-                            "A student employee, checking student IDs at the door.");
-    this->locations[freshIndex].add_npc(freshEmployee);
-    NPC studentNoID = NPC("Stressed Student",
-                          "A student trying to get into Fresh, they seem\
-     to have misplaced their student ID.");
-    this->locations[freshIndex].add_npc(studentNoID);
+    // // Fresh
+    // NPC freshEmployee = NPC("Fresh Employee",
+    //                         "A student employee, checking student IDs at the door.");
+    // this->locations[freshIndex].add_npc(freshEmployee);
+    // NPC studentNoID = NPC("Stressed Student",
+    //                       "A student trying to get into Fresh, they seem\
+    //  to have misplaced their student ID.");
+    // this->locations[freshIndex].add_npc(studentNoID);
 
     // Blue Connection
     NPC connectionEmployee = NPC("Connection Employee",
                                  "A student employee, taking orders at the counter.");
-    this->locations[blueConnectionIndex].add_npc(connectionEmployee);
+    this->locations[blueConnectionIndex].get().add_npc(connectionEmployee);
+    //this->locations[blueConnectionIndex].get().add_npc(this->locations[blueConnectionIndex].get().get_npcs_storage()[blueEmployeeIndex]);
 
-    // Marketplace
-    NPC marketplaceEmployee = NPC("Marketplace Employee",
-                                  "A student employee, stocking shelves.");
-    this->locations[marketplaceIndex].add_npc(marketplaceEmployee);
+    // // Marketplace
+    // NPC marketplaceEmployee = NPC("Marketplace Employee",
+    //                               "A student employee, stocking shelves.");
+    // this->locations[marketplaceIndex].add_npc(marketplaceEmployee);
 
-    // Kirkhof Center
-    NPC studiousStudent = NPC("Studious Student",
-                              "A student, studying at a table.");
-    this->locations[kirkhofCenterIndex].add_npc(studiousStudent);
+    // // Kirkhof Center
+    // NPC studiousStudent = NPC("Studious Student",
+    //                           "A student, studying at a table.");
+    // this->locations[kirkhofCenterIndex].add_npc(studiousStudent);
 
-    // Clock Tower
+    // // Clock Tower
 
-    // Henry Hall
-    NPC vendingMachineStocker = NPC("Vending Machine Stocker",
-                                    "A student employee, stocking vending machines.");
-    this->locations[henryHallIndex].add_npc(vendingMachineStocker);
-    // Laker Village
+    // // Henry Hall
+    // NPC vendingMachineStocker = NPC("Vending Machine Stocker",
+    //                                 "A student employee, stocking vending machines.");
+    // this->locations[henryHallIndex].add_npc(vendingMachineStocker);
+    // // Laker Village
 
-    // Kirkhof Center Parking Lot
+    // // Kirkhof Center Parking Lot
 
-    // Woods
-    NPC elf = NPC("Elf",
-                  "The elf that lives in the woods. It is very hungry.");
-    this->locations[woodsIndex].add_npc(elf);
+    // // Woods
+    // NPC elf = NPC("Elf",
+    //               "The elf that lives in the woods. It is very hungry.");
+    // this->locations[woodsIndex].add_npc(elf);
+
+//set all locations npcs and items to their storage values
+   
+    // // locations iterator
+    // std::vector<std::reference_wrapper<Location> >::iterator locations_iterator = this->locations.begin();
+    // while (locations_iterator != this->locations.end())
+    // {
+    //     // set items
+    //     (*locations_iterator).get().set_items((*locations_iterator).get().get_items_storage());
+    //     // set npcs
+    //     (*locations_iterator).get().set_npcs((*locations_iterator).get().get_npcs_storage());
+    //     // increment iterator
+    //     locations_iterator++;
+    // }
+
+
 
 
 //add locs -> locations
@@ -418,64 +462,64 @@ this->locations = std::vector<std::reference_wrapper<Location> >(this->locs.begi
     // Northeast: Kirkhof Center
     locations[kirkhofCenterParkingLotIndex].get().add_location("South", locations[blueConnectionIndex]);
     locations[kirkhofCenterParkingLotIndex].get().add_location("Southwest", locations[lakerVillageIndex]);
-    locations[kirkhofCenterParkingLotIndex].get().add_location("North", locations[maryIdemaPewLibraryIndex]);
-    locations[kirkhofCenterParkingLotIndex].get().add_location("Northeast", locations[kirkhofCenterIndex]);
+    // locations[kirkhofCenterParkingLotIndex].get().add_location("North", locations[maryIdemaPewLibraryIndex]);
+    // locations[kirkhofCenterParkingLotIndex].get().add_location("Northeast", locations[kirkhofCenterIndex]);
 
-    // Mary Idema Pew Library:
-    // South: Kirkhof Center Parking Lot
-    // East: Kirkhof Center
-    // Northeast: Clock Tower
-    locations[maryIdemaPewLibraryIndex].get().add_location("South", locations[kirkhofCenterParkingLotIndex]);
-    locations[maryIdemaPewLibraryIndex].get().add_location("East", locations[kirkhofCenterIndex]);
-    locations[maryIdemaPewLibraryIndex].get().add_location("Northeast", locations[clockTowerIndex]);
+    // // Mary Idema Pew Library:
+    // // South: Kirkhof Center Parking Lot
+    // // East: Kirkhof Center
+    // // Northeast: Clock Tower
+    // locations[maryIdemaPewLibraryIndex].get().add_location("South", locations[kirkhofCenterParkingLotIndex]);
+    // locations[maryIdemaPewLibraryIndex].get().add_location("East", locations[kirkhofCenterIndex]);
+    // locations[maryIdemaPewLibraryIndex].get().add_location("Northeast", locations[clockTowerIndex]);
 
-    // Kirkhof Center:
-    // Southwest: Kirkhof Center Parking Lot
-    // West: Mary Idema Pew Library
-    // North: Clock Tower
-    locations[kirkhofCenterIndex].get().add_location("Southwest", locations[kirkhofCenterParkingLotIndex]);
-    locations[kirkhofCenterIndex].get().add_location("West", locations[maryIdemaPewLibraryIndex]);
-    locations[kirkhofCenterIndex].get().add_location("North", locations[clockTowerIndex]);
+    // // Kirkhof Center:
+    // // Southwest: Kirkhof Center Parking Lot
+    // // West: Mary Idema Pew Library
+    // // North: Clock Tower
+    // locations[kirkhofCenterIndex].get().add_location("Southwest", locations[kirkhofCenterParkingLotIndex]);
+    // locations[kirkhofCenterIndex].get().add_location("West", locations[maryIdemaPewLibraryIndex]);
+    // locations[kirkhofCenterIndex].get().add_location("North", locations[clockTowerIndex]);
 
-    // Clock Tower:
-    // Southwest: Mary Idema Pew Library
-    // South: Kirkhof Center
-    // North: Henry Hall
-    locations[clockTowerIndex].get().add_location("Southwest", locations[maryIdemaPewLibraryIndex]);
-    locations[clockTowerIndex].get().add_location("South", locations[kirkhofCenterIndex]);
-    locations[clockTowerIndex].get().add_location("North", locations[henryHallIndex]);
+    // // Clock Tower:
+    // // Southwest: Mary Idema Pew Library
+    // // South: Kirkhof Center
+    // // North: Henry Hall
+    // locations[clockTowerIndex].get().add_location("Southwest", locations[maryIdemaPewLibraryIndex]);
+    // locations[clockTowerIndex].get().add_location("South", locations[kirkhofCenterIndex]);
+    // locations[clockTowerIndex].get().add_location("North", locations[henryHallIndex]);
 
-    // Henry Hall:
-    // South: Clock Tower
-    // Northwest: Marketplace
-    // Northeast: Fresh
-    locations[henryHallIndex].get().add_location("South", locations[clockTowerIndex]);
-    locations[henryHallIndex].get().add_location("Northwest", locations[marketplaceIndex]);
-    locations[henryHallIndex].get().add_location("Northeast", locations[freshIndex]);
+    // // Henry Hall:
+    // // South: Clock Tower
+    // // Northwest: Marketplace
+    // // Northeast: Fresh
+    // locations[henryHallIndex].get().add_location("South", locations[clockTowerIndex]);
+    // locations[henryHallIndex].get().add_location("Northwest", locations[marketplaceIndex]);
+    // locations[henryHallIndex].get().add_location("Northeast", locations[freshIndex]);
 
-    // Marketplace:
-    // Southest: Henry Hall
-    locations[marketplaceIndex].get().add_location("Southeast", locations[henryHallIndex]);
+    // // Marketplace:
+    // // Southest: Henry Hall
+    // locations[marketplaceIndex].get().add_location("Southeast", locations[henryHallIndex]);
 
-    // Fresh:
-    // Southwest: Henry Hall
-    // North: Mackinac Hall
-    // East: Woods
-    locations[freshIndex].get().add_location("Southwest", locations[henryHallIndex]);
-    locations[freshIndex].get().add_location("North", locations[mackinacHallIndex]);
-    locations[freshIndex].get().add_location("East", locations[woodsIndex]);
+    // // Fresh:
+    // // Southwest: Henry Hall
+    // // North: Mackinac Hall
+    // // East: Woods
+    // locations[freshIndex].get().add_location("Southwest", locations[henryHallIndex]);
+    // locations[freshIndex].get().add_location("North", locations[mackinacHallIndex]);
+    // locations[freshIndex].get().add_location("East", locations[woodsIndex]);
 
-    // Mackinac Hall:
-    // South: Fresh
-    // Southeast: Woods
-    locations[mackinacHallIndex].get().add_location("South", locations[freshIndex]);
-    locations[mackinacHallIndex].get().add_location("Southeast", locations[woodsIndex]);
+    // // Mackinac Hall:
+    // // South: Fresh
+    // // Southeast: Woods
+    // locations[mackinacHallIndex].get().add_location("South", locations[freshIndex]);
+    // locations[mackinacHallIndex].get().add_location("Southeast", locations[woodsIndex]);
 
-    // Woods:
-    // West: Fresh
-    // Northwest: Mackinac Hall
-    locations[woodsIndex].get().add_location("West", locations[freshIndex]);
-    locations[woodsIndex].get().add_location("Northwest", locations[mackinacHallIndex]);
+    // // Woods:
+    // // West: Fresh
+    // // Northwest: Mackinac Hall
+    // locations[woodsIndex].get().add_location("West", locations[freshIndex]);
+    // locations[woodsIndex].get().add_location("Northwest", locations[mackinacHallIndex]);
 
 
 
@@ -679,17 +723,19 @@ void Game::talk(std::vector<std::string> target)
     std::string target_npc = strvector_to_str(target);
 
     // check if target is in room
-    std::vector<std::reference_wrapper<NPC> > npcs = this->current_location.get_npcs();
+    //std::vector<std::reference_wrapper<NPC> > npcs = this->current_location.get_npcs();
+    std::vector<NPC> npcs = this->current_location.get_npcs();
     // npc iterator
-    std::vector<std::reference_wrapper<NPC> >::iterator npc_iterator = npcs.begin();
+    //std::vector<std::reference_wrapper<NPC> >::iterator npc_iterator = npcs.begin();
+    std::vector<NPC>::iterator npc_iterator = npcs.begin();
     // loop over npcs
     while (npc_iterator != npcs.end())
     {
         // check if npc name matches target
-        if (npc_iterator->get().get_name() == target_npc)
+        if (npc_iterator->get_name() == target_npc)
         {
             // get message from npc
-            std::string message = npc_iterator->get().get_currentMessage();
+            std::string message = npc_iterator->get_currentMessage();
             // print message
             std::cout << message << std::endl;
             // break from loop
@@ -711,17 +757,19 @@ void Game::meet(std::vector<std::string> target)
     std::string target_npc = strvector_to_str(target);
 
     // check if target is in room
-    std::vector<std::reference_wrapper<NPC> > npcs = this->current_location.get_npcs();
+    //std::vector<std::reference_wrapper<NPC> > npcs = this->current_location.get_npcs();
+    std::vector<NPC> npcs = this->current_location.get_npcs();
     // npc iterator
-    std::vector<std::reference_wrapper<NPC> >::iterator npc_iterator = npcs.begin();
+    //std::vector<std::reference_wrapper<NPC> >::iterator npc_iterator = npcs.begin();
+    std::vector<NPC>::iterator npc_iterator = npcs.begin();
     // loop over npcs
     while (npc_iterator != npcs.end())
     {
         // check if npc name matches target
-        if (npc_iterator->get().get_name() == target_npc)
+        if (npc_iterator->get_name() == target_npc)
         {
             // get description from npc
-            std::string description = npc_iterator->get().get_description();
+            std::string description = npc_iterator->get_description();
             // print description
             std::cout << description << std::endl;
             // break from loop
@@ -740,21 +788,23 @@ void Game::take(std::vector<std::string> target)
     std::string target_npc = strvector_to_str(target);
 
     // check if target item is in room
-    std::vector<std::reference_wrapper<Item> > items = this->current_location.get_items();
+    //std::vector<std::reference_wrapper<Item> > items = this->current_location.get_items();
+    std::vector<Item> items = this->current_location.get_items();
     // item iterator
-    std::vector<std::reference_wrapper<Item> >::iterator item_iterator = items.begin();
+    //std::vector<std::reference_wrapper<Item> >::iterator item_iterator = items.begin();
+    std::vector<Item>::iterator item_iterator = items.begin();
     // loop over npcs
     while (item_iterator != items.end())
     {
         // check if item name matches target
-        if (item_iterator->get().get_name() == target_npc)
+        if (item_iterator->get_name() == target_npc)
         {
             // add to user inventory
             this->inventory.push_back(*item_iterator);
             // remove item from room
             this->current_location.remove_item(*item_iterator);
             // add weight to user's carry weight
-            this->current_weight += item_iterator->get().get_weight();
+            this->current_weight += item_iterator->get_weight();
         }
     }
 }

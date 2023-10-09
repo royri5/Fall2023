@@ -48,8 +48,10 @@ Location::Location()
     this->description = "no description";
     this->visited = false;
     this->neighbors = std::map<std::string, std::reference_wrapper<Location> >();
-    this->npcs = std::vector<std::reference_wrapper<NPC> >();
-    this->items = std::vector<std::reference_wrapper<Item> >();
+    //this->npcs = std::vector<std::reference_wrapper<NPC> >();
+    //this->items = std::vector<std::reference_wrapper<Item> >();
+    this->npcs = std::vector<NPC>();
+    this->items = std::vector<Item>();
 }
 
 // constructor with parameters
@@ -73,8 +75,10 @@ Location::Location(std::string locName, std::string locDescription)
     this->description = locDescription;
     this->visited = false;
     this->neighbors = std::map<std::string, std::reference_wrapper<Location> >();
-    this->npcs = std::vector<std::reference_wrapper<NPC> >();
-    this->items = std::vector<std::reference_wrapper<Item> >();
+    // this->npcs = std::vector<std::reference_wrapper<NPC> >();
+    // this->items = std::vector<std::reference_wrapper<Item> >();
+    this->npcs = std::vector<NPC>();
+    this->items = std::vector<Item>();
 }
 
 // getters
@@ -103,19 +107,20 @@ std::map<std::string, std::reference_wrapper<Location> > Location::get_locations
 }
 
 // get_npcs
-std::vector<std::reference_wrapper<NPC> > Location::get_npcs() const
+std::vector<NPC> Location::get_npcs() const
 {
     return this->npcs;
 }
 
 // get_items
-std::vector<std::reference_wrapper<Item> > Location::get_items() const
+std::vector<Item> Location::get_items() const
 {
     return this->items;
 }
 
 // adders
-void Location::add_location(std::string direction, std::reference_wrapper<Location> location)
+//void Location::add_location(std::string direction, std::reference_wrapper<Location> location)
+void Location::add_location(std::string direction, Location& location)
 {
     // exception checking
 
@@ -137,28 +142,61 @@ void Location::add_location(std::string direction, std::reference_wrapper<Locati
 }
 
 // add_npc
-void Location::add_npc(std::reference_wrapper<NPC> npc)
+//void Location::add_npc(std::reference_wrapper<NPC> npc)
+void Location::add_npc(NPC npc)
 {
     // add npc to vector
     this->npcs.push_back(npc);
+    //this->npcs.push_back(std::reference_wrapper<NPC>(npc));
 }
+// void Location::add_npc_storage(NPC npc)
+// {
+//     // add npc to vector
+//     //this->npcs.push_back(npc);
+//     this->npcs_storage.push_back(npc);
+// }
+// std::vector<NPC> Location::get_npcs_storage()
+// {
+//     return this->npcs_storage;
+// }
 
 // add_item
-void Location::add_item(std::reference_wrapper<Item>  item)
+//void Location::add_item(std::reference_wrapper<Item>  item)
+void Location::add_item(Item item)
 {
     // add item to vector
+    //this->items.push_back(std::reference_wrapper<Item>(item));
     this->items.push_back(item);
 }
+// void Location::add_item_storage(Item item)
+// {
+//     // add item to vector
+//     this->items_storage.push_back(item);
+// }
+// std::vector<Item> Location::get_items_storage()
+// {
+//     return this->items_storage;
+// }
 
 // remove item
-void Location::remove_item(std::reference_wrapper<Item> item)
+//void Location::remove_item(std::reference_wrapper<Item> item)
+void Location::remove_item(Item& item)
 {
     // remove item from vector
     // copilot code
 
     //this should remove the last item from inv
     // not correct but busy right now
-    this->items.erase(std::remove(this->items.begin(), this->items.end(), item), this->items.end());
+    //this->items.erase(std::remove(this->items.begin(), this->items.end(), item), this->items.end());
+    
+    //this may be correct
+
+    //I lied
+    this->items.erase(std::find(this->items.begin(), this->items.end(), item));
+
+
+    //note: does not remove pointer to item, just removes item from vector
+    // need to manage memory accordingly
 }
 
 // set_visited
@@ -172,9 +210,11 @@ void Location::set_visited()
 std::ostream &operator<<(std::ostream &output, const Location &location)
 {
     // iterator for npcs
-    std::vector<std::reference_wrapper<NPC>>::const_iterator npcIterator = location.npcs.begin();
+    //std::vector<std::reference_wrapper<NPC>>::const_iterator npcIterator = location.npcs.begin();
+    std::vector<NPC>::const_iterator npcIterator = location.npcs.begin();
     // iterator for items
-    std::vector<std::reference_wrapper<Item>>::const_iterator itemIterator = location.items.begin();
+    //std::vector<std::reference_wrapper<Item>>::const_iterator itemIterator = location.items.begin();
+    std::vector<Item>::const_iterator itemIterator = location.items.begin();
     // iterator for neighbors
     // copilot code
     std::map<std::string, std::reference_wrapper<Location>>::const_iterator neighborIterator = location.neighbors.begin();
@@ -189,7 +229,7 @@ std::ostream &operator<<(std::ostream &output, const Location &location)
         while (npcIterator != location.npcs.end())
         {
             //output << "     - " << *(&((*npcIterator).get())) << "\n";
-            output << "     - " << ((*npcIterator).get()) << "\n";
+            output << "     - " << (*npcIterator) << "\n";
             //output << 
             npcIterator++;
         }
@@ -204,7 +244,7 @@ std::ostream &operator<<(std::ostream &output, const Location &location)
         // loop through items
         while (itemIterator != location.items.end())
         {
-            output << "     - " << ((*itemIterator).get()) << "\n";
+            output << "     - " << (*itemIterator) << "\n";
             itemIterator++;
         }
     }

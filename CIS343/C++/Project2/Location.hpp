@@ -60,14 +60,19 @@ public:
     std::map<std::string, std::reference_wrapper<Location> > get_locations() const; //
 
     // add location
-    void add_location(std::string direction, std::reference_wrapper<Location> location);
+    //void add_location(std::string direction, std::reference_wrapper<Location> location);
+    void add_location(std::string direction, Location& location);
 
     // add npc
-    void add_npc(std::reference_wrapper<NPC> npc);
+    void add_npc(NPC npc);
+    //void add_npc_storage(NPC npc);
+    //void set_npcs(std::vector<NPC> newnpcs);
 
-    void add_item(std::reference_wrapper<Item> item);
+    void add_item(Item item);
+    //void add_item_storage(Item item);
+    //void set_items(std::vector<Item> newitems);
 
-    void remove_item(std::reference_wrapper<Item> item);
+    void remove_item(Item& item);
 
     // set visited
     void set_visited();
@@ -82,10 +87,12 @@ public:
     bool get_visited() const; //
 
     // get npcs
-    std::vector<std::reference_wrapper<NPC> > get_npcs() const; //
+    //std::vector<std::reference_wrapper<NPC> > get_npcs() const; //
+    std::vector<NPC> get_npcs() const; //
 
     // get items
-    std::vector<std::reference_wrapper<Item> > get_items() const; //
+    //std::vector<std::reference_wrapper<Item> > get_items() const; //
+    std::vector<Item> get_items() const; //
 
     // overloaded stream operator
     friend std::ostream &operator<<(std::ostream &output, const Location &location);
@@ -102,10 +109,15 @@ private:
     std::map<std::string, std::reference_wrapper<Location> > neighbors;
 
     // vector of NPCs
-    std::vector<std::reference_wrapper<NPC> > npcs;
+    std::vector<NPC> npcs;
+    //std::vector<std::reference_wrapper<NPC> > npcs;
+    //std::vector<std::reference_wrapper<NPC> > npcs = std::vector<std::reference_wrapper<NPC> >(std::begin(npcs_storage), std::end(npcs_storage));
+    //std::vector<std::reference_wrapper<NPC> > npcs(std::begin(npcs_storage), npcs_storage.end());
 
     // vector of items
-    std::vector<std::reference_wrapper<Item> > items;
+    //std::vector<std::reference_wrapper<Item> > items;
+
+    std::vector<Item> items;
 
 };
 
