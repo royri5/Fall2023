@@ -13,46 +13,18 @@
 #include <map>
 #include <iterator>
 #include <random>
+#include <sstream>
 
 // constructor
 Game::Game()
 {
     // set commands map
-    this->setup_commands();
+    // this->setup_commands();
+    this->commands = this->setup_commands();
     // create world
     this->create_world();
-
-    
-    //this->ref_locations = std::vector<std::reference_wrapper<Location> >(this->locations.begin(), this->locations.end()); 
-    //leaving off here, some data in the ref locations, ref npcs was
-    //clearly corrupt from accessing freed memory
-    //need to find exactly where this is occuring
-    // above loop/iterator are not finished
-
-
-
-    //this->ref_locations = std::vector<std::reference_wrapper<Location> >(this->locations.begin(), this->locations.end());
-    // iterator for ref_locations
-    // sets ref_items and ref_npcs
-    // for each location
-    //std::vector<std::reference_wrapper<Location> 
-    //>::iterator ref_locations_iterator = this->ref_locations.begin();
-    // while (ref_locations_iterator != this->ref_locations.end()) {
-    //     (*ref_locations_iterator).get().set_ref_item((*ref_locations_iterator).get().get_items());
-    //     (*ref_locations_iterator).get().set_ref_npc((*ref_locations_iterator).get().get_npcs());
-    //     ref_locations_iterator++;
-    // }
-    // while(ref_locations_iterator != this->ref_locations.end()) {
-    //     (ref_locations_iterator)->get().set_ref_npc(std::vector<std::reference_wrapper<NPC> 
-    //         >( (*ref_locations_iterator).get().get_npcs().begin(), (*ref_locations_iterator).get().get_npcs().end()));
-    //     (ref_locations_iterator)->get().set_ref_item(std::vector<std::reference_wrapper<Item> 
-    //         >( (*ref_locations_iterator).get().get_items().begin(), (*ref_locations_iterator).get().get_items().end()));
-    //     ref_locations_iterator++;
-    // }
-
     // set default values
     this->current_location = this->random_location();
-    //this->curr = this->random_location();
     this->current_weight = 0;
     this->calories_needed = 500;
     this->game_in_progress = true;
@@ -65,7 +37,7 @@ Game::Game()
 void Game::create_world()
 {
     // create locations
-    
+
     // Mary Idema Pew Library
     // 5 floors (1 basement, 4 above ground)
     // base library(1st floor)
@@ -143,24 +115,9 @@ void Game::create_world()
     this->locs.push_back(woods);
     int woodsIndex = this->locs.size() - 1;
 
-//end of create world function
-this->locations = std::vector<std::reference_wrapper<Location> >(this->locs.begin(), this->locs.end());
-
-//NOTE:
-// need to make all Items and NPCs
-// referenced wrapped before adding to locations
-
-
-
-
-// create items
+    // end of create world function
+    
     // create items
-    // food items (need at least 2-3 in marketplace,
-    // fresh, and blue connection)
-    // total calories needed to win = 500
-    // does not require all food items, but most
-    // nonfood items (need at least 1-3 per location)
-    // some items are unique, some are not
 
     // food items
 
@@ -168,114 +125,113 @@ this->locations = std::vector<std::reference_wrapper<Location> >(this->locs.begi
     Item connectionSandwich = Item("Stingin' Honey Chicken Sandwich",
                                    "Spicy and crispy chicken sandwich, the pinnacle of campus food",
                                    55, 1);
-    this->locations[blueConnectionIndex].get().add_item(connectionSandwich);
+    this->locs[blueConnectionIndex].add_item(connectionSandwich);
     Item lakerBowl = Item("Laker Bowl",
                           "The legendary Laker Bowl, popcorn chicken, mashed potatoes, corn\
     , and gravy",
                           50, 1.5);
-    this->locations[blueConnectionIndex].get().add_item(lakerBowl);
+    this->locs[blueConnectionIndex].add_item(lakerBowl);
     Item italianSub = Item("Italian Sub",
                            "A classic Italian sub, with ham, salami, pepperoni,\
     and provolone.",
                            45, 1);
-    this->locations[blueConnectionIndex].get().add_item(italianSub);
+    this->locs[blueConnectionIndex].add_item(italianSub);
     Item energyBarConnection = Item("Energy Bar",
                                     "A protein bar.", 10, .5);
-    this->locations[blueConnectionIndex].get().add_item(energyBarConnection);
+    this->locs[blueConnectionIndex].add_item(energyBarConnection);
     Item bagOfChipsConnection = Item("Barbecue Chips",
                                      "A bag of delicious barbecue chips.", 10, .5);
-    this->locations[blueConnectionIndex].get().add_item(bagOfChipsConnection);
+    this->locs[blueConnectionIndex].add_item(bagOfChipsConnection);
     Item coffeeConnection = Item("Coffee",
                                  "The lifeblood of college students.", 10, .5);
-    this->locations[blueConnectionIndex].get().add_item(coffeeConnection);
-
+    this->locs[blueConnectionIndex].add_item(coffeeConnection);
 
     // fresh
     Item freshPizza = Item("Pizza",
                            "A slice of cheese pizza.", 50, 1);
-    this->locations[freshIndex].get().add_item(freshPizza);
+    this->locs[freshIndex].add_item(freshPizza);
     Item freshBurger = Item("Burger",
                             "A cold cheeseburger.", 40, 1);
-    this->locations[freshIndex].get().add_item(freshBurger);
+    this->locs[freshIndex].add_item(freshBurger);
     Item freshSalad = Item("Salad",
                            "A caesar salad.", 25, 1);
-    this->locations[freshIndex].get().add_item(freshSalad);
+    this->locs[freshIndex].add_item(freshSalad);
     Item coffeeFresh = Item("Coffee",
                             "The lifeblood of college students.", 10, .5);
-    this->locations[freshIndex].get().add_item(coffeeFresh);
+    this->locs[freshIndex].add_item(coffeeFresh);
 
     // marketplace
     Item marketplaceRamen = Item("Ramen",
                                  "A cup of ramen.", 45, .5);
-    this->locations[marketplaceIndex].get().add_item(marketplaceRamen);
+    this->locs[marketplaceIndex].add_item(marketplaceRamen);
     Item marketplaceSushi = Item("Sushi",
                                  "A tray of old sushi. It's probably still good...", 20, 1);
-    this->locations[marketplaceIndex].get().add_item(marketplaceSushi);
+    this->locs[marketplaceIndex].add_item(marketplaceSushi);
     Item coffeeMarketplace = Item("Coffee",
                                   "The lifeblood of college students.", 10, .5);
-    this->locations[marketplaceIndex].get().add_item(coffeeMarketplace);
+    this->locs[marketplaceIndex].add_item(coffeeMarketplace);
 
     // mackinacHall
     Item energyBarMac = Item("Energy Bar",
                              "A protein bar.", 10, .5);
-    this->locations[mackinacHallIndex].get().add_item(energyBarMac);
+    this->locs[mackinacHallIndex].add_item(energyBarMac);
     Item bagOfChipsMac = Item("Barbecue Chips",
                               "A bag of delicious barbecue chips.", 10, .5);
-    this->locations[mackinacHallIndex].get().add_item(bagOfChipsMac);
+    this->locs[mackinacHallIndex].add_item(bagOfChipsMac);
     Item coffeeMac = Item("Coffee",
                           "The lifeblood of college students.", 10, .5);
-    this->locations[mackinacHallIndex].get().add_item(coffeeMac);
+    this->locs[mackinacHallIndex].add_item(coffeeMac);
 
     // kirhofCenter
     Item trailMixKirkhof = Item("Trail Mix",
                                 "A bag of trail mix. Contains peanuts.", 10, .5);
-    this->locations[kirkhofCenterIndex].get().add_item(trailMixKirkhof);
+    this->locs[kirkhofCenterIndex].add_item(trailMixKirkhof);
     Item coffeeKirkhof = Item("Coffee",
                               "The lifeblood of college students.", 10, .5);
-    this->locations[kirkhofCenterIndex].get().add_item(coffeeKirkhof);
+    this->locs[kirkhofCenterIndex].add_item(coffeeKirkhof);
 
     // clockTower
     Item trailMixClockTower = Item("Trail Mix",
                                    "A bag of trail mix. Contains peanuts.", 10, .5);
-    this->locations[clockTowerIndex].get().add_item(trailMixClockTower);
+    this->locs[clockTowerIndex].add_item(trailMixClockTower);
 
     // henryHall
     Item bagOfChipsHenry = Item("Barbecue Chips",
                                 "A bag of delicious barbecue chips.", 10, .5);
-    this->locations[henryHallIndex].get().add_item(bagOfChipsHenry);
+    this->locs[henryHallIndex].add_item(bagOfChipsHenry);
     Item trailMixHenry = Item("Trail Mix",
                               "A bag of trail mix. Contains peanuts.", 10, .5);
-    this->locations[henryHallIndex].get().add_item(trailMixHenry);
+    this->locs[henryHallIndex].add_item(trailMixHenry);
     Item coffeeHenry = Item("Coffee",
                             "The lifeblood of college students.", 10, .5);
-    this->locations[henryHallIndex].get().add_item(coffeeHenry);
+    this->locs[henryHallIndex].add_item(coffeeHenry);
 
     // lakerVillage
     Item energyBarVillage = Item("Energy Bar",
                                  "A protein bar.", 10, .5);
-    this->locations[lakerVillageIndex].get().add_item(energyBarVillage);
+    this->locs[lakerVillageIndex].add_item(energyBarVillage);
     Item bagOfChipsVillage = Item("Barbecue Chips",
                                   "A bag of delicious barbecue chips.", 10, .5);
-    this->locations[lakerVillageIndex].get().add_item(bagOfChipsVillage);
+    this->locs[lakerVillageIndex].add_item(bagOfChipsVillage);
 
     // kirkhofCenterParkingLot
     Item bagOfChipsParking = Item("Barbecue Chips",
                                   "A bag of delicious barbecue chips.", 10, .5);
-    this->locations[kirkhofCenterParkingLotIndex].get().add_item(bagOfChipsParking);
+    this->locs[kirkhofCenterParkingLotIndex].add_item(bagOfChipsParking);
     Item trailMixParking = Item("Trail Mix",
                                 "A bag of trail mix. Contains peanuts.", 10, .5);
-    this->locations[kirkhofCenterParkingLotIndex].get().add_item(trailMixParking);
+    this->locs[kirkhofCenterParkingLotIndex].add_item(trailMixParking);
 
     // Mary Idema Pew Library
     Item bagOfChipsLibrary = Item("Barbecue Chips",
                                   "A bag of delicious barbecue chips.", 10, .5);
-    this->locations[maryIdemaPewLibraryIndex].get().add_item(bagOfChipsLibrary);
+    this->locs[maryIdemaPewLibraryIndex].add_item(bagOfChipsLibrary);
     Item trailMixLibrary = Item("Trail Mix",
                                 "A bag of trail mix. Contains peanuts.", 10, .5);
-    this->locations[maryIdemaPewLibraryIndex].get().add_item(trailMixLibrary);
+    this->locs[maryIdemaPewLibraryIndex].add_item(trailMixLibrary);
     Item coffeeLibrary = Item("Coffee",
                               "The lifeblood of college students.", 10, .5);
-    this->locations[maryIdemaPewLibraryIndex].get().add_item(coffeeLibrary);
+    this->locs[maryIdemaPewLibraryIndex].add_item(coffeeLibrary);
 
     // nonfood items
 
@@ -283,104 +239,126 @@ this->locations = std::vector<std::reference_wrapper<Location> >(this->locs.begi
     // will be able to trade for food items with frantic student
     Item missingStudentID = Item("Missing Student ID",
                                  "A student ID, the owner is nowhere to be found.", 0, .5);
-    this->locations[blueConnectionIndex].get().add_item(missingStudentID);
+    this->locs[blueConnectionIndex].add_item(missingStudentID);
     Item penConnection = Item("Pen",
                               "A ballpoint pen, writes surprisingly well. Blue ink", 0, .5);
-    this->locations[blueConnectionIndex].get().add_item(penConnection);
+    this->locs[blueConnectionIndex].add_item(penConnection);
 
     // fresh
     Item droppedFork = Item("Dirty fork",
                             "A dirty fork, dropped by a careless student.", 0, .5);
-    this->locations[freshIndex].get().add_item(droppedFork);
+    this->locs[freshIndex].add_item(droppedFork);
     Item penFresh = Item("Pen",
                          "A ballpoint pen, writes surprisingly well. Blue ink", 0, .5);
-    this->locations[freshIndex].get().add_item(penFresh);
+    this->locs[freshIndex].add_item(penFresh);
 
     // marketplace
     Item claTextbook = Item("CLA 250 Textbook",
                             "Greek and Roman Art and Architecture", 0, 2);
-    this->locations[marketplaceIndex].get().add_item(claTextbook);
+    this->locs[marketplaceIndex].add_item(claTextbook);
 
     // mackinacHall
     Item pencilMac = Item("Pencil",
                           "A #2 pencil, tool of choice for scantrons.", 0, .5);
-    this->locations[mackinacHallIndex].get().add_item(pencilMac);
+    this->locs[mackinacHallIndex].add_item(pencilMac);
     Item penMac = Item("Pen",
                        "A ballpoint pen, writes surprisingly well. Blue ink", 0, .5);
-    this->locations[mackinacHallIndex].get().add_item(penMac);
+    this->locs[mackinacHallIndex].add_item(penMac);
 
     // kirhofCenter
     Item pencilKirkhof = Item("Pencil",
                               "A #2 pencil, tool of choice for scantrons.", 0, .5);
-    this->locations[kirkhofCenterIndex].get().add_item(pencilKirkhof);
+    this->locs[kirkhofCenterIndex].add_item(pencilKirkhof);
 
     // henryHall
     Item pencilHenry = Item("Pencil",
                             "A #2 pencil, tool of choice for scantrons.", 0, .5);
-    this->locations[henryHallIndex].get().add_item(pencilHenry);
+    this->locs[henryHallIndex].add_item(pencilHenry);
 
     // kirkhofCenterParkingLot
     Item penParking = Item("Pen",
                            "A ballpoint pen, writes surprisingly well. Blue ink", 0, .5);
-    this->locations[kirkhofCenterParkingLotIndex].get().add_item(penParking);
+    this->locs[kirkhofCenterParkingLotIndex].add_item(penParking);
 
     // Mary Idema Pew Library
     Item pencilLibrary = Item("Pencil",
                               "A #2 pencil, tool of choice for scantrons.", 0, .5);
-    this->locations[maryIdemaPewLibraryIndex].get().add_item(pencilLibrary);
+    this->locs[maryIdemaPewLibraryIndex].add_item(pencilLibrary);
     Item penLibrary = Item("Pen",
                            "A ballpoint pen, writes surprisingly well. Blue ink", 0, .5);
-    this->locations[maryIdemaPewLibraryIndex].get().add_item(penLibrary);
+    this->locs[maryIdemaPewLibraryIndex].add_item(penLibrary);
     Item missingNotebook = Item("Notebook",
                                 "A misplaced notebook,\
      the owner must be looking for this...",
                                 0, 1);
-    this->locations[maryIdemaPewLibraryIndex].get().add_item(missingNotebook);
+    this->locs[maryIdemaPewLibraryIndex].add_item(missingNotebook);
 
+    // then create npcs
+    //  create npcs
 
-
-//then create npcs
-// create npcs
     // Mackinac Hall
     NPC studentNoTextbook = NPC("Frantic Student",
                                 "A stressed student, they seem to be looking for something...");
-    this->locations[mackinacHallIndex].get().add_npc(studentNoTextbook);
+    studentNoTextbook.set_messages({"Have you seen my textbook? I can't find it anywhere!",
+                                     "I need to find my textbook, I have a test tomorrow!",
+                                     "I can't find my textbook, I'm going to fail my test!"});
+    this->locs[mackinacHallIndex].add_npc(studentNoTextbook);
 
     // Library
     NPC libraryDeskWorker = NPC("Library Desk Worker",
                                 "A student employee, sitting idly at the main desk.");
-    this->locations[maryIdemaPewLibraryIndex].get().add_npc(libraryDeskWorker);
+    libraryDeskWorker.set_messages({"Welcome to the library, how can I help you?",
+                                    "How are you today?",
+                                    "Have you seen the elf in the woods? I'm worried about it."});
+    this->locs[maryIdemaPewLibraryIndex].add_npc(libraryDeskWorker);
 
     // Fresh
     NPC freshEmployee = NPC("Fresh Employee",
                             "A student employee, checking student IDs at the door.");
-    this->locations[freshIndex].get().add_npc(freshEmployee);
+    freshEmployee.set_messages({"Welcome to Fresh, can I see your student ID?",
+                                "Have you seen the elf in the woods? I'm worried about it.",
+                                "I'm so hungry, I wish I could eat some of this food..."});
+    this->locs[freshIndex].add_npc(freshEmployee);
     NPC studentNoID = NPC("Stressed Student",
                           "A student trying to get into Fresh, they seem\
      to have misplaced their student ID.");
-    this->locations[freshIndex].get().add_npc(studentNoID);
+    studentNoID.set_messages({"I can't find my student ID, I must have dropped it somewhere...",
+                              "I need to find my student ID, I'm starving!",
+                              "I can't find my student ID, I'm going to starve!"});
+    this->locs[freshIndex].add_npc(studentNoID);
 
     // Blue Connection
     NPC connectionEmployee = NPC("Connection Employee",
                                  "A student employee, taking orders at the counter.");
-    this->locations[blueConnectionIndex].get().add_npc(connectionEmployee);
+    connectionEmployee.set_messages({"Welcome to the Blue Connection, what can I get for you?",
+                                     "Have you seen the elf in the woods? I'm worried about it.",
+                                     "I'm so hungry, I wish I could eat some of this food..."});
+    this->locs[blueConnectionIndex].add_npc(connectionEmployee);
 
     // Marketplace
     NPC marketplaceEmployee = NPC("Marketplace Employee",
                                   "A student employee, stocking shelves.");
-    this->locations[marketplaceIndex].get().add_npc(marketplaceEmployee);
+    marketplaceEmployee.set_messages({"Welcome to the Marketplace, what can I get for you?",
+                                      "Have you seen the elf in the woods? I'm worried about it.",
+                                      "I'm so hungry, I wish I could eat some of this food..."});
+    this->locs[marketplaceIndex].add_npc(marketplaceEmployee);
 
     // Kirkhof Center
     NPC studiousStudent = NPC("Studious Student",
                               "A student, studying at a table.");
-    this->locations[kirkhofCenterIndex].get().add_npc(studiousStudent);
+    studiousStudent.set_messages({"Have you seen the elf in the woods? I'm worried about it.",
+                                  "I'm so hungry, I wish I could eat some of this food..."});
+    this->locs[kirkhofCenterIndex].add_npc(studiousStudent);
 
     // Clock Tower
 
     // Henry Hall
     NPC vendingMachineStocker = NPC("Vending Machine Stocker",
                                     "A student employee, stocking vending machines.");
-    this->locations[henryHallIndex].get().add_npc(vendingMachineStocker);
+    vendingMachineStocker.set_messages({"Welcome to Henry Hall, what can I get for you?",
+                                         "Have you seen the elf in the woods? I'm worried about it.",
+                                         "I'm so hungry, I wish I could eat some of this food..."});
+    this->locs[henryHallIndex].add_npc(vendingMachineStocker);
     // Laker Village
 
     // Kirkhof Center Parking Lot
@@ -388,29 +366,17 @@ this->locations = std::vector<std::reference_wrapper<Location> >(this->locs.begi
     // Woods
     NPC elf = NPC("Elf",
                   "The elf that lives in the woods. It is very hungry.");
-    this->locations[woodsIndex].get().add_npc(elf);
-
-//set all locations npcs and items to their storage values
-   
-    // // locations iterator
-    // std::vector<std::reference_wrapper<Location> >::iterator locations_iterator = this->locations.begin();
-    // while (locations_iterator != this->locations.end())
-    // {
-    //     // set items
-    //     (*locations_iterator).get().set_items((*locations_iterator).get().get_items_storage());
-    //     // set npcs
-    //     (*locations_iterator).get().set_npcs((*locations_iterator).get().get_npcs_storage());
-    //     // increment iterator
-    //     locations_iterator++;
-    // }
+    elf.set_messages({"I'm so hungry, I wish I could eat some of this food...",
+                      "I'm so hungry, I wish I could eat some of this food...",
+                      "I'm so hungry, I wish I could eat some of this food..."});
+    this->locs[woodsIndex].add_npc(elf);
 
 
 
+    this->locations = std::vector<std::reference_wrapper<Location>>(this->locs.begin(), this->locs.end());
 
-//add locs -> locations
-// make neighbors
 
-    
+    // make neighbors
 
     // add locations to neighbors
     // neighbors
@@ -493,78 +459,62 @@ this->locations = std::vector<std::reference_wrapper<Location> >(this->locs.begi
     // Northwest: Mackinac Hall
     locations[woodsIndex].get().add_location("West", locations[freshIndex]);
     locations[woodsIndex].get().add_location("Northwest", locations[mackinacHallIndex]);
-
-
-
-    
-
-    // iterator for locations
-    // loop through locations
-    // add them to ref_locations
-    // std::vector<Location>::iterator locations_iterator = this->locations.begin();
-    // while (locations_iterator != this->locations.end())
-    // {
-    //     // add location to ref_locations
-    //     this->ref_locations.push_back(*locations_iterator);
-    //     // increment iterator
-    //     locations_iterator++;
-    // }
-    //this->ref_locations = std::vector<std::reference_wrapper<Location> >(this->locations.begin(), this->locations.end());
-
-
 }
 
 // setup commands function
 // creates a map of commands
 // keys are strings of commands
 // values are names of functions
-
-// std::map<std::string, void(*)(std::vector<std::string>)> Game::setup_commands() {
-std::map<std::string, void (Game::*)()> Game::setup_commands()
+// std::map<std::string, void (*)(std::vector<std::string>)> Game::setup_commands()
+//std::map<std::string, void (Game::*)(std::vector<std::string>)> Game::setup_commands()
+//std::map<std::string, void (*)(std::vector<std::string>)> Game::setup_commands()
+std::map<std::string, std::function<void(std::vector<std::string>)> > Game::setup_commands()
 {
-    // std::map<std::string,  > Game::setup_commands() {
-    // std::map<std::string, void(Game::*)(std::vector<std::string>)> Game::setup_commands() {
-    // create map
-    // std::map<std::string, void(*)(std::vector<std::string>)> commands;
-    // std::map<std::string, void(Game::*)(std::vector<std::string>)> commands;
-    // std::map<std::string, (Game::*)(std::vector<std::string>)> commands;
-    // std::map<std::string, void(*)(std::vector<std::string>)> commands;
-    // std::map<std::string, std::function<void(std::vector<std::string>)>> commands;
-    std::map<std::string, void (Game::*)()> commands;
-    // add commands
+    //std::map<std::string, void (Game::*)(std::vector<std::string>)> commandlist;
+    //std::map<std::string, void (*)(std::vector<std::string>)> commandlist;
+    //std::map<std::string, std::function<void (*)(std::vector<std::string>)> > commandlist;
+    // std::map<std::string, void (*)(std::vector<std::string>)> commandlist;
+    std::map<std::string, std::function<void(std::vector<std::string>)> > commandMap;
+    // help
+    commandMap["help"] = std::bind(&Game::show_help, this, std::placeholders::_1);
+    commandMap["?"] = std::bind(&Game::show_help, this, std::placeholders::_1);
+    //chatgpt code  vvvvv
+    
+    
+    // talk
+    commandMap["talk"] = std::bind(&Game::talk, this, std::placeholders::_1);
+    
 
-    // make sure func call matches commands format
-    commands["help"] = (&Game::show_help);
-    // commands["help"] = show_help;
-    // commands["help"] = [this](std::vector<std::string> args) {this->show_help();};
+    // meet
+    commandMap["meet"] = std::bind(&Game::meet, this, std::placeholders::_1);
 
-    // commands["help"] = (&Game::show_help)[{}];
-    // commands["help"] = &(Game::show_help);
-    //  commands["?"] = (void(*)(std::vector<std::string>))&Game::show_help;
-    //  commands["talk"] = (void(*)(std::vector<std::string>))&Game::talk;
-    //  commands["hello"] = (void(*)(std::vector<std::string>))&Game::talk;
-    //  commands["meet"] = (void(*)(std::vector<std::string>))&Game::meet;
-    //  commands["introduce"] = (void(*)(std::vector<std::string>))&Game::meet;
-    //  commands["take"] = (void(*)(std::vector<std::string>))&Game::take;
-    //  commands["grab"] = (void(*)(std::vector<std::string>))&Game::take;
-    //  commands["give"] = (void(*)(std::vector<std::string>))&Game::give;
-    //  commands["deliver"] = (void(*)(std::vector<std::string>))&Game::give;
-    //  commands["drop"] = (void(*)(std::vector<std::string>))&Game::give;
-    //  commands["go"] = (void(*)(std::vector<std::string>))&Game::go;
-    //  commands["move"] = (void(*)(std::vector<std::string>))&Game::go;
-    //  commands["look"] = (void(*)(std::vector<std::string>))&Game::look;
-    //  commands["search"] = (void(*)(std::vector<std::string>))&Game::look;
-    //  commands["find"] = (void(*)(std::vector<std::string>))&Game::look;
-    //  commands["items"] = (void(*)(std::vector<std::string>))&Game::show_items;
-    //  commands["inventory"] = (void(*)(std::vector<std::string>))&Game::show_items;
-    //  commands["quit"] = (void(*)(std::vector<std::string>))&Game::quit;
-    //  commands["exit"] = (void(*)(std::vector<std::string>))&Game::quit;
-    return commands;
+    // take
+    commandMap["take"] = std::bind(&Game::take, this, std::placeholders::_1);
+
+    // give
+    commandMap["give"] = std::bind(&Game::give, this, std::placeholders::_1);
+
+    // go
+    commandMap["go"] = std::bind(&Game::go, this, std::placeholders::_1);
+
+    // show items
+    commandMap["show"] = std::bind(&Game::show_items, this, std::placeholders::_1);
+
+    // look
+    commandMap["look"] = std::bind(&Game::look, this, std::placeholders::_1);
+
+    // quit
+    commandMap["quit"] = std::bind(&Game::quit, this, std::placeholders::_1);
+
+    // additional1
+    // additional2
+    return commandMap;
 }
 
 // random location function
 // selects a random location from locations vector
-Location& Game::random_location()
+//Location &Game::random_location()
+std::reference_wrapper<Location> Game::random_location()
 {
     // copilot code
     // random number generator
@@ -575,7 +525,6 @@ Location& Game::random_location()
     int random_index = dis(gen);
     // return location at random index
     return this->locations[random_index];
-    //return this->locations[random_index];
 }
 
 // play function
@@ -598,34 +547,30 @@ void Game::play()
     {
         // prompt user for command
         std::cout << "What is your command?" << std::endl;
-        // get user input
-        // std::string user_input;
-        std::vector<std::string> tokens;
-        // std::getline(std::cin, user_input);
         std::string token;
-        while (std::getline(std::cin, token, ' '))
-        {
-            tokens.push_back(token);
+        std::getline(std::cin, token);
+
+        std::istringstream iss(token);
+        std::string command;
+        std::vector<std::string> target;
+
+        iss >> command;
+
+        std::string target_part;
+        while(iss >> target_part) {
+            target.push_back(target_part);
         }
-
-        // tokenize input
-
-        // get command
-        std::string command = tokens[0];
-        // remove command from tokens
-        tokens.erase(tokens.begin());
-        // get target
-        // tokens iterator
-        // std::vector<std::string>::iterator tokens_iterator = tokens.begin();
-        // loop over tokens to make target
-        std::vector<std::string> target = tokens;
 
         // call command function
         // check if command exists
         if (this->commands.find(command) != this->commands.end())
         {
             // call command function
-            this->commands.find(command)->second;
+            
+            std::cout << "Command found." << std::endl;
+            commands[command](target);
+
+            
         }
         else
         {
@@ -647,19 +592,21 @@ void Game::play()
 }
 
 // show help function
-void Game::show_help()
+void Game::show_help(std::vector<std::string> target)
 {
     // print help message
-    std::cout << "Commands:" << std::endl;
-    std::cout << "help or ? - show this message" << std::endl;
-    std::cout << "talk or hello - talk to an NPC" << std::endl;
-    std::cout << "meet or introduce - get a description of an NPC" << std::endl;
-    std::cout << "take or grab - take an item from the current location" << std::endl;
-    std::cout << "give or deliver - give an item to the current location" << std::endl;
-    std::cout << "go or move - go to a neighboring location" << std::endl;
-    std::cout << "look or search or find - look around the current location" << std::endl;
-    std::cout << "items or inventory - show the items you are carrying" << std::endl;
-    std::cout << "quit or exit - quit the game" << std::endl;
+    // uses commands map
+    // commands iterator
+    std::map<std::string, std::function<void(std::vector<std::string>)> >::iterator commands_iterator = this->commands.begin();
+    // loop over commands
+    std::cout << "Commands List: " << std::endl;
+    while (commands_iterator != this->commands.end())
+    {
+        // print command
+        std::cout << commands_iterator->first << std::endl;
+        // increment iterator
+        commands_iterator++;
+    }
     // print time
     // get current time
     time_t current_time = time(0);
@@ -696,19 +643,17 @@ void Game::talk(std::vector<std::string> target)
     std::string target_npc = strvector_to_str(target);
 
     // check if target is in room
-    //std::vector<std::reference_wrapper<NPC> > npcs = this->current_location.get_npcs();
-    std::vector<NPC> npcs = this->current_location.get_npcs();
+    std::vector<std::reference_wrapper<NPC> > npcs = this->current_location.get().get_npcs_ref();
     // npc iterator
-    //std::vector<std::reference_wrapper<NPC> >::iterator npc_iterator = npcs.begin();
-    std::vector<NPC>::iterator npc_iterator = npcs.begin();
+    std::vector<std::reference_wrapper<NPC> >::iterator npc_iterator = npcs.begin();
     // loop over npcs
     while (npc_iterator != npcs.end())
     {
         // check if npc name matches target
-        if (npc_iterator->get_name() == target_npc)
+        if (npc_iterator->get().get_name() == target_npc)
         {
             // get message from npc
-            std::string message = npc_iterator->get_currentMessage();
+            std::string message = npc_iterator->get().get_currentMessage();
             // print message
             std::cout << message << std::endl;
             // break from loop
@@ -730,10 +675,8 @@ void Game::meet(std::vector<std::string> target)
     std::string target_npc = strvector_to_str(target);
 
     // check if target is in room
-    //std::vector<std::reference_wrapper<NPC> > npcs = this->current_location.get_npcs();
-    std::vector<NPC> npcs = this->current_location.get_npcs();
+    std::vector<NPC> npcs = this->current_location.get().get_npcs();
     // npc iterator
-    //std::vector<std::reference_wrapper<NPC> >::iterator npc_iterator = npcs.begin();
     std::vector<NPC>::iterator npc_iterator = npcs.begin();
     // loop over npcs
     while (npc_iterator != npcs.end())
@@ -758,26 +701,31 @@ void Game::meet(std::vector<std::string> target)
 void Game::take(std::vector<std::string> target)
 {
     // convert target to string
-    std::string target_npc = strvector_to_str(target);
+    std::string target_item = strvector_to_str(target);
 
     // check if target item is in room
-    //std::vector<std::reference_wrapper<Item> > items = this->current_location.get_items();
-    std::vector<Item> items = this->current_location.get_items();
+    // std::vector<std::reference_wrapper<Item> > items = this->current_location.get_items();
+    std::vector<Item> items = this->current_location.get().get_items();
+    
+    //std::vector<std::reference_wrapper<Item> > items = this->current_location.get_items_ref();
     // item iterator
-    //std::vector<std::reference_wrapper<Item> >::iterator item_iterator = items.begin();
+    // std::vector<std::reference_wrapper<Item> >::iterator item_iterator = items.begin();
     std::vector<Item>::iterator item_iterator = items.begin();
+    //std::vector<std::reference_wrapper<Item> >::iterator item_iterator = items.begin();
     // loop over npcs
     while (item_iterator != items.end())
     {
         // check if item name matches target
-        if (item_iterator->get_name() == target_npc)
+        if (item_iterator->get_name() == target_item)
         {
             // add to user inventory
             this->inventory.push_back(*item_iterator);
-            // remove item from room
-            this->current_location.remove_item(*item_iterator);
-            // add weight to user's carry weight
             this->current_weight += item_iterator->get_weight();
+            // remove item from room
+            this->current_location.get().remove_item(*item_iterator);
+            // add weight to user's carry weight
+            
+            break;
         }
     }
 }
@@ -798,7 +746,7 @@ void Game::give(std::vector<std::string> target)
         if (item_iterator->get_name() == target_item)
         {
             // add to location inventory
-            this->current_location.add_item(*item_iterator);
+            this->current_location.get().add_item(*item_iterator);
             // remove item from inventory
             // adapted from copilot code
 
@@ -807,7 +755,7 @@ void Game::give(std::vector<std::string> target)
             // remove weight from user's carry weight
             this->current_weight -= item_iterator->get_weight();
             // check if current location is woods
-            if (this->current_location.get_name() == "Woods")
+            if (this->current_location.get().get_name() == "Woods")
             {
                 // check if item is edible
                 if (item_iterator->get_calories() > 0)
@@ -815,7 +763,7 @@ void Game::give(std::vector<std::string> target)
                     // subtract calories from calories needed
                     this->calories_needed -= item_iterator->get_calories();
                     // remove item from current location
-                    this->current_location.remove_item(*item_iterator);
+                    this->current_location.get().remove_item(*item_iterator);
                 }
                 else
                 {
@@ -833,7 +781,7 @@ void Game::go(std::vector<std::string> target)
     // convert target to string
     std::string target_direction = strvector_to_str(target);
     // set current location to visited
-    this->current_location.set_visited();
+    this->current_location.get().set_visited();
     // check if user is carrying too much weight
     if (this->current_weight > 30)
     {
@@ -845,7 +793,7 @@ void Game::go(std::vector<std::string> target)
     else
     {
         // check if target direction is in neighbors
-        std::map<std::string, std::reference_wrapper<Location>> neighbors = this->current_location.get_locations();
+        std::map<std::string, std::reference_wrapper<Location>> neighbors = this->current_location.get().get_locations();
         // neighbor iterator
         std::map<std::string, std::reference_wrapper<Location>>::iterator neighbor_iterator = neighbors.begin();
         // loop over neighbors
@@ -874,6 +822,8 @@ void Game::show_items(std::vector<std::string> target)
     {
         // print items
         std::cout << *item_iterator << std::endl;
+        // increment iterator
+        item_iterator++;
     }
     // print current weight
     std::cout << "You are carrying " << this->current_weight << " pounds." << std::endl;
@@ -896,7 +846,8 @@ void Game::quit(std::vector<std::string> target)
 }
 
 // get current location
-Location& Game::get_current_location() const
+//Location &Game::get_current_location() const
+std::reference_wrapper<Location> Game::get_current_location() const
 {
     return this->current_location;
 }

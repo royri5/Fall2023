@@ -177,16 +177,22 @@ public:
     void create_world();
 
     // setup commands
-    std::map<std::string, void (Game::*)()> setup_commands();
+    //std::map<std::string, void (Game::*)()> setup_commands();
+    //std::map<std::string, std::function<void(*)(std::vector<std::string>)> > setup_commands();
+    //std::map<std::string, void(*)(std::vector<std::string>)> setup_commands();
+    //std::map<std::string, void (Game::*)(std::vector<std::string>)> setup_commands();
+    //std::map<std::string, void (*)(std::vector<std::string>)> setup_commands();
+    std::map<std::string, std::function<void(std::vector<std::string>)> > setup_commands();
 
     // random location
-    Location& random_location();
+    //Location& random_location();
+    std::reference_wrapper<Location> random_location();
 
     // play
     void play();
 
     // show help
-    void show_help();
+    void show_help(std::vector<std::string> target);
 
     // convert vector of strings to string
     std::string strvector_to_str(std::vector<std::string> target);
@@ -251,7 +257,8 @@ public:
     std::vector<std::reference_wrapper<Location>> get_locations();
 
     // get current location
-    Location& get_current_location() const;
+    //Location& get_current_location() const;
+    std::reference_wrapper<Location> get_current_location() const;
 
     // get calories needed
     int get_calories_needed() const;
@@ -262,18 +269,25 @@ public:
 private:
     // class variables
     // commands
-    // std::map<std::string, void (*)(std::vector<std::string>)> commands;
-    std::map<std::string, void (Game::*)()> commands;
+    //std::map<std::string, void (*)(std::vector<std::string>)> commands;
+    //std::map<std::string, void (Game::*)()> commands;
+    //std::map<std::string, std::function<void(*)(std::vector<std::string>)> > commands;
+    //std::map<std::string, void (Game::*)()> commands;
+    //std::map<std::string, void (Game::*)(std::vector<std::string>)> commands;
+    //std::map<std::string, void (*)(std::vector<std::string>)> commands;
+    std::map<std::string, std::function<void(std::vector<std::string>)> > commands;
+
     // inventory
     std::vector<Item> inventory;
     // current weight
-    int current_weight;
+    float current_weight;
     // vector of locations
     std::vector<Location> locs;
     std::vector<std::reference_wrapper<Location>> locations;
     // current location
     Location curr;
-    Location& current_location = curr;
+    //Location& current_location = curr;
+    std::reference_wrapper<Location> current_location = curr;
     // calories needed
     int calories_needed;
     // game in progress

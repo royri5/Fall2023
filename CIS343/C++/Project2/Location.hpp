@@ -88,11 +88,15 @@ public:
 
     // get npcs
     //std::vector<std::reference_wrapper<NPC> > get_npcs() const; //
-    std::vector<NPC> get_npcs() const; //
+    //std::vector<NPC> get_npcs() const; //
+    std::vector<std::reference_wrapper<NPC> > get_npcs_ref();
+    std::vector<NPC> get_npcs() const;
 
     // get items
     //std::vector<std::reference_wrapper<Item> > get_items() const; //
-    std::vector<Item> get_items() const; //
+    //std::vector<Item> get_items() const; //
+    std::vector<std::reference_wrapper<Item> > get_items_ref();
+    std::vector<Item> get_items() const;
 
     // overloaded stream operator
     friend std::ostream &operator<<(std::ostream &output, const Location &location);
@@ -110,6 +114,10 @@ private:
 
     // vector of NPCs
     std::vector<NPC> npcs;
+
+    // reference wrapped vector of NPCs
+    std::vector<std::reference_wrapper<NPC> > npcs_ref;
+
     //std::vector<std::reference_wrapper<NPC> > npcs;
     //std::vector<std::reference_wrapper<NPC> > npcs = std::vector<std::reference_wrapper<NPC> >(std::begin(npcs_storage), std::end(npcs_storage));
     //std::vector<std::reference_wrapper<NPC> > npcs(std::begin(npcs_storage), npcs_storage.end());
@@ -118,6 +126,10 @@ private:
     //std::vector<std::reference_wrapper<Item> > items;
 
     std::vector<Item> items;
+
+    // reference wrapped vector of items
+
+    std::vector<std::reference_wrapper<Item> > items_ref;
 
 };
 

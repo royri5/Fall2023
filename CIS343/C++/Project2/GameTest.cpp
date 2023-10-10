@@ -16,7 +16,7 @@
 // constructor testing
 
 // tests create_world
-void test_create_world_locations_list(Game game)
+void test_create_world_locations_list(Game& game)
 {
     // print all location names
     std::vector<std::reference_wrapper<Location> > locations = game.get_locations();
@@ -29,7 +29,7 @@ void test_create_world_locations_list(Game game)
 // tests setup commands
 
 // tests random_location
-void test_random_location(Game game)
+void test_random_location(Game& game)
 {
     // print current location
     std::cout << "---------------\n"
@@ -37,15 +37,19 @@ void test_random_location(Game game)
     // state test name
     std::cout << "test_random_location" << std::endl;
     std::cout << std::endl;
-    std::cout << "curr: " << game.get_current_location().get_name() << std::endl;
+    std::cout << "curr: " << game.get_current_location().get().get_name() << std::endl;
     std::cout << "------------\n"
               << std::endl;
 }
 
 // tests play
+void test_play(Game& game)
+{
+    game.play();
+}
 
 // tests show help
-void test_show_help(Game game)
+void test_show_help(Game& game)
 {
     // print help
     std::cout << "---------------\n"
@@ -53,27 +57,105 @@ void test_show_help(Game game)
     // state test name
     std::cout << "test_show_help" << std::endl;
     std::cout << std::endl;
-    game.show_help();
+    game.show_help({"help"});
     std::cout << "---------\n"
               << std::endl;
 }
 
 // tests talk
-
-// tests meet
-
+void test_talk(Game& game)
+{
+    // check current location for an npc
+    // if they dont have one, 
+    // print test not applicable
+    // otherwise, call the talk function
+    // with the first npc's name as 
+    // the argument
+    std::cout << "---------------\n"
+              << std::endl;
+    // state test name
+    std::cout << "test_talk" << std::endl;
+    std::cout << std::endl;
+    // check if npc exists
+    std::vector<NPC> npcs = game.get_current_location().get().get_npcs();
+    if (npcs.size() == 0)
+    {
+        std::cout << "No NPCs in this location" << std::endl;
+    }
+    else
+    {
+        // call talk function
+        game.talk({npcs[0].get_name()});
+        game.talk({npcs[0].get_name()});
+        game.talk({npcs[0].get_name()});
+        game.talk({npcs[0].get_name()});
+        game.talk({npcs[0].get_name()});
+        game.talk({npcs[0].get_name()});
+    }
+}
+// tests meets
+void test_meet(Game& game) 
+{
+    // check current location for an npc
+    // if they dont have one, 
+    // print test not applicable
+    // otherwise, call the meet function
+    // with the first npc's name as 
+    // the argument
+    std::cout << "---------------\n"
+              << std::endl;
+    // state test name
+    std::cout << "test_meet" << std::endl;
+    std::cout << std::endl;
+    // check if npc exists
+    std::vector<NPC> npcs = game.get_current_location().get().get_npcs();
+    if (npcs.size() == 0)
+    {
+        std::cout << "No NPCs in this location" << std::endl;
+    }
+    else
+    {
+        // call meet function
+        game.meet({npcs[0].get_name()});
+    }   
+}
 // tests take
-
+void test_take(Game& game)
+{
+    // check current location for an item
+    // if they dont have one, 
+    // print test not applicable
+    // otherwise, call the take function
+    // with the first item's name as 
+    // the argument
+    std::cout << "---------------\n"
+              << std::endl;
+    // state test name
+    std::cout << "test_take" << std::endl;
+    std::cout << std::endl;
+    // check if item exists
+    std::vector<Item> items = game.get_current_location().get().get_items();
+    if (items.size() == 0)
+    {
+        std::cout << "No items in this location" << std::endl;
+    }
+    else
+    {
+        // call take function
+        game.take({items[0].get_name()});
+    }
+    
+}
 // tests give
 
 // tests go
-void test_go(Game game)
+void test_go(Game& game)
 {
     // print current
 }
 
 // tests show items
-void test_show_items(Game game)
+void test_show_items(Game& game)
 {
     // print items
     std::cout << "---------------\n"
@@ -87,7 +169,7 @@ void test_show_items(Game game)
 }
 
 /// tests look
-void test_look(Game game)
+void test_look(Game& game)
 {
     // state test name
     std::cout << "test_look" << std::endl;
@@ -126,4 +208,12 @@ int main(void)
     //
     // // getter tests
     // te
+    //test_play(game);
+    test_talk(game);
+    test_meet(game);
+    test_take(game);
+    test_show_items(game);
+    //test_give(game);
+    //test_go(game);
+    //test_quit(game);
 }

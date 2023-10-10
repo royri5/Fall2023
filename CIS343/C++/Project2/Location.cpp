@@ -52,6 +52,8 @@ Location::Location()
     //this->items = std::vector<std::reference_wrapper<Item> >();
     this->npcs = std::vector<NPC>();
     this->items = std::vector<Item>();
+    //this->npcs_ref = std::vector<std::reference_wrapper<NPC> >();
+    //this->items_ref = std::vector<std::reference_wrapper<Item> >();
 }
 
 // constructor with parameters
@@ -79,6 +81,8 @@ Location::Location(std::string locName, std::string locDescription)
     // this->items = std::vector<std::reference_wrapper<Item> >();
     this->npcs = std::vector<NPC>();
     this->items = std::vector<Item>();
+    //this->npcs_ref = std::vector<std::reference_wrapper<NPC> >();
+    //this->items_ref = std::vector<std::reference_wrapper<Item> >();
 }
 
 // getters
@@ -107,12 +111,32 @@ std::map<std::string, std::reference_wrapper<Location> > Location::get_locations
 }
 
 // get_npcs
+//std::vector<NPC> Location::get_npcs() const
+std::vector<std::reference_wrapper<NPC> > Location::get_npcs_ref()
+{
+    // wrap npcs in reference wrappers
+    //const std::vector<std::reference_wrapper<NPC> > ret_npcs = std::vector<std::reference_wrapper<NPC> >(this->npcs.begin(), this->npcs.end());
+    // set npcs_ref to result
+    this->npcs_ref = std::vector<std::reference_wrapper<NPC> >(this->npcs.begin(), this->npcs.end());
+    //return this->npcs_ref;
+    return this->npcs_ref;
+    
+   
+}
+
 std::vector<NPC> Location::get_npcs() const
 {
     return this->npcs;
 }
 
 // get_items
+//std::vector<Item> Location::get_items() const
+std::vector<std::reference_wrapper<Item> > Location::get_items_ref()
+{
+    this->items_ref = std::vector<std::reference_wrapper<Item> >(this->items.begin(), this->items.end());
+    //return this->items;
+    return this->items_ref;
+}
 std::vector<Item> Location::get_items() const
 {
     return this->items;
