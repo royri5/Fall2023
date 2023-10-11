@@ -1,12 +1,13 @@
 // Author: Richard Roy
 // Date: 10/10/23
 
+// Standard library includes
 #include "NPC.hpp"
 #include <iostream>
 #include <vector>
 #include <stdexcept>
 
-// default constructor
+// Default constructor
 NPC::NPC()
 {
     this->name = "noname";
@@ -16,21 +17,20 @@ NPC::NPC()
     this->partyMember = false;
 }
 
-// constructor with parameters
+// Parameterized constructor with exception handling
 NPC::NPC(std::string npcname, std::string npcdescription)
 {
-    // exception checking
-    // check if name is blank
+    // Exception handling for blank name and description
     if (npcname == "")
     {
         throw std::invalid_argument("Name cannot be blank");
     }
-    // check if description is blank
     if (npcdescription == "")
     {
         throw std::invalid_argument("Description cannot be blank");
     }
-    // instantiate object variables
+
+    // Initialize member variables
     this->name = npcname;
     this->description = npcdescription;
     this->messageNumber = 0;
@@ -38,106 +38,102 @@ NPC::NPC(std::string npcname, std::string npcdescription)
     this->partyMember = false;
 }
 
-// getters
-std::string NPC::get_name() const
+/* Getter methods */
+// name
+std::string NPC::get_name() const 
 {
-    return this->name;
+    return this->name; 
 }
-std::string NPC::get_description() const
+// description
+std::string NPC::get_description() const 
 {
-    return this->description;
+    return this->description; 
 }
-// below is Github Copilot code
+// current message
 std::string NPC::get_currentMessage()
 {
-    std::string retval = this->messages.at((
-        long unsigned int)this->messageNumber);
+    // below is Github Copilot code
+    std::string retval = this->messages.at((size_t)this->messageNumber);
     this->incrementMessageNumber();
     return retval;
 }
-int NPC::get_messageNumber() const
+// lines of dialogue
+std::vector<std::string> NPC::get_messages() const 
 {
-    return this->messageNumber;
+    return this->messages; 
 }
-std::vector<std::string> NPC::get_messages() const
+// current message number
+int NPC::get_messageNumber() const 
 {
-    return this->messages;
+    return this->messageNumber; 
 }
-bool NPC::get_partyMember() const
+// is npc a party member
+bool NPC::get_partyMember() const 
 {
-    return this->partyMember;
+    return this->partyMember; 
 }
 
-// setters
+/* Setter methods with exception handling */
+// set name
 void NPC::set_name(std::string npcname)
 {
-    // exception checking
-    // check if name is blank
+    // Exception handling for blank name
     if (npcname == "")
     {
         throw std::invalid_argument("Name cannot be blank");
     }
-    // set name
     this->name = npcname;
 }
+// set description
 void NPC::set_description(std::string npcdescription)
 {
-    // exception checking
-    // check if description is blank
+    // Exception handling for blank description
     if (npcdescription == "")
     {
         throw std::invalid_argument("Description cannot be blank");
     }
-    // set description
     this->description = npcdescription;
 }
-// setCurrentMessage at the end of the messages vector
-// increment message number
 // below is Github Copilot code
+// set current message
 void NPC::set_currentMessage(std::string currentmessage)
 {
-    // add message to end of messages vector
+    // add message to messages vector
     this->messages.push_back(currentmessage);
     // increment message number
     this->messageNumber++;
 }
-// setMessageNumber (make sure message number cannot be
-// greater than the size of the messages vector
-// or less than 0)
+// set message number
 void NPC::set_messageNumber(int number)
 {
-    // exception checking
-    // check if message number is greater than
-    // the size of the messages vector
+    // Exception handling for invalid message number
     if (number >= int(this->messages.size()))
     {
-        throw std::invalid_argument("Message number cannot\
-         be greater than or equal to the size of the messages vector");
+        throw std::invalid_argument("Message number cannot be greater than or equal to the size of the messages vector");
     }
-    // check if message number is less than 0
+    // Exception handling for negative message number
     if (number < 0)
     {
-        throw std::invalid_argument("Message number cannot\
-         be less than 0");
+        throw std::invalid_argument("Message number cannot be less than 0");
     }
-    // set message number
     this->messageNumber = number;
 }
-void NPC::set_messages(std::vector<std::string> newmessages)
+// set messages
+void NPC::set_messages(std::vector<std::string> newmessages) 
 {
-    this->messages = newmessages;
+    this->messages = newmessages; 
 }
+// set party member
 void NPC::set_partyMember(bool partymember)
 {
     this->partyMember = partymember;
 }
+
+/* Utility methods */
 // increment message number
-// make sure not to increment past max message number
-// if so, reset to 0
 void NPC::incrementMessageNumber()
 {
-    // if message number is greater than or equal to the
-    // size of the messages vector, reset message number to 0
+    // Overflow check/handling
     if ((this->messageNumber + 1) >= int(this->messages.size()))
     {
         this->messageNumber = 0;
@@ -148,11 +144,14 @@ void NPC::incrementMessageNumber()
     }
 }
 
-// overloaded operators
+/* overloaded operators */
 // overloaded stream operator
 std::ostream &operator<<(std::ostream &output, const NPC &npc)
 {
-    output << npc.name << "\n";
+    output 
+    << npc.name 
+    << "\n";
+    
     return output;
 }
 // overloaded equality operator

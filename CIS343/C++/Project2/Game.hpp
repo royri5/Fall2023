@@ -23,107 +23,81 @@ public:
     // default constructor
     Game();
 
-    // create world
+    /* World initializer methods */
+    // Initializes the game world
     void create_world();
-
-    // setup commands
-    std::map<std::string, 
-    std::function<void(std::vector<std::string>)> > setup_commands();
-
-    // random location
+    // Sets up the command map
+    std::map<std::string, std::function<void(std::vector<std::string>)> > setup_commands();
+    // Returns a random location from the game world
     std::reference_wrapper<Location> random_location();
 
-    // play
+    // Main game loop
     void play();
 
-    // show help
-    void show_help(std::vector<std::string> target);
-
-    // convert vector of strings to string
+    /* Utility methods*/
+    // Converts a vector of strings to a single string
     std::string strvector_to_str(std::vector<std::string> target);
 
-    // talk
-    // pass by reference to change current message
+    /* Command functions */
+    // Displays help menu
+    void show_help(std::vector<std::string> target);
+    // Talk to NPC
     void talk(std::vector<std::string> target);
-
-    // meet
+    // Meet NPC
     void meet(std::vector<std::string> target);
-
-    // take
+    // Take item
     void take(std::vector<std::string> target);
-
-    // give
+    // Give item
     void give(std::vector<std::string> target);
-
-    // go
+    // Go to location
     void go(std::vector<std::string> target);
-
-    // show items
+    // Show inventory
     void show_items(std::vector<std::string> target);
-
-    // look
+    // Look at current location
     void look(std::vector<std::string> target);
-
-    // quit
+    // Quit game
     void quit(std::vector<std::string> target);
-
     // personal command functions
-    // group up
+    // Group up with NPC
     void party(std::vector<std::string> target);
-
-    // leave party member
+    // Kick NPC from party
     void leavePartyMember(std::vector<std::string> target);
 
-    // getters
-    // get commands
-    std::map<std::string, 
-    void (*)(std::vector<std::string>)> get_commands() const;
-
+    /* Getter methods*/
+    // Command map
+    std::map<std::string, void (*)(std::vector<std::string>)> get_commands() const;
     // get inventory
     std::vector<Item> get_inventory() const;
-
     // get current weight
     float get_current_weight() const;
-
+    // get locations (storage)
     std::vector<Location> get_locs() const;
-    //used by everything else
-    std::vector<std::reference_wrapper<Location> 
-    > get_locations();
-    // for adding items/npcs to existing locations
-
+    // get locations (reference)
+    std::vector<std::reference_wrapper<Location> > get_locations();
     // get current location
-    std::reference_wrapper<
-    Location> get_current_location() const;
+    std::reference_wrapper<Location> get_current_location() const;
+    // get calories needed
+    int get_calories_needed() const;
+    // get value that determines if game is in progress
+    bool get_game_in_progress() const;
 
+    /* Setter methods*/
     //for testing
     void set_current_location(Location& loc);
 
-    // get calories needed
-    int get_calories_needed() const;
-
-    // get game in progress
-    bool get_game_in_progress() const;
-
 private:
-    // class variables
-    // commands
-    std::map<std::string, std::function<void(
-        std::vector<std::string>)> > commands;
+    // private variables
 
-    // inventory
-    std::vector<Item> inventory;
-    // current weight
-    float current_weight;
-    // vector of locations
-    std::vector<Location> locs;
-    std::vector<std::reference_wrapper<Location>> locations;
-    // current location
-    Location curr;
-    std::reference_wrapper<Location> current_location = curr;
-    // calories needed
-    int calories_needed;
-    // game in progress
-    bool game_in_progress;
+    // commands map
+    std::map<std::string, std::function<void(std::vector<std::string>)> > commands;
+    std::vector<Item> inventory; // player inventory
+    float current_weight; // player current inventory weight
+    std::vector<Location> locs; // vector of locations (storage)
+    std::vector<std::reference_wrapper<Location>> locations; // vector of locations (reference)
+    Location curr; // current location (storage)
+    std::reference_wrapper<Location> current_location = curr; // current location (reference)
+    int calories_needed; // amount of calories needed to win/feed the elf
+    bool game_in_progress; // value that determines if game is in progress
 };
 
 #endif

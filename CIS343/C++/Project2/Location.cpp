@@ -1,6 +1,7 @@
 // Author: Richard Roy
 // Date: 10/10/23
 
+// Includes
 #include "Location.hpp"
 #include <string>
 #include <vector>
@@ -9,36 +10,32 @@
 #include <map>
 #include <iostream>
 
-// default constructor
+// Default constructor
 Location::Location()
 {
+    // Initialize default values for object variables
     this->name = "noname";
     this->description = "no description";
     this->visited = false;
-    
-    this->neighbors = std::map<std::string, 
-    std::reference_wrapper<Location> >();
-
+    this->neighbors = std::map<std::string,  std::reference_wrapper<Location> >();
     this->npcs = std::vector<NPC>();
     this->items = std::vector<Item>();
 }
 
-// constructor with parameters
+// Constructor with parameters
 Location::Location(std::string locName, std::string locDescription)
 {
-    // exception checking
-    // check if name is blank
+    // Exception handling for invalid name and description
     if (locName == "")
     {
         throw std::invalid_argument("Name cannot be blank");
     }
-    // check if description is blank
     if (locDescription == "")
     {
         throw std::invalid_argument("Description cannot be blank");
     }
 
-    // instantiate object variables
+    // Initialize object variables
     this->name = locName;
     this->description = locDescription;
     this->visited = false;
@@ -48,60 +45,71 @@ Location::Location(std::string locName, std::string locDescription)
     this->items = std::vector<Item>();
 }
 
-// getters
+/* Getter methods */
+// name
 std::string Location::get_name() const
 {
     return this->name;
 }
+// description
 std::string Location::get_description() const
 {
     return this->description;
 }
+// visited status
 bool Location::get_visited() const
 {
     return this->visited;
 }
-std::map<std::string, std::reference_wrapper<Location> 
-> Location::get_locations() const
+// locations references
+std::map<std::string, std::reference_wrapper<Location> > Location::get_locations() const
 {
     return this->neighbors;
 }
+// npcs references
 std::vector<std::reference_wrapper<NPC> > Location::get_npcs_ref()
 {
     // wrap npcs in reference wrappers
     // set npcs_ref to result
-    this->npcs_ref = std::vector<std::reference_wrapper<NPC> 
-    >(this->npcs.begin(), this->npcs.end());
+    this->npcs_ref = std::vector<std::reference_wrapper<NPC> >(
+        this->npcs.begin(), 
+        this->npcs.end());
     return this->npcs_ref;
     
    
 }
+// npcs
 std::vector<NPC> Location::get_npcs() const
 {
     return this->npcs;
 }
+// items references
 std::vector<std::reference_wrapper<Item> > Location::get_items_ref()
 {
-    this->items_ref = std::vector<std::reference_wrapper<Item> 
-    >(this->items.begin(), this->items.end());
+    // wrap items in reference wrappers
+    // set items_ref to result
+    this->items_ref = std::vector<std::reference_wrapper<Item> >(
+        this->items.begin(), 
+        this->items.end());
     return this->items_ref;
 }
+// items
 std::vector<Item> Location::get_items() const
 {
     return this->items;
 }
 
-// adders
+/* Adder methods*/
+// add location
 void Location::add_location(std::string direction, Location& location)
 {
-    // exception checking
-    // check if direction is blank
+    // Exception handling for blank direction
     if (direction == "")
     {
         throw std::invalid_argument("Direction cannot be blank");
     }
+    // Exception handling for invalid location
     // below is copilot code
-    // check if location is already in map
     if (this->neighbors.find(direction) != this->neighbors.end())
     {
         throw std::invalid_argument("Location already exists in map");
@@ -112,11 +120,12 @@ void Location::add_location(std::string direction, Location& location)
         std::pair<std::string,
          std::reference_wrapper<Location> >(direction, location));
 }
+// add npc
 void Location::add_npc(NPC npc)
 {
-    // add npc to vector
     this->npcs.push_back(npc);
 }
+// add item
 void Location::add_item(Item item)
 {
     // add item to vector
@@ -146,7 +155,8 @@ void Location::set_visited()
     this->visited = true;
 }
 
-// overloaded stream operator
+/* Utility methods */
+// Overloaded stream operator
 std::ostream &operator<<(
     std::ostream &output, const Location &location)
 {
@@ -161,39 +171,50 @@ std::ostream &operator<<(
     std::map<std::string, std::reference_wrapper<Location> 
     >::const_iterator neighborIterator = location.neighbors.begin();
     // loop through npcs, items, and neighbors and add to output
-    // add: if there are no npcs, items, or neighbors, say so,
-    // instead of just leaving the section blank
+    // if there are no npcs, items, or neighbors, say so,
+
+    // add name and description to output
     output << location.name << " - " << location.description << "\n";
+    // check for npcs
     if (location.get_npcs().size() > 0)
     {
+        // nps are present
         output << "\nYou see the following NPCs:\n";
         // loop through npcs
         while (npcIterator != location.npcs.end())
         {
+            // add npc to output
             output << "     - " << (*npcIterator) << "\n";
             npcIterator++;
         }
     }
     else
     {
+        // no npcs present
         output << "\nThere are no NPCs here.\n";
     }
+    // check for items
     if (location.get_items().size() > 0)
     {
+        // items are present
         output << "\nYou see the following Items:\n";
         // loop through items
         while (itemIterator != location.items.end())
         {
+            // add item to output
             output << "     - " << (*itemIterator) << "\n";
             itemIterator++;
         }
     }
     else
     {
+        // no items present
         output << "\nThere are no items here.\n";
     }
+    // check for neighbors
     if (location.get_locations().size() > 0)
     {
+        // neighbors are present
         output << "\nYou can go in the following Directions:\n";
         // loop through neighbors
         while (neighborIterator != location.neighbors.end())
@@ -201,6 +222,8 @@ std::ostream &operator<<(
             // check if neighbor has been visited
             if ((*neighborIterator).second.get().visited == true)
             {
+                // neighbor has been visited
+                // add neighbor to output
                 output 
                 << "     - " 
                 << (*neighborIterator).first 
@@ -210,6 +233,8 @@ std::ostream &operator<<(
             }
             else
             {
+                // neighbor has not been visited
+                // add neighbor to output
                 output 
                 << "     - " 
                 << (*neighborIterator).first 
@@ -221,6 +246,7 @@ std::ostream &operator<<(
     }
     else
     {
+        // no neighbors present
         output << "There are no locations here.\n";
     }
     return output;

@@ -20,11 +20,13 @@
 // constructor
 Game::Game()
 {
-    // set commands map
+    // Initialize the game with default settings
+    // create command map
     this->commands = this->setup_commands();
     // create world
     this->create_world();
     // set default values
+    // move player to random location
     this->current_location = this->random_location();
     this->current_weight = 0;
     this->calories_needed = 500;
@@ -667,8 +669,7 @@ std::map<std::string, std::function<void(std::vector<std::string>)>
     return commandMap;
 }
 
-// random location function
-// selects a random location from locations vector
+// Generate a random location index and return the corresponding location 
 std::reference_wrapper<Location> Game::random_location()
 {
     // copilot code
@@ -803,17 +804,19 @@ void Game::play()
     }
 }
 
-// show help function
+// show help: prints a list of commands
 void Game::show_help(std::vector<std::string> target)
 {
-    //get rid of unused warning
+    //get rid of unused target warning
     target[0] = target[0];
-    // print help message
-    // uses commands map
+    
     // commands iterator
     std::map<std::string, std::function<void(std::vector<std::string>)> >::iterator commands_iterator = this->commands.begin();
-    // loop over commands
+    
+    // print message
     std::cout << "Commands List: " << std::endl;
+    
+    // print all commands
     while (commands_iterator != this->commands.end())
     {
         // print command
@@ -822,24 +825,29 @@ void Game::show_help(std::vector<std::string> target)
         << std::endl;
         commands_iterator++;
     }
-    // print time
+    
     // get current time
     time_t current_time = time(0);
 
-    // convert to string
+    // convert current_time to string
     std::string current_time_string = ctime(&current_time);
-    // print time
+    
+    // print current time
     std::cout 
     << "The current time is: " 
     << current_time_string << std::endl;
 }
 
-// convert vector of strings to string
+// convert vector of strings to single string
 std::string Game::strvector_to_str(std::vector<std::string> target)
 {
     // target iterator
     std::vector<std::string>::iterator target_iterator = target.begin();
+
+    // target as a single string to return
     std::string target_string = "";
+
+    // loop over target and concatenate to target_string with spaces
     while (target_iterator != target.end())
     {
         target_string += *target_iterator;
@@ -852,24 +860,26 @@ std::string Game::strvector_to_str(std::vector<std::string> target)
     return target_string;
 }
 
-// talk function
-// add print if not in room
+// talk to NPC function
 void Game::talk(std::vector<std::string> target)
 {
     // convert target to string
     std::string target_npc = strvector_to_str(target);
 
-    // check if target is in room
+    // npc holder for iterator
     std::vector<std::reference_wrapper<NPC> > npcs = this->current_location.get().get_npcs_ref();
     // npc iterator
     std::vector<std::reference_wrapper<NPC> >::iterator npc_iterator = npcs.begin();
+    
+    // check if target is in location
     // loop over npcs
     while (npc_iterator != npcs.end())
     {
         // check if npc name matches target
+        // npc found in location
         if (npc_iterator->get().get_name() == target_npc)
         {
-            // get message from npc
+            // get current message from npc
             std::string message = npc_iterator->get().get_currentMessage();
             // print message
             std::cout 
@@ -878,11 +888,10 @@ void Game::talk(std::vector<std::string> target)
             << message 
             << std::endl;
             return;
-            //break;
         }
         npc_iterator++;
     }
-    // npc is not in room
+    // otherwise npc is not in location
     // print message
     std::cout
     << "You do not see "
@@ -892,21 +901,22 @@ void Game::talk(std::vector<std::string> target)
 }
 
 // meet function
-// add print if not in room
 void Game::meet(std::vector<std::string> target)
 {
     // convert target to string
     std::string target_npc = strvector_to_str(target);
 
-    //may be wrong
-    // check if target is in room
+    // check if target is in location
     std::vector<NPC> npcs = this->current_location.get().get_npcs();
     // npc iterator
     std::vector<NPC>::iterator npc_iterator = npcs.begin();
+
+    // check if target is in location
     // loop over npcs
     while (npc_iterator != npcs.end())
     {
         // check if npc name matches target
+        // npc found in location
         if (npc_iterator->get_name() == target_npc)
         {
             // get description from npc
@@ -918,11 +928,10 @@ void Game::meet(std::vector<std::string> target)
             << description 
             << std::endl;
             return;
-            //break;
         }
         npc_iterator++;
     }
-    // npc is not in room
+    // otherwise npc is not in room
     // print message
     std::cout
     << "You do not see "
@@ -932,7 +941,6 @@ void Game::meet(std::vector<std::string> target)
 }
 
 // take function
-// add print if not in room
 void Game::take(std::vector<std::string> target)
 {
     // convert target to string
@@ -943,18 +951,21 @@ void Game::take(std::vector<std::string> target)
     
     // item iterator
     std::vector<Item>::iterator item_iterator = items.begin();
-    // loop over npcs
+
+    // check if target is in location
+    // loop over items
     while (item_iterator != items.end())
     {
         // check if item name matches target
+        // item found in location
         if (item_iterator->get_name() == target_item)
         {
-            // add to user inventory
+            // add item to player inventory and update carry weight
             this->inventory.push_back(*item_iterator);
             this->current_weight += item_iterator->get_weight();
-            // remove item from room
+
+            // remove item from location
             this->current_location.get().remove_item(*item_iterator);
-            // add weight to user's carry weight
 
             // inform player they picked up item
             std::cout
@@ -963,18 +974,18 @@ void Game::take(std::vector<std::string> target)
             << std::endl;
             std::cout
             << std::endl;
-            // inform player of current weight
+
+            // inform player of current carry weight
             std::cout
             << "You are now carrying "
             << this->current_weight
             << " pounds."
             << std::endl;
             return;
-            //break;
         }
         item_iterator++;
     }
-    // item is not in room
+    // otherwise item is not in room
     // print message
     std::cout
     << "You do not see "
@@ -989,20 +1000,24 @@ void Game::give(std::vector<std::string> target)
     // convert target to string
     std::string target_item = strvector_to_str(target);
 
-    // check if target item is in inventory
-    // item iterator
+    // item holder for iterator
     std::vector<Item> items = this->inventory;
+    // item iterator
     std::vector<Item>::iterator item_iterator = items.begin();
+
+    // check if target item is in inventory
     // loop over npcs
     while (item_iterator != inventory.end())
     {
         // check if item name matches target
+        // item found in inventory
         if (item_iterator->get_name() == target_item)
         {
-            // add to location inventory
+            // add item to location items
             this->current_location.get().add_item(*item_iterator);
 
             // refresh reference wrapped locations vector
+            // otherwise references to locations will be invalidated
             this->locations = std::vector<std::reference_wrapper<Location> 
             >(this->locs.begin(), this->locs.end());
             
@@ -1010,18 +1025,20 @@ void Game::give(std::vector<std::string> target)
             // remove weight from user's carry weight
             this->current_weight -= item_iterator->get_weight();
             
-            
             // check if current location is woods
             if (this->current_location.get().get_name() == "Woods")
             {
                 // check if item is edible
                 if (item_iterator->get_calories() > 0)
                 {
+                    // item is edible
                     // subtract calories from calories needed
                     this->calories_needed -= item_iterator->get_calories();
+
                     // remove item from current location
                     this->current_location.get().remove_item(*item_iterator);
-                    // inform player they gave item
+
+                    // inform player they gave item to the elf
                     std::cout
                     << "You gave "
                     << item_iterator->get_name()
@@ -1049,21 +1066,22 @@ void Game::give(std::vector<std::string> target)
                     << std::endl;
 
                     // check if elf has enough calories
+                    // player wins the game and it ends if so
                     if (this->calories_needed <= 0)
                     {
-                        // end game
-                        
-                        //call quit command
+                        // remove item from inventory
                         this->inventory.erase(std::remove(inventory.begin(), inventory.end(), *item_iterator), inventory.end());
-                        //this->quit(target);
+                        // end game
                         this->game_in_progress = false;
                         return;
                     }
                 }
+                // item is not edible
                 else
                 {
                     // teleport user to random location
                     this->current_location = this->random_location();
+
                     // inform the player that the elf was not satisfied
                     std::cout
                     << "The elf was not satisfied with your offering."
@@ -1078,7 +1096,7 @@ void Game::give(std::vector<std::string> target)
                     std::cout
                     << std::endl;
                     std::cout
-                    << "Your party members were left behind."
+                    << "Any party members were left behind."
                     << std::endl;
                     std::cout
                     << "You are now at "
@@ -1086,6 +1104,8 @@ void Game::give(std::vector<std::string> target)
                     << std::endl;
                 }
             }
+            // item is not in woods
+            // item was dropped into location items
             else
             {
                 // tell player they dropped item
@@ -1098,11 +1118,10 @@ void Game::give(std::vector<std::string> target)
             // remove item from inventory
             this->inventory.erase(std::remove(inventory.begin(), inventory.end(), *item_iterator), inventory.end());
             return;
-            //break;
         }
         item_iterator++;
     }
-    // item is not in inventory
+    // otherwise item is not in inventory
     // print message
     std::cout
     << "You do not have "
@@ -1111,13 +1130,15 @@ void Game::give(std::vector<std::string> target)
     << std::endl;
 }
 
-// go function
+// go to direction function
 void Game::go(std::vector<std::string> target)
 {
     // convert target to string
     std::string target_direction = strvector_to_str(target);
+
     // set current location to visited
     this->current_location.get().set_visited();
+
     // check if user is carrying too much weight
     if (this->current_weight > 30)
     {
@@ -1127,31 +1148,43 @@ void Game::go(std::vector<std::string> target)
         << std::endl;
         return;
     }
+    // player is not carrying too much weight
     else
     {
-        // check if target direction is in neighbors
+        // holder for neighbors iterator
         std::map<std::string, std::reference_wrapper<Location> 
         > neighbors = this->current_location.get().get_locations();
+
         // neighbor iterator
         std::map<std::string, std::reference_wrapper<Location> 
         >::iterator neighbor_iterator = neighbors.begin();
+
+        // check if target direction is in neighbors
         // loop over neighbors
         while (neighbor_iterator != neighbors.end())
         {
             // check if target direction is in neighbors map
+            // target direction is in neighbors
             if (neighbor_iterator->first == target_direction)
             {
                 // check npcs in current location for party members
-                // npc iterator
-                // loop over npcs
-                // loop for proper removal of party members
+
+                // bool to help with party member removal loop (finished moving)
                 bool party_moved = false;
+
                 while (party_moved == false)
                 {
+                    // bool to help with party member removal loop (continue loop if true)
                     bool party_member_found = false;
-                    //std::vector<NPC>::iterator npc_iterator = this->current_location.get().get_npcs().begin();
+                    
+                    // npc holder for iterator
                     std::vector<std::reference_wrapper<NPC> > npcs = this->current_location.get().get_npcs_ref();
+                    
+                    // npc iterator
                     std::vector<std::reference_wrapper<NPC> >::iterator npc_iterator = npcs.begin(); 
+                    
+                    // check if npc is party member
+                    // loop over npcs
                     while (npc_iterator != npcs.end())
                     {
                         // check if npc is party member
@@ -1163,16 +1196,20 @@ void Game::go(std::vector<std::string> target)
                             // refresh reference wrapped locations vector
                             this->locations = std::vector<std::reference_wrapper<Location>
                             >(this->locs.begin(), this->locs.end());
-                            // set party member found to true
-
+                            
                             // remove npc from current location
                             this->current_location.get().remove_npc(npc_iterator->get());
+                            
+                            // set party member found to true
                             party_member_found = true;
+                            // breaks and uses party_member_found to
+                            // refresh npc iterator since it was invalidated
                             break;
                         }
+                        // npc is not party member
                         else
                         {
-                            // increment iterator
+                            // check next npc in location
                             npc_iterator++;
                         }
                        
@@ -1182,12 +1219,12 @@ void Game::go(std::vector<std::string> target)
                     // and check again
                     if (party_member_found == false)
                     {
-                        // set party moved to true
+                        // end of party npcs loop
                         party_moved = true;
                     }
                 }
                 
-                // set current location to value
+                // moves player to new location
                 this->current_location = neighbor_iterator->second.get();
 
                 // print message
@@ -1203,9 +1240,9 @@ void Game::go(std::vector<std::string> target)
                 << std::endl;
                 return;
             }
-            // increment iterator
             neighbor_iterator++;
         }
+        // otherwise target direction is not in neighbors
         // print message
         std::cout 
         << "You cannot go that way!" 
