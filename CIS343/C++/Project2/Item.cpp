@@ -1,17 +1,8 @@
+// Author: Richard Roy
+// Date: 10/10/23
+
 // includes
 #include "Item.hpp"
-
-// An Item represents objects the player may encounter along the way, and is an object that has a name, a
-// description, the number of calories it can provide (0 if it isn't edible), and a weight. It must provide:
-//  * A constructor that can take a name, description, calories, and weight.
-//       *You must ensure the following (raise exceptions for violations):
-//           * The name variable cannot be blank.
-//           * The calories variable cannot be less than 0 or more than 1000 and must be an int..
-//           * The description cannot be blank.
-//           * The weight must be a float and must be between 0 and 500
-//  * An overloaded stream operator that returns a string representing the Item. The format should be:
-//      NAME (X calories) - X lb - DESCRIPTION   i.e.:
-//      Rusty Nail (0 calories) - 1 lb - A rusty nail (I hope you've had a tetanus shot)
 
 // default constructor
 Item::Item()
@@ -29,7 +20,6 @@ Item::Item(std::string itemname,
            float itemweight)
 {
     // exception checking
-
     // check if name is blank
     if (itemname == "")
     {
@@ -38,12 +28,14 @@ Item::Item(std::string itemname,
     // check if calories are less than 0
     if (itemcalories < 0)
     {
-        throw std::invalid_argument("Calories value cannot be negative");
+        throw std::invalid_argument("Calories value\
+ cannot be negative");
     }
     // check if calories are greater than 1000
     if (itemcalories > 1000)
     {
-        throw std::invalid_argument("Calories value cannot be greater than 1000");
+        throw std::invalid_argument("Calories value\
+ cannot be greater than 1000");
     }
     // check if description is blank
     if (itemdescription == "")
@@ -58,7 +50,8 @@ Item::Item(std::string itemname,
     // check if weight is greater than 500
     if (itemweight > 500)
     {
-        throw std::invalid_argument("Weight cannot be greater than 500");
+        throw std::invalid_argument("Weight cannot\
+ be greater than 500");
     }
 
     // instantiate object variables
@@ -114,11 +107,13 @@ void Item::set_calories(int newcalories)
 {
     if (newcalories < 0)
     {
-        throw std::invalid_argument("Calories value cannot be negative");
+        throw std::invalid_argument("Calories value cannot\
+ be negative");
     }
     if (newcalories > 1000)
     {
-        throw std::invalid_argument("Calories value cannot be greater than 1000");
+        throw std::invalid_argument("Calories value cannot\
+ be greater than 1000");
     }
     this->calories = newcalories;
 }
@@ -131,32 +126,41 @@ void Item::set_weight(float newweight)
     }
     if (newweight > 500)
     {
-        throw std::invalid_argument("Weight cannot be greater than 500");
+        throw std::invalid_argument("Weight cannot\
+ be greater than 500");
     }
     this->weight = newweight;
 }
 
 // overloaded stream operator
-// think about if you need const here
 // below is from Github Copilot
 std::ostream &operator<<(std::ostream &output, const Item &item)
 {
-    output << item.name << " (" << item.calories << " calories) - " << item.weight << " lb - " << item.description << "\n";
-
+    output 
+    << item.name 
+    << " (" 
+    << item.calories 
+    << " calories) - " 
+    << item.weight 
+    << " lb - " 
+    << item.description 
+    << "\n";
     return output;
 }
-
 // overloaded equality operator
 bool operator==(const Item &a, const Item &b)
 {
-    //return a.getName() == b.getName() && a.getDescription() == b.getDescription() && a.getCalories() == b.getCalories() && a.getWeight() == b.getWeight();
-    return a.name == b.name && a.description == b.description && a.calories == b.calories && a.weight == b.weight;
+    return a.name == b.name 
+    && a.description == b.description 
+    && a.calories == b.calories 
+    && a.weight == b.weight;
     
 }
-
 // overloaded inequality operator
 bool operator!=(const Item &a, const Item &b)
 {
-    //return a.getName() != b.getName() || a.getDescription() != b.getDescription() || a.getCalories() != b.getCalories() || a.getWeight() != b.getWeight();
-    return a.name != b.name || a.description != b.description || a.calories != b.calories || a.weight != b.weight;
+    return a.name != b.name 
+    || a.description != b.description 
+    || a.calories != b.calories 
+    || a.weight != b.weight;
 }
