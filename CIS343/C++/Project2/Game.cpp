@@ -1250,20 +1250,22 @@ void Game::go(std::vector<std::string> target)
     }
 }
 
-// show items
+// show items in player inventory
 void Game::show_items(std::vector<std::string> target)
 {
-    //get rid of unused warning
+    //get rid of unused target warning
     target[0] = target[0];
-    // print items in inventory
+
     // item iterator
     std::vector<Item>::iterator item_iterator = this->inventory.begin();
-    // loop over inventor
-    // value to store total calories
+    
+    // value to store total calories of all items in inventory
     int total_calories = 0;
+
+    // loop over inventor
     while (item_iterator != this->inventory.end())
     {
-        // message
+        // printing all items in inventory
         std::cout
         << "You have the following items in your inventory: "
         << std::endl;
@@ -1272,11 +1274,12 @@ void Game::show_items(std::vector<std::string> target)
         << "    - "
         << *item_iterator 
         << std::endl;
-        // increment iterator
+        // add item calories to total calories for future print
         total_calories += item_iterator->get_calories();
         item_iterator++;
     }
-    // print current weight
+    // after printing all items (if any)
+    // print current carry weight
     std::cout 
     << "You are carrying " 
     << this->current_weight 
@@ -1284,22 +1287,22 @@ void Game::show_items(std::vector<std::string> target)
     << std::endl;
     std::cout
     << std::endl;
+
     // print total inventory calories
     std::cout 
     << "Your inventory contains " 
     << total_calories 
     << " calories." 
     << std::endl;
-
 }
 
-// look function
+// look at current location function
 void Game::look(std::vector<std::string> target)
 {
-    //get rid of unused warning
+    //get rid of unused target warning
     target[0] = target[0];
-    // print current location/neighbors/items/npcs
-    // message
+
+    // print player action/location
     std::cout
     << "You look around..."
     << std::endl;
@@ -1311,74 +1314,85 @@ void Game::look(std::vector<std::string> target)
     std::cout
     << std::endl;
     std::cout 
+    // uses overloaded stream operator on current location, which calls
+    // the overloaded stream operator on the items and npcs in the location
     << this->get_current_location() 
     << std::endl;
 }
 
-//for testing
+//for testing (not used in game)
 void Game::set_current_location(Location &loc) {
     this->current_location = loc;
 }
 
-// quit function
+// quit game function
 void Game::quit(std::vector<std::string> target)
 {
-    //get rid of unused warning
+    //get rid of unused target warning
     target[0] = target[0];
-    // set game in progress to false
+
+    // set game in progress bool to false
+    // this breaks the while loop in play()
     this->game_in_progress = false;
-    // print message
+
+    // print quit message
     std::cout << "You have quit the game." << std::endl;
 }
 
-// party function
+// party up function (npc follows player from location to location)
 void Game::party(std::vector<std::string> target)
 {
-   // convert target to string
+    // convert target string vector to string
     std::string target_npc = strvector_to_str(target);
 
-    // check if target is in room
+    // npc holder for iterator
     std::vector<std::reference_wrapper<NPC> > npcs = this->current_location.get().get_npcs_ref();
+    
     // npc iterator
     std::vector<std::reference_wrapper<NPC> >::iterator npc_iterator = npcs.begin();
+    
+    // check if target is in location
     // loop over npcs
     while (npc_iterator != npcs.end())
     {
-        // check if npc name matches target
+        // npc found in location
+        // check if npc name matches target npc
         if (npc_iterator->get().get_name() == target_npc)
         {
             // check if npc is elf
+            // cannot party with elf
             if (npc_iterator->get().get_name() == "Elf")
             {
-                // message
+                // inform player they cannot party with elf
                 std::cout
                 << "The elf does not want to party with you."
                 << std::endl;
                 return;
             }
             // check if npc is already in party
+            // cannot party with same npc twice
             if (npc_iterator->get().get_partyMember() == true)
             {
-                // message
+                // inform player they cannot party with same npc twice
                 std::cout
                 << npc_iterator->get().get_name()
                 << " is already in your party!"
                 << std::endl;
                 return;
             }
-            // change npc partyMember value to true
+            // add npc to player's party (npc follows player from location to location)
             npc_iterator->get().set_partyMember(true);
-            // message
+            
+            // inform player that npc has joined party
             std::cout
             << npc_iterator->get().get_name()
             << " has joined your party!"
             << std::endl;
             return;
-            //break;
         }
         npc_iterator++;
     }
-    // npc is not in room
+    // otherwise npc is not in room
     // print message
     std::cout
     << "You do not see "
@@ -1387,55 +1401,57 @@ void Game::party(std::vector<std::string> target)
     << std::endl; 
 }
 
-// unfollow function
+// unfollow/unparty function
 void Game::leavePartyMember(std::vector<std::string> target)
 {
     // convert target to string
     std::string target_npc = strvector_to_str(target);
 
-    // check if target is in room
+    // npc holder for iterator
     std::vector<std::reference_wrapper<NPC> > npcs = this->current_location.get().get_npcs_ref();
+
     // npc iterator
     std::vector<std::reference_wrapper<NPC> >::iterator npc_iterator = npcs.begin();
+
+    // check if target is in location
     // loop over npcs
     while (npc_iterator != npcs.end())
     {
+        // npc found in location
         // check if npc name matches target
         if (npc_iterator->get().get_name() == target_npc)
         {
+            // cannot unparty with npc not in party
             // check if npc is in party
             if (npc_iterator->get().get_partyMember() == false)
             {
-                // message
+                // inform player that npc is not in party
                 std::cout
                 << npc_iterator->get().get_name()
                 << " is not in your party!"
                 << std::endl;
                 return;
             }
+            // otherwise npc is in party
             // change npc partyMember value to false
             npc_iterator->get().set_partyMember(false);
-            // message
+
+            // inform player that npc has left party
             std::cout
             << npc_iterator->get().get_name()
             << " has left your party!"
             << std::endl;
             return;
-            //break;
         }
         npc_iterator++;
     }
-    // npc is not in room
+    // otherwise npc is not in room
     // print message
     std::cout
     << "You do not see "
     << target_npc
     << " here."
     << std::endl; 
-
-    //note cannot party with elf
-    //note cannot party with same npc twice
-    
 }
 
 // get current location
@@ -1444,35 +1460,33 @@ std::reference_wrapper<Location> Game::get_current_location() const
     return this->current_location;
 }
 
-// get inventory
+// get player inventory
 std::vector<Item> Game::get_inventory() const
 {
     return this->inventory;
 }
 
-// get current weight
+// get current carry weight
 float Game::get_current_weight() const
 {
     return this->current_weight;
 }
-
-// get calories needed
+// get calories needed to win
 int Game::get_calories_needed() const
 {
     return this->calories_needed;
 }
-
-// get game in progress
+// get game in progress (is the game running?)
 bool Game::get_game_in_progress() const
 {
     return this->game_in_progress;
 }
-
-// get locations
+// get locations vector
 std::vector<Location> Game::get_locs() const
 {
     return this->locs;
 }
+// get reference wrapped locations vector
 std::vector<std::reference_wrapper<Location>> Game::get_locations()
 {
     return this->locations;
