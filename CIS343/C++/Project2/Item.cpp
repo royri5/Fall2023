@@ -1,13 +1,21 @@
-// Author: Richard Roy
-// Date: 10/10/23
-
-// Standard library includes
 #include "Item.hpp"
 
+/**
+ * @class Item
+ * @brief Represents an item with a name, description, calories, and weight.
+ * @author Richard Roy - richard.alex.roy@gmail.com
+ * @date 10/5/23
+ * 
+ * This class defines attributes and methods for managing items in a game world.
+ */
 
-// Constructors
+/* Constructors */
 
-// Default constructor
+/**
+ * @brief Default constructor for the Item class.
+ * 
+ * Initializes an Item object with default values for its attributes.
+ */
 Item::Item()
 {
     this->name = "noname";
@@ -16,7 +24,19 @@ Item::Item()
     this->weight = 0;
 }
 
-// Parameterized constructor with exception handling
+/**
+ * @brief Parameterized constructor for the Item class with exception handling.
+ * 
+ * Initializes an Item object with the provided name, description, calories, and weight,
+ * and performs exception handling to ensure valid values for each attribute.
+ * 
+ * @param itemname The name of the item.
+ * @param itemdescription The description of the item.
+ * @param itemcalories The calories value of the item.
+ * @param itemweight The weight of the item.
+ * 
+ * @throws std::invalid_argument If any of the input values are invalid.
+ */
 Item::Item(std::string itemname,
            std::string itemdescription,
            int itemcalories,
@@ -66,32 +86,57 @@ Item::Item(std::string itemname,
     this->weight = itemweight;
 }
 
-
 /* Getter methods */
-// name
+
+/**
+ * @brief Get the name of the item.
+ * 
+ * @return The name of the item as a string.
+ */
 std::string Item::get_name() const
 {
     return this->name;
 }
-// description
+
+/**
+ * @brief Get the description of the item.
+ * 
+ * @return The description of the item as a string.
+ */
 std::string Item::get_description() const
 {
     return this->description;
 }
-// calories
+
+/**
+ * @brief Get the calories value of the item.
+ * 
+ * @return The calories value of the item as an integer.
+ */
 int Item::get_calories() const
 {
     return this->calories;
 }
-// weight
+
+/**
+ * @brief Get the weight of the item.
+ * 
+ * @return The weight of the item as a floating-point value.
+ */
 float Item::get_weight() const
 {
     return this->weight;
 }
 
-
 /* Setter methods */
-// set name
+
+/**
+ * @brief Set the name of the item.
+ * 
+ * @param newname The new name to set for the item.
+ * 
+ * @throws std::invalid_argument If the new name is blank.
+ */
 void Item::set_name(std::string newname)
 {
     // Exception handling for blank name
@@ -102,7 +147,14 @@ void Item::set_name(std::string newname)
     }
     this->name = newname;
 }
-// set description
+
+/**
+ * @brief Set the description of the item.
+ * 
+ * @param newdescription The new description to set for the item.
+ * 
+ * @throws std::invalid_argument If the new description is blank.
+ */
 void Item::set_description(std::string newdescription)
 {
     // Exception handling for blank description
@@ -113,7 +165,14 @@ void Item::set_description(std::string newdescription)
     }
     this->description = newdescription;
 }
-// set calories
+
+/**
+ * @brief Set the calories value of the item.
+ * 
+ * @param newcalories The new calories value to set for the item.
+ * 
+ * @throws std::invalid_argument If the new calories value is negative or greater than 1000.
+ */
 void Item::set_calories(int newcalories)
 {
     // Exception handling for invalid Calories
@@ -129,7 +188,14 @@ void Item::set_calories(int newcalories)
     }
     this->calories = newcalories;
 }
-// set weight
+
+/**
+ * @brief Set the weight of the item.
+ * 
+ * @param newweight The new weight to set for the item.
+ * 
+ * @throws std::invalid_argument If the new weight is negative or greater than 500.
+ */
 void Item::set_weight(float newweight)
 {
     // Exception handling for invalid Weight
@@ -147,9 +213,18 @@ void Item::set_weight(float newweight)
 }
 
 /* Overloaded operators */
-// below is from Github Copilot
 
-// overloaded stream operator
+/** below is from Github Copilot **/
+
+/**
+ * @brief Overloaded stream operator for the Item class.
+ * 
+ * This operator allows an Item object to be streamed to an output stream.
+ * 
+ * @param output The output stream to which the item should be streamed.
+ * @param item The Item object to be streamed.
+ * @return The output stream after streaming the item.
+ */
 std::ostream &operator<<(std::ostream &output, const Item &item)
 {
     output
@@ -164,7 +239,15 @@ std::ostream &operator<<(std::ostream &output, const Item &item)
     return output;
 }
 
-// overloaded equality operator
+/**
+ * @brief Overloaded equality operator for the Item class.
+ * 
+ * This operator checks if two Item objects are equal based on their attributes.
+ * 
+ * @param a The first Item object to compare.
+ * @param b The second Item object to compare.
+ * @return true if the items are equal, false otherwise.
+ */
 bool operator==(const Item &a, const Item &b)
 {
     return a.name == b.name 
@@ -173,7 +256,15 @@ bool operator==(const Item &a, const Item &b)
     && a.weight == b.weight;
 }
 
-// overloaded inequality operator
+/**
+ * @brief Overloaded inequality operator for the Item class.
+ * 
+ * This operator checks if two Item objects are not equal based on their attributes.
+ * 
+ * @param a The first Item object to compare.
+ * @param b The second Item object to compare.
+ * @return true if the items are not equal, false otherwise.
+ */
 bool operator!=(const Item &a, const Item &b)
 {
     return a.name != b.name 

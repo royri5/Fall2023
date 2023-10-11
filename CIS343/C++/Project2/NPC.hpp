@@ -1,6 +1,3 @@
-// Author: Richard Roy
-// Date: 10/10/23
-
 // Include guard to prevent multiple inclusions of this header file
 #ifndef _NPC_
 #define _NPC_
@@ -11,9 +8,12 @@
 
 /**
  * @class NPC
- * @brief Represents a Non-Player Character (NPC) in a game location.
+ * @brief The NPC class represents non-playable characters in the game.
+ * @author Richard Roy - richard.alex.roy@gmail.com
+ * @date 10/5/23
  * 
- * The NPC class encapsulates the properties of an NPC, such as its name, description, messages, and party membership status.
+ * This class defines attributes and methods for managing NPC objects, including
+ * their name, description, messages, and party membership status.
  */
 class NPC
 {
