@@ -1,0 +1,12 @@
+[my.hostname.edu]
+RAM = 16
+CORES = 1024
+OS = Linux
+USERS = ( blah, ira )
+
+[my2.hostname.edu]
+CORES = 2048
+RAM = 8
+OS = Linux
+USERS = ( blah, ira, temp )
+
