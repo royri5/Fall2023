@@ -1,6 +1,3 @@
-// Author: Richard Roy
-// Date: 10/10/23
-
 #include "Game.hpp"
 #include "Location.hpp"
 #include "NPC.hpp"
@@ -17,7 +14,29 @@
 #include <random>
 #include <sstream>
 
-// constructor
+/**
+ * @class Game
+ * @brief Manages the game state, player actions, and interactions with NPCs and items.
+ * @author Richard Roy - richard.alex.roy@gmail.com
+ * @date 10/11/23
+ * 
+ * The Game class is responsible for managing the overall state of the game, including the player's location, inventory, and actions.
+ * It also handles interactions with NPCs (Non-Player Characters) and items in the game world. The class provides a set of member functions
+ * to perform actions like moving, talking, taking items, and more.
+ *
+ */
+
+/**
+ * @brief Default constructor for the Game class.
+ * 
+ * Initializes a new Game object with default settings. It sets up the command map,
+ * creates the game world, moves the player to a random location, and sets other
+ * default values such as current_weight, calories_needed, and game_in_progress.
+ * 
+ * @param None No parameters are needed for the default constructor.
+ * 
+ * @return None This is a constructor, so it doesn't return a value.
+ */
 Game::Game()
 {
     // Initialize the game with default settings
@@ -33,319 +52,339 @@ Game::Game()
     this->game_in_progress = true;
 }
 
-// create world function
-// creates all locations, items, and npcs
-// adds items and npcs to rooms/locations
-// adds locations to neighbors connected to them
+/**
+ * @brief Creates the game world.
+ * 
+ * This function is responsible for initializing and setting up the game world.
+ * It defines the locations, items, and NPCs. It also sets up the neighbor maps.
+ * 
+ * @param None No parameters are required for this function.
+ * 
+ * @return void The function returns nothing.
+ */
 void Game::create_world()
 {
     // create locations
 
     // Mary Idema Pew Library
-    // 5 floors (1 basement, 4 above ground)
-    // base library(1st floor)
-    Location maryIdemaPewLibrary("Mary Idema Pew Library",
-                                 "The campus library. There are books,\
- computers, and places to study.");
+    Location maryIdemaPewLibrary(
+        "Mary Idema Pew Library", "The campus library. There are books\
+        computers, and places to study.");
     this->locs.push_back(maryIdemaPewLibrary);
     long unsigned int maryIdemaPewLibraryIndex = this->locs.size() - 1;
 
     // Mackinac Hall (labyrinth)
-    // 4 wings, varying floors
-    Location mackinacHall("Mackinac Hall",
-                          "The home of the CIS department...and others\
+    Location mackinacHall(
+        "Mackinac Hall",
+        "Home of the CIS department...and others\
 , the bane of freshman.");
     this->locs.push_back(mackinacHall);
     long unsigned int mackinacHallIndex = this->locs.size() - 1;
 
     // Laker Village (houses are boarded up (1 location))
-    Location lakerVillage("Laker Village",
-                          "A compound of on-campus town houses,\
+    Location lakerVillage(
+        "Laker Village",
+        "A compound of on-campus town houses,\
  currently abandoned. You notice boards on all the windows and\
  doors.");
     this->locs.push_back(lakerVillage);
     long unsigned int lakerVillageIndex = this->locs.size() - 1;
 
     // Blue Connection
-    // 2 floors
-    Location blueConnection("Blue Connection",
-                            "A common area with a small food-court\
+    Location blueConnection(
+        "Blue Connection",
+        "A common area with a small food-court\
  and a convenience store.");
     this->locs.push_back(blueConnection);
     long unsigned int blueConnectionIndex = this->locs.size() - 1;
 
     // Kirkhof Center Parking Lot
-    Location kirkhofCenterParkingLot("Kirkhof Center Parking Lot",
-                                     "A once bustling center of\
+    Location kirkhofCenterParkingLot(
+        "Kirkhof Center Parking Lot",
+        "A once bustling center of\
  campus transport, now seemingly empty.");
     this->locs.push_back(kirkhofCenterParkingLot);
     long unsigned int kirkhofCenterParkingLotIndex = this->locs.size() - 1;
 
     // Clock Tower
-    Location clockTower("Clock Tower",
-                        "A large clock tower, the center of campus.");
+    Location clockTower(
+        "Clock Tower",
+        "A large clock tower, the center of campus.");
     this->locs.push_back(clockTower);
     long unsigned int clockTowerIndex = this->locs.size() - 1;
 
     // Kirkhof Center
-    // 2 floors?
-    Location kirkhofCenter("Kirkhof Center",
-                           "This building was once the pinnacle of\
+    Location kirkhofCenter(
+        "Kirkhof Center",
+        "This building was once the pinnacle of\
  the campus commons, now decrepit.");
     this->locs.push_back(kirkhofCenter);
     long unsigned int kirkhofCenterIndex = this->locs.size() - 1;
 
     // Fresh
-    // 2 floors
-    Location fresh("Fresh",
-                   "A buffet-style cafeteria.");
+    Location fresh(
+        "Fresh",
+        "A buffet-style cafeteria.");
     this->locs.push_back(fresh);
     long unsigned int freshIndex = this->locs.size() - 1;
 
     // Marketplace
-    // 1 floor (2 rooms)
-    Location marketplace("Marketplace",
-                         "Along the main road of campus,\
+    Location marketplace(
+        "Marketplace",
+        "Along the main road of campus,\
  this building contains a small food court and the campus store.");
     this->locs.push_back(marketplace);
     long unsigned int marketplaceIndex = this->locs.size() - 1;
 
     // Henry Hall
     // 2 floors?
-    Location henryHall("Henry Hall",
-                       "This building contains several \
-computer labs.");
+    Location henryHall(
+        "Henry Hall",
+        "This building contains several computer labs.");
     this->locs.push_back(henryHall);
     long unsigned int henryHallIndex = this->locs.size() - 1;
 
     // Woods
-    Location woods("Woods",
-                   "A small patch of woods behind campus. \
-The elf lives here.");
+    Location woods(
+        "Woods",
+        "A small patch of woods behind campus. The elf lives here.");
     this->locs.push_back(woods);
     long unsigned int woodsIndex = this->locs.size() - 1;
 
     // end of base locations creation
-    
+
+
     // create items
+
     // food items
 
     // connection
-    Item connectionSandwich = Item("Chicken Sandwich",
-                                   "Spicy and crispy chicken sandwich,\
- the pinnacle of campus food",
+    Item connectionSandwich = Item(
+        "Chicken Sandwich",
+        "Spicy and crispy chicken sandwich, the pinnacle of campus food",
                                    55, 1);
     this->locs[blueConnectionIndex].add_item(connectionSandwich);
-    Item lakerBowl = Item("Laker Bowl",
-                          "The legendary Laker Bowl, popcorn chicken,\
+    Item lakerBowl = Item(
+        "Laker Bowl",
+        "The legendary Laker Bowl, popcorn chicken,\
  mashed potatoes, corn, and gravy",
                           50, 1.5);
     this->locs[blueConnectionIndex].add_item(lakerBowl);
-    Item italianSub = Item("Italian Sub",
-                           "A classic Italian sub, with ham, salami,\
+    Item italianSub = Item(
+        "Italian Sub",
+        "A classic Italian sub, with ham, salami,\
  pepperoni, and provolone.",
                            45, 1);
     this->locs[blueConnectionIndex].add_item(italianSub);
-    Item energyBarConnection = Item("Connection Energy Bar",
-                                    "A protein bar.", 10, .5);
+    Item energyBarConnection = Item(
+        "Connection Energy Bar",
+        "A protein bar.", 10, .5);
     this->locs[blueConnectionIndex].add_item(energyBarConnection);
-    Item bagOfChipsConnection = Item("Connection Barbecue Chips",
-                                     "A bag of delicious\
- barbecue chips.", 10, .5);
+    Item bagOfChipsConnection = Item(
+        "Connection Barbecue Chips",
+        "A bag of delicious barbecue chips.", 10, .5);
     this->locs[blueConnectionIndex].add_item(bagOfChipsConnection);
-    Item coffeeConnection = Item("Connection Coffee",
-                                 "The lifeblood of college\
- students.", 10, .5);
+    Item coffeeConnection = Item(
+        "Connection Coffee",
+        "The lifeblood of college students.", 10, .5);
     this->locs[blueConnectionIndex].add_item(coffeeConnection);
 
     // fresh
-    Item freshPizza = Item("Pizza",
-                           "A slice of cheese pizza.", 50, 1);
+    Item freshPizza = Item(
+        "Pizza",
+        "A slice of cheese pizza.", 50, 1);
     this->locs[freshIndex].add_item(freshPizza);
-    Item freshBurger = Item("Burger",
-                            "A cold cheeseburger.", 40, 1);
+    Item freshBurger = Item(
+        "Burger",
+        "A cold cheeseburger.", 40, 1);
     this->locs[freshIndex].add_item(freshBurger);
-    Item freshSalad = Item("Salad",
-                           "A caesar salad.", 25, 1);
+    Item freshSalad = Item(
+        "Salad",
+        "A caesar salad.", 25, 1);
     this->locs[freshIndex].add_item(freshSalad);
-    Item coffeeFresh = Item("Fresh Coffee",
-                            "The lifeblood of college\
- students.", 10, .5);
+    Item coffeeFresh = Item(
+        "Fresh Coffee",
+        "The lifeblood of college students.", 10, .5);
     this->locs[freshIndex].add_item(coffeeFresh);
 
     // marketplace
-    Item marketplaceRamen = Item("Ramen",
-                                 "A cup of ramen.", 45, .5);
+    Item marketplaceRamen = Item(
+        "Ramen",
+        "A cup of ramen.", 45, .5);
     this->locs[marketplaceIndex].add_item(marketplaceRamen);
-    Item marketplaceSushi = Item("Sushi",
-                                 "A tray of old sushi.\
- It's probably still good...", 20, 1);
+    Item marketplaceSushi = Item(
+        "Sushi",
+        "A tray of old sushi. It's probably still good...", 20, 1);
     this->locs[marketplaceIndex].add_item(marketplaceSushi);
-    Item coffeeMarketplace = Item("Marketplace Coffee",
-                                  "The lifeblood of college\
- students.", 10, .5);
+    Item coffeeMarketplace = Item(
+        "Marketplace Coffee",
+        "The lifeblood of college students.", 10, .5);
     this->locs[marketplaceIndex].add_item(coffeeMarketplace);
 
     // mackinacHall
-    Item energyBarMac = Item("Mackinac Energy Bar",
-                             "A protein bar.", 10, .5);
+    Item energyBarMac = Item(
+        "Mackinac Energy Bar",
+        "A protein bar.", 10, .5);
     this->locs[mackinacHallIndex].add_item(energyBarMac);
-    Item bagOfChipsMac = Item("Mackinac Barbecue Chips",
-                              "A bag of delicious\
- barbecue chips.", 10, .5);
+    Item bagOfChipsMac = Item(
+        "Mackinac Barbecue Chips",
+        "A bag of delicious barbecue chips.", 10, .5);
     this->locs[mackinacHallIndex].add_item(bagOfChipsMac);
-    Item coffeeMac = Item("Mackinac Coffee",
-                          "The lifeblood of\
- college students.", 10, .5);
+    Item coffeeMac = Item(
+        "Mackinac Coffee",
+        "The lifeblood of college students.", 10, .5);
     this->locs[mackinacHallIndex].add_item(coffeeMac);
 
     // kirhofCenter
-    Item trailMixKirkhof = Item("Kirkhof Trail Mix",
-                                "A bag of trail mix.\
- Contains peanuts.", 10, .5);
+    Item trailMixKirkhof = Item(
+        "Kirkhof Trail Mix",
+        "A bag of trail mix. Contains peanuts.", 10, .5);
     this->locs[kirkhofCenterIndex].add_item(trailMixKirkhof);
-    Item coffeeKirkhof = Item("Kirkhof Coffee",
-                              "The lifeblood of\
- college students.", 10, .5);
+    Item coffeeKirkhof = Item(
+        "Kirkhof Coffee",
+        "The lifeblood of college students.", 10, .5);
     this->locs[kirkhofCenterIndex].add_item(coffeeKirkhof);
 
     // clockTower
-    Item trailMixClockTower = Item("Clock Tower Trail Mix",
-                                   "A bag of trail mix.\
- Contains peanuts.", 10, .5);
+    Item trailMixClockTower = Item(
+        "Clock Tower Trail Mix",
+        "A bag of trail mix. Contains peanuts.", 10, .5);
     this->locs[clockTowerIndex].add_item(trailMixClockTower);
 
     // henryHall
-    Item bagOfChipsHenry = Item("Henry Hall Barbecue Chips",
-                                "A bag of delicious\
- barbecue chips.", 10, .5);
+    Item bagOfChipsHenry = Item(
+            "Henry Hall Barbecue Chips",
+            "A bag of delicious barbecue chips.", 10, .5);
     this->locs[henryHallIndex].add_item(bagOfChipsHenry);
-    Item trailMixHenry = Item("Henry Hall Trail Mix",
-                              "A bag of trail mix.\
- Contains peanuts.", 10, .5);
+    Item trailMixHenry = Item(
+        "Henry Hall Trail Mix",
+        "A bag of trail mix. Contains peanuts.", 10, .5);
     this->locs[henryHallIndex].add_item(trailMixHenry);
-    Item coffeeHenry = Item("Henry Hall Coffee",
-                            "The lifeblood of\
- college students.", 10, .5);
+    Item coffeeHenry = Item(
+        "Henry Hall Coffee",
+        "The lifeblood of college students.", 10, .5);
     this->locs[henryHallIndex].add_item(coffeeHenry);
 
     // lakerVillage
-    Item energyBarVillage = Item("Village Energy Bar",
-                                 "A protein bar.", 10, .5);
+    Item energyBarVillage = Item(
+        "Village Energy Bar",
+         "A protein bar.", 10, .5);
     this->locs[lakerVillageIndex].add_item(energyBarVillage);
-    Item bagOfChipsVillage = Item("Village Barbecue Chips",
-                                  "A bag of delicious\
- barbecue chips.", 10, .5);
+    Item bagOfChipsVillage = Item(
+        "Village Barbecue Chips",
+        "A bag of delicious barbecue chips.", 10, .5);
     this->locs[lakerVillageIndex].add_item(bagOfChipsVillage);
-    Item cheatFood1000 = Item("Test Food1000",
-                          "All the calories you could ever\
- need.", 1000, 1);
+    Item cheatFood1000 = Item(
+        "Test Food1000",
+        "All the calories you could ever need.", 1000, 1);
     this->locs[lakerVillageIndex].add_item(cheatFood1000);
-    Item cheatFood500 = Item("Test Food500",
-                          "All the calories you could ever\
-need.", 500, 1);
+    Item cheatFood500 = Item(
+        "Test Food500",
+        "All the calories you could ever need.", 500, 1);
     this->locs[lakerVillageIndex].add_item(cheatFood500);
-    Item dumbell = Item("Dumbell100",
-"Good luck carrying this.", 0, 100);
+    Item dumbell = Item(
+        "Dumbell100",
+        "Good luck carrying this.", 0, 100);
     this->locs[lakerVillageIndex].add_item(dumbell);
-    Item dumbell2 = Item("Dumbell30",
-"Good luck carrying this.", 0, 30);
+    Item dumbell2 = Item(
+        "Dumbell30",
+        "Good luck carrying this.", 0, 30);
     this->locs[lakerVillageIndex].add_item(dumbell2);
 
     // kirkhofCenterParkingLot
-    Item bagOfChipsParking = Item("Parking Barbecue Chips",
-                                  "A bag of delicious\
- barbecue chips.", 10, .5);
+    Item bagOfChipsParking = Item(
+        "Parking Barbecue Chips",
+        "A bag of delicious barbecue chips.", 10, .5);
     this->locs[kirkhofCenterParkingLotIndex].add_item(
         bagOfChipsParking);
-    Item trailMixParking = Item("Parking Trail Mix",
-                                "A bag of trail mix.\
- Contains peanuts.", 10, .5);
+    Item trailMixParking = Item(
+        "Parking Trail Mix",
+        "A bag of trail mix. Contains peanuts.", 10, .5);
     this->locs[kirkhofCenterParkingLotIndex].add_item(trailMixParking);
 
     // Mary Idema Pew Library
-    Item bagOfChipsLibrary = Item("Library Barbecue Chips",
-                                  "A bag of delicious\
- barbecue chips.", 10, .5);
+    Item bagOfChipsLibrary = Item(
+        "Library Barbecue Chips",
+        "A bag of delicious barbecue chips.", 10, .5);
     this->locs[maryIdemaPewLibraryIndex].add_item(
         bagOfChipsLibrary);
-    Item trailMixLibrary = Item("Library Trail Mix",
-                                "A bag of trail mix.\
- Contains peanuts.", 10, .5);
+    Item trailMixLibrary = Item(
+        "Library Trail Mix", 
+        "A bag of trail mix. Contains peanuts.", 10, .5);
     this->locs[maryIdemaPewLibraryIndex].add_item(trailMixLibrary);
-    Item coffeeLibrary = Item("Library Coffee",
-                              "The lifeblood of\
- college students.", 10, .5);
+    Item coffeeLibrary = Item(
+        "Library Coffee",
+        "The lifeblood of college students.", 10, .5);
     this->locs[maryIdemaPewLibraryIndex].add_item(coffeeLibrary);
 
     // nonfood items
 
     // connection
-    Item missingStudentID = Item("Missing Student ID",
-                                 "A student ID, the owner\
- is nowhere to be found.", 0, .5);
+    Item missingStudentID = Item(
+        "Missing Student ID",
+        "A student ID, the owner is nowhere to be found.", 0, .5);
     this->locs[blueConnectionIndex].add_item(missingStudentID);
-    Item penConnection = Item("Connection Pen",
-                              "A ballpoint pen, writes\
- surprisingly well. Blue ink", 0, .5);
+    Item penConnection = Item(
+        "Connection Pen",
+        "A ballpoint pen, writes surprisingly well. Blue ink", 0, .5);
     this->locs[blueConnectionIndex].add_item(penConnection);
 
     // fresh
-    Item droppedFork = Item("Dirty fork",
-                            "A dirty fork, dropped by\
- a careless student.", 0, .5);
+    Item droppedFork = Item(
+        "Dirty fork",
+        "A dirty fork, dropped by a careless student.", 0, .5);
     this->locs[freshIndex].add_item(droppedFork);
-    Item penFresh = Item("Fresh Pen",
-                         "A ballpoint pen, writes\
- surprisingly well. Blue ink", 0, .5);
+    Item penFresh = Item(
+        "Fresh Pen",
+        "A ballpoint pen, writes surprisingly well. Blue ink", 0, .5);
     this->locs[freshIndex].add_item(penFresh);
 
     // marketplace
-    Item claTextbook = Item("CLA 250 Textbook",
-                            "Greek and Roman Art\
- and Architecture", 0, 2);
+    Item claTextbook = Item(
+        "CLA 250 Textbook",
+        "Greek and Roman Art and Architecture", 0, 2);
     this->locs[marketplaceIndex].add_item(claTextbook);
 
     // mackinacHall
-    Item pencilMac = Item("Mackinac Pencil",
-                          "A #2 pencil, tool\
- of choice for scantrons.", 0, .5);
+    Item pencilMac = Item(
+        "Mackinac Pencil",
+        "A #2 pencil, tool of choice for scantrons.", 0, .5);
     this->locs[mackinacHallIndex].add_item(pencilMac);
-    Item penMac = Item("Mackinac Pen",
-                       "A ballpoint pen, writes\
- surprisingly well. Blue ink", 0, .5);
+    Item penMac = Item(
+        "Mackinac Pen",
+        "A ballpoint pen, writes surprisingly well. Blue ink", 0, .5);
     this->locs[mackinacHallIndex].add_item(penMac);
 
     // kirhofCenter
-    Item pencilKirkhof = Item("Kirkhof Pencil",
-                              "A #2 pencil, tool\
- of choice for scantrons.", 0, .5);
+    Item pencilKirkhof = Item(
+        "Kirkhof Pencil",
+        "A #2 pencil, tool of choice for scantrons.", 0, .5);
     this->locs[kirkhofCenterIndex].add_item(pencilKirkhof);
 
     // henryHall
-    Item pencilHenry = Item("Henry Hall Pencil",
-                            "A #2 pencil, tool\
- of choice for scantrons.", 0, .5);
+    Item pencilHenry = Item(
+        "Henry Hall Pencil",
+        "A #2 pencil, tool of choice for scantrons.", 0, .5);
     this->locs[henryHallIndex].add_item(pencilHenry);
 
     // kirkhofCenterParkingLot
-    Item penParking = Item("Parking Pen",
-                           "A ballpoint pen, writes\
- surprisingly well. Blue ink", 0, .5);
+    Item penParking = Item(
+        "Parking Pen",
+        "A ballpoint pen, writes surprisingly well. Blue ink", 0, .5);
     this->locs[kirkhofCenterParkingLotIndex].add_item(penParking);
 
     // Mary Idema Pew Library
-    Item pencilLibrary = Item("Library Pencil",
-                              "A #2 pencil, tool\
- of choice for scantrons.", 0, .5);
+    Item pencilLibrary = Item(
+        "Library Pencil",
+        "A #2 pencil, tool of choice for scantrons.", 0, .5);
     this->locs[maryIdemaPewLibraryIndex].add_item(pencilLibrary);
-    Item penLibrary = Item("Library Pen",
-                           "A ballpoint pen, writes\
- surprisingly well. Blue ink", 0, .5);
+    Item penLibrary = Item(
+        "Library Pen",
+        "A ballpoint pen, writes surprisingly well. Blue ink", 0, .5);
     this->locs[maryIdemaPewLibraryIndex].add_item(penLibrary);
-    Item missingNotebook = Item("Notebook",
-                                "A misplaced notebook,\
-     the owner must be looking for this...",
+    Item missingNotebook = Item(
+        "Notebook",
+        "A misplaced notebook, the owner must be looking for this...",
                                 0, 1);
     this->locs[maryIdemaPewLibraryIndex].add_item(missingNotebook);
 
@@ -436,8 +475,10 @@ need.", 500, 1);
     this->locs[henryHallIndex].add_npc(vendingMachineStocker);
     
     // Laker Village
+    // no npcs
 
     // Kirkhof Center Parking Lot
+    // no npcs
 
     // Woods
     NPC elf = NPC(
@@ -451,12 +492,14 @@ need.", 500, 1);
     this->locs[woodsIndex].add_npc(elf);
 
 
-
+    // wrap locations in reference wrappers and store in a vector
     this->locations = std::vector<std::reference_wrapper<Location> 
     >(this->locs.begin(), this->locs.end());
 
 
-    // make neighbors
+    // make neighbor maps on the reference wrapped locations
+    // ********needs to be rewrapped anytime the reference_wrapper 
+    // vector could be resized and thus the references invalidated*******
 
     // Laker Village:
     // East: Blue Connection
@@ -565,42 +608,54 @@ need.", 500, 1);
         "Northwest", locations[mackinacHallIndex]);
 }
 
-// setup commands function
-// creates a map of commands
-// keys are strings of commands
-// values are names of functions
+/**
+ * @brief Sets up the game's command map.
+ * 
+ * This function initializes a map of commands that the game understands.
+ * The keys are strings representing the commands, and the values are function pointers
+ * that point to the corresponding command-handling functions.
+ * 
+ * @param None No parameters are required for this function.
+ * 
+ * @return std::map<std::string, std::function<void(std::vector<std::string>)>> 
+ *         Returns a map where each key is a string representing a command and the value is a function pointer
+ *         that takes a vector of strings as an argument and returns void.
+ */
 std::map<std::string, std::function<void(std::vector<std::string>)> 
 > Game::setup_commands()
 {
+    // create command map
     std::map<std::string, std::function<void(
         std::vector<std::string>)> > commandMap;
+    
     // ChatGpt code vvvvv
 
+    // help aliases
     commandMap["help"] = std::bind(
         &Game::show_help, this, std::placeholders::_1);
     commandMap["?"] = std::bind(
         &Game::show_help, this, std::placeholders::_1);
-    //chatgpt code  vvvvv
     
-    
-    // talk
+    // talk aliases
     commandMap["talk"] = std::bind(
         &Game::talk, this, std::placeholders::_1);
     
 
-    // meet
+    // meet aliases
     commandMap["meet"] = std::bind(
         &Game::meet, this, std::placeholders::_1);
     commandMap["greet"] = std::bind(
         &Game::meet, this, std::placeholders::_1);
 
-    // take
+    // take aliases
     commandMap["take"] = std::bind(
         &Game::take, this, std::placeholders::_1);
     commandMap["grab"] = std::bind(
         &Game::take, this, std::placeholders::_1);
+    commandMap["get"] = std::bind(
+        &Game::take, this, std::placeholders::_1);
 
-    // give
+    // give aliases
     commandMap["give"] = std::bind(
         &Game::give, this, std::placeholders::_1);
     commandMap["offer"] = std::bind(
@@ -610,7 +665,7 @@ std::map<std::string, std::function<void(std::vector<std::string>)>
     commandMap["drop"] = std::bind(
         &Game::give, this, std::placeholders::_1);
 
-    // go
+    // go aliases
     commandMap["go"] = std::bind(
         &Game::go, this, std::placeholders::_1);
     commandMap["move"] = std::bind(
@@ -622,7 +677,7 @@ std::map<std::string, std::function<void(std::vector<std::string>)>
     commandMap["jog"] = std::bind(
         &Game::go, this, std::placeholders::_1);
 
-    // show items
+    // show items aliases
     commandMap["show"] = std::bind(
         &Game::show_items, this, std::placeholders::_1);
     commandMap["inventory"] = std::bind(
@@ -630,7 +685,7 @@ std::map<std::string, std::function<void(std::vector<std::string>)>
     commandMap["items"] = std::bind(
         &Game::show_items, this, std::placeholders::_1);
 
-    // look
+    // look aliases
     commandMap["look"] = std::bind(
         &Game::look, this, std::placeholders::_1);
     commandMap["examine"] = std::bind(
@@ -640,14 +695,14 @@ std::map<std::string, std::function<void(std::vector<std::string>)>
     commandMap["search"] = std::bind(
         &Game::look, this, std::placeholders::_1);
 
-    // quit
+    // quit aliases
     commandMap["quit"] = std::bind(
         &Game::quit, this, std::placeholders::_1);
     commandMap["exit"] = std::bind(
         &Game::quit, this, std::placeholders::_1);
 
 
-    // additional1: party
+    // additional1: party aliases
     commandMap["party"] = std::bind(
         &Game::party, this, std::placeholders::_1);
     commandMap["join"] = std::bind(
@@ -656,8 +711,8 @@ std::map<std::string, std::function<void(std::vector<std::string>)>
         &Game::party, this, std::placeholders::_1);
     commandMap["bring"] = std::bind(
         &Game::party, this, std::placeholders::_1);
-    // additional2: leave party
     
+    // additional2: leave party member aliases
     commandMap["leave"] = std::bind(
         &Game::leavePartyMember, this, std::placeholders::_1);
     commandMap["abandon"] = std::bind(
@@ -666,10 +721,23 @@ std::map<std::string, std::function<void(std::vector<std::string>)>
         &Game::leavePartyMember, this, std::placeholders::_1);
     commandMap["ungroup"] = std::bind(
         &Game::leavePartyMember, this, std::placeholders::_1);
+        
+
     return commandMap;
 }
 
-// Generate a random location index and return the corresponding location 
+/**
+ * @brief Generates a random location index and returns the corresponding location.
+ * 
+ * This function uses the C++ Standard Library's random number generation utilities
+ * to generate a random index within the range of available locations.
+ * It then returns a reference to the location at that index.
+ * 
+ * @param None No parameters are required for this function.
+ * 
+ * @return std::reference_wrapper<Location> Returns a reference wrapper to a Location object,
+ *         representing the randomly selected location.
+ */
 std::reference_wrapper<Location> Game::random_location()
 {
     // copilot code
@@ -684,10 +752,22 @@ std::reference_wrapper<Location> Game::random_location()
     return this->locations[(long unsigned int)random_index];
 }
 
-// play function
+/**
+ * @brief Main game loop for the text-based adventure game.
+ * 
+ * This function serves as the main game loop, handling user input and game logic.
+ * It starts by printing an introductory message that sets the scene and explains the game's objective.
+ * The function then enters a loop that continues as long as the game is in progress.
+ * Inside the loop, it prompts the user for a command, processes the command, and executes the corresponding game action.
+ * The game ends when the objective is met or the player, and a corresponding message is displayed.
+ * 
+ * @param None No parameters are required for this function.
+ * 
+ * @return void This function does not return any value.
+ */
 void Game::play()
 {
-    // print game message
+    // print intro message
     std::cout 
     << "Welcome to GVSU!" << std::endl;
     std::cout 
@@ -742,7 +822,7 @@ void Game::play()
     << "Type 'help' or '?' for a list of commands." 
     << std::endl;
     
-    // while game is in progress
+    // game is in progress
     while (this->game_in_progress)
     {
         // prompt user for command
@@ -754,15 +834,25 @@ void Game::play()
         << std::endl;
         std::cout
         << std::endl;
+
+        // get command from user input and store in token
         std::string token;
         std::getline(std::cin, token);
 
+
+        // Copilot code VVVVVV
+
+        // create string stream from token
         std::istringstream iss(token);
+
+        // declare command and target variables
         std::string command;
         std::vector<std::string> target;
 
+        // get command from iss and store in command variable
         iss >> command;
 
+        // get target parts from iss and store in target vector
         std::string target_part;
         while(iss >> target_part) {
             target.push_back(target_part);
@@ -773,13 +863,9 @@ void Game::play()
         if (this->commands.find(command) != this->commands.end())
         {
             // call command function
-            
-            //std::cout << "Command found." << std::endl;
             std::cout
             << std::endl;
             commands[command](target);
-
-            
         }
         else
         {
@@ -789,8 +875,14 @@ void Game::play()
             std::cout 
             << "Command not found." 
             << std::endl;
+            std::cout
+            << std::endl;
+            std::cout
+            << "Type 'help' or '?' for a list of commands."
+            << std::endl;
         }
     }
+    // game is over
     // check if elf got enough calories
     if (this->calories_needed <= 0)
     {
@@ -804,7 +896,18 @@ void Game::play()
     }
 }
 
-// show help: prints a list of commands
+/**
+ * @brief Displays a list of available commands and the current time.
+ * 
+ * This function prints a list of all the commands that the user can execute in the game.
+ * It iterates through the game's command map and prints each command to the console.
+ * Additionally, it displays the current system time to the user.
+ * 
+ * @param target A vector of strings containing any arguments passed with the 'help' command. 
+ *               This parameter is not used within the function but is included to match the function signature required for the command map.
+ * 
+ * @return void This function does not return any value.
+ */
 void Game::show_help(std::vector<std::string> target)
 {
     //get rid of unused target warning
@@ -838,7 +941,16 @@ void Game::show_help(std::vector<std::string> target)
     << current_time_string << std::endl;
 }
 
-// convert vector of strings to single string
+/**
+ * @brief Converts a vector of strings into a single concatenated string.
+ * 
+ * This function takes a vector of strings and concatenates them into a single string,
+ * separating each element by a space. The resulting string is then returned.
+ * 
+ * @param target A vector of strings that needs to be concatenated into a single string.
+ * 
+ * @return std::string The concatenated string formed by joining all the elements of the input vector.
+ */
 std::string Game::strvector_to_str(std::vector<std::string> target)
 {
     // target iterator
@@ -860,7 +972,17 @@ std::string Game::strvector_to_str(std::vector<std::string> target)
     return target_string;
 }
 
-// talk to NPC function
+/**
+ * @brief Initiates a conversation with a Non-Player Character (NPC) in the current location.
+ * 
+ * This function takes a vector of strings as its argument, which is expected to contain the name of the NPC
+ * the player wishes to talk to. It then looks for this NPC in the current location. If the NPC is found,
+ * their current message is retrieved and displayed. If the NPC is not found, a message indicating this is displayed.
+ * 
+ * @param target A vector of strings containing the name of the NPC the player wants to talk to.
+ * 
+ * @return void
+ */
 void Game::talk(std::vector<std::string> target)
 {
     // convert target to string
@@ -900,7 +1022,17 @@ void Game::talk(std::vector<std::string> target)
     << std::endl;
 }
 
-// meet function
+/**
+ * @brief Initiates a meeting with a Non-Player Character (NPC) in the current location.
+ * 
+ * This function takes a vector of strings as its argument, which is expected to contain the name of the NPC
+ * the player wishes to meet. It then looks for this NPC in the current location. If the NPC is found,
+ * their description is retrieved and displayed. If the NPC is not found, a message indicating this is displayed.
+ * 
+ * @param target A vector of strings containing the name of the NPC the player wants to meet.
+ * 
+ * @return void
+ */
 void Game::meet(std::vector<std::string> target)
 {
     // convert target to string
@@ -940,7 +1072,18 @@ void Game::meet(std::vector<std::string> target)
     << std::endl;
 }
 
-// take function
+/**
+ * @brief Picks up an item from the current location and adds it to the player's inventory.
+ * 
+ * This function takes a vector of strings as its argument, which is expected to contain the name of the item
+ * the player wishes to take. It then looks for this item in the current location. If the item is found,
+ * it is added to the player's inventory, and the player's current carry weight is updated. The item is also
+ * removed from the current location. If the item is not found, a message indicating this is displayed.
+ * 
+ * @param target A vector of strings containing the name of the item the player wants to take.
+ * 
+ * @return void
+ */
 void Game::take(std::vector<std::string> target)
 {
     // convert target to string
@@ -994,7 +1137,20 @@ void Game::take(std::vector<std::string> target)
     << std::endl;
 }
 
-// give function
+/**
+ * @brief Gives an item from the player's inventory to a location(dropping item).
+ * 
+ * This function takes a vector of strings as its argument, which is expected to contain the name of the item
+ * the player wishes to give. It then looks for this item in the player's inventory. If the item is found,
+ * it is added to the current location's items. Special actions may occur based on the location and the nature 
+ * of the item (e.g., edible or not). The player's current carry weight is updated, 
+ * and the item is removed from the inventory.
+ * If the item is not found in the inventory, a message indicating this is displayed.
+ * 
+ * @param target A vector of strings containing the name of the item the player wants to give.
+ * 
+ * @return void
+ */
 void Game::give(std::vector<std::string> target)
 {
     // convert target to string
@@ -1002,12 +1158,13 @@ void Game::give(std::vector<std::string> target)
 
     // item holder for iterator
     std::vector<Item> items = this->inventory;
+    
     // item iterator
     std::vector<Item>::iterator item_iterator = items.begin();
 
     // check if target item is in inventory
     // loop over npcs
-    while (item_iterator != inventory.end())
+    while (item_iterator != items.end())
     {
         // check if item name matches target
         // item found in inventory
@@ -1130,7 +1287,20 @@ void Game::give(std::vector<std::string> target)
     << std::endl;
 }
 
-// go to direction function
+/**
+ * @brief Moves the player to a different location based on the given direction.
+ * 
+ * This function takes a vector of strings as its argument, which is expected to contain the direction
+ * the player wishes to move in. It checks if the player is carrying too much weight to move.
+ * If the player can move, it looks for the target direction in the current location's neighbors.
+ * If the direction is found, the player is moved to the new location, and any party members are also moved.
+ * The player's current location is updated, and a message indicating the new location is displayed.
+ * If the direction is not found, a message indicating this is displayed.
+ * 
+ * @param target A vector of strings containing the direction the player wants to move in.
+ * 
+ * @return void
+ */
 void Game::go(std::vector<std::string> target)
 {
     // convert target to string
@@ -1250,7 +1420,18 @@ void Game::go(std::vector<std::string> target)
     }
 }
 
-// show items in player inventory
+/**
+ * @brief Displays the items in the player's inventory.
+ * 
+ * This function takes a vector of strings as its argument, which is not used in the function.
+ * It iterates through the player's inventory and prints each item along with its details.
+ * It also calculates the total calories of all items in the inventory and displays it.
+ * Finally, it shows the current weight the player is carrying.
+ * 
+ * @param target A vector of strings that is not used in the function.
+ * 
+ * @return void
+ */
 void Game::show_items(std::vector<std::string> target)
 {
     //get rid of unused target warning
@@ -1296,7 +1477,18 @@ void Game::show_items(std::vector<std::string> target)
     << std::endl;
 }
 
-// look at current location function
+/**
+ * @brief Displays the details of the player's current location.
+ * 
+ * This function takes a vector of strings as its argument, which is not used in the function.
+ * It prints a message indicating that the player is looking around.
+ * Then it displays the details of the player's current location, including items and NPCs,
+ * by using the overloaded stream operator on the current location object.
+ * 
+ * @param target A vector of strings that is not used in the function.
+ * 
+ * @return void
+ */
 void Game::look(std::vector<std::string> target)
 {
     //get rid of unused target warning
@@ -1320,12 +1512,33 @@ void Game::look(std::vector<std::string> target)
     << std::endl;
 }
 
-//for testing (not used in game)
+/**
+ * @brief Sets the current location of the player in the game.
+ * 
+ * This function is intended for testing purposes and is not used in the actual game.
+ * It takes a reference to a Location object as its argument and sets the player's
+ * current location to this new location.
+ * 
+ * @param loc A reference to a Location object that will become the player's new current location.
+ * 
+ * @return void
+ */
 void Game::set_current_location(Location &loc) {
     this->current_location = loc;
 }
 
-// quit game function
+/**
+ * @brief Quits the game and ends the current session.
+ * 
+ * This function sets the game's "in progress" status to false, effectively breaking
+ * the main game loop in the `play()` function. It also prints a message to inform
+ * the player that they have quit the game.
+ * 
+ * @param target A vector of strings that is not used in this function. It's included
+ *               to maintain consistency with the function signature for other game commands.
+ * 
+ * @return void
+ */
 void Game::quit(std::vector<std::string> target)
 {
     //get rid of unused target warning
@@ -1339,7 +1552,17 @@ void Game::quit(std::vector<std::string> target)
     std::cout << "You have quit the game." << std::endl;
 }
 
-// party up function (npc follows player from location to location)
+/**
+ * @brief Adds an NPC to the player's party so that the NPC follows the player from location to location.
+ * 
+ * This function searches for the target NPC in the current location. If found, the NPC is added to the player's
+ * party, allowing it to follow the player as they move between locations. Certain NPCs, like the Elf, cannot
+ * be added to the party.
+ * 
+ * @param target A vector of strings containing the name of the target NPC to add to the party.
+ * 
+ * @return void
+ */
 void Game::party(std::vector<std::string> target)
 {
     // convert target string vector to string
@@ -1401,7 +1624,16 @@ void Game::party(std::vector<std::string> target)
     << std::endl; 
 }
 
-// unfollow/unparty function
+/**
+ * @brief Removes an NPC from the player's party, stopping the NPC from following the player.
+ * 
+ * This function searches for the target NPC in the current location. If found and the NPC is in the player's
+ * party, it is removed from the party, ceasing to follow the player as they move between locations.
+ * 
+ * @param target A vector of strings containing the name of the target NPC to remove from the party.
+ * 
+ * @return void
+ */
 void Game::leavePartyMember(std::vector<std::string> target)
 {
     // convert target to string
@@ -1454,39 +1686,85 @@ void Game::leavePartyMember(std::vector<std::string> target)
     << std::endl; 
 }
 
-// get current location
+/**
+ * @brief Retrieves the current location of the player in the game.
+ * 
+ * This function returns a reference wrapper to the Location object representing the player's current location.
+ * 
+ * @return std::reference_wrapper<Location> A reference wrapper to the Location object representing the player's current location.
+ */
 std::reference_wrapper<Location> Game::get_current_location() const
 {
     return this->current_location;
 }
 
-// get player inventory
+/**
+ * @brief Retrieves the player's current inventory in the game.
+ * 
+ * This function returns a vector containing Item objects, which represent the items currently in the player's inventory.
+ * 
+ * @return std::vector<Item> A vector of Item objects representing the player's current inventory.
+ */
 std::vector<Item> Game::get_inventory() const
 {
     return this->inventory;
 }
 
-// get current carry weight
+/**
+ * @brief Retrieves the player's current carry weight in the game.
+ * 
+ * This function returns a float value representing the total weight of items currently carried by the player.
+ * 
+ * @return float The total weight of items currently in the player's inventory.
+ */
 float Game::get_current_weight() const
 {
     return this->current_weight;
 }
-// get calories needed to win
+
+/**
+ * @brief Retrieves the number of calories needed for the player to win the game.
+ * 
+ * This function returns an integer value representing the total number of calories that the player needs to collect in order to win the game.
+ * 
+ * @return int The total number of calories needed to win the game.
+ */
 int Game::get_calories_needed() const
 {
     return this->calories_needed;
 }
-// get game in progress (is the game running?)
+
+/**
+ * @brief Checks if the game is currently in progress.
+ * 
+ * This function returns a boolean value indicating whether the game is currently running or not.
+ * 
+ * @return bool True if the game is in progress, false otherwise.
+ */
 bool Game::get_game_in_progress() const
 {
     return this->game_in_progress;
 }
-// get locations vector
+
+/**
+ * @brief Retrieves the vector of locations in the game.
+ * 
+ * This function returns a vector containing all the Location objects that are part of the game world.
+ * 
+ * @return std::vector<Location> A vector containing all the locations in the game.
+ */
 std::vector<Location> Game::get_locs() const
 {
     return this->locs;
 }
-// get reference wrapped locations vector
+
+/**
+ * @brief Retrieves the vector of reference-wrapped locations in the game.
+ * 
+ * This function returns a vector containing reference wrappers to all the Location objects that are part of the game world.
+ * 
+ * @return std::vector<std::reference_wrapper<Location>> A vector containing reference wrappers to all the locations in the game.
+ */
 std::vector<std::reference_wrapper<Location>> Game::get_locations()
 {
     return this->locations;

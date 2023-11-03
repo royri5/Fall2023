@@ -1,6 +1,3 @@
-// Author: Richard Roy
-// Date: 10/10/23
-
 // Include guard to prevent multiple inclusions
 #ifndef _LOCATION_
 #define _LOCATION_
@@ -15,7 +12,20 @@
 #include "NPC.hpp"
 #include "Item.hpp"
 
-// Defines location class
+/**
+ * @class Location
+ * @brief Represents a location in a text-based adventure game.
+ * @author Richard Roy - richard.alex.roy@gmail.com
+ * @date 10/7/23
+ * 
+ * The Location class encapsulates information about a specific location
+ * within the game world. It includes details such as the location's name,
+ * description, visited status, neighboring locations, NPCs (Non-Playable Characters),
+ * and items that can be found in that location.
+ * 
+ * This class provides methods to access and manipulate the attributes of a location,
+ * making it a fundamental component of the game world's structure.
+ */
 class Location
 {
 public:

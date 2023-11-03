@@ -1,6 +1,3 @@
-// Author: Richard Roy
-// Date: 10/10/23
-
 // include guard
 #ifndef _GAME_
 #define _GAME_
@@ -16,7 +13,17 @@
 #include <iostream>
 #include <functional>
 
-// defines game class
+/**
+ * @class Game
+ * @brief Manages the game state, player actions, and interactions with NPCs and items.
+ * @author Richard Roy - richard.alex.roy@gmail.com
+ * @date 10/11/23
+ * 
+ * The Game class is responsible for managing the overall state of the game, including the player's location, inventory, and actions.
+ * It also handles interactions with NPCs (Non-Player Characters) and items in the game world. The class provides a set of member functions
+ * to perform actions like moving, talking, taking items, and more.
+ *
+ */
 class Game
 {
 public:

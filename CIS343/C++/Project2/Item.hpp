@@ -1,6 +1,3 @@
-// Author: Richard Roy
-// Date: 10/10/23
-
 // Include guard to prevent multiple inclusions of this header file
 #ifndef _ITEM_
 #define _ITEM_
@@ -11,9 +8,11 @@
 
 /**
  * @class Item
- * @brief Represents an item in locations and the player's inventory.
+ * @brief Represents an item with a name, description, calories, and weight.
+ * @author Richard Roy - richard.alex.roy@gmail.com
+ * @date 10/5/23
  * 
- * The Item class encapsulates the properties of an item, such as its name, description, calories, and weight.
+ * This class defines attributes and methods for managing items in a game world.
  */
 class Item
 {
