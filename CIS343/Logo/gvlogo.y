@@ -92,7 +92,7 @@ command:		PENUP						{ penup(); }
 		|		CLEAR						{ clear(); }
 		|		TURN NUMBER 				{ turn($2); }
 		|       MOVE NUMBER					{ move($2); }
-		|       GOTO NUMBER NUMBER			{ x = $2; y = $3; }  // :????
+		|       GOTO NUMBER NUMBER			{ go_to($2, $3) }  // :????
 		|       WHERE 						{ printf("x: %f, y: %f\n", x, y); } //??????
 		;
 expression_list:	expression expression_list
@@ -166,7 +166,7 @@ void clear(){
 	SDL_PushEvent(&event);
 }
 
-void goto(int xval, int yval) {
+void go_to(int xval, int yval) {
 	event.type = DRAW_EVENT;
 	event.user.code = 4;
 	event.user.data1 = xval;
