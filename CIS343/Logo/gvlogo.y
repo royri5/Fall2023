@@ -54,6 +54,8 @@ void shutdown();
 
 %locations
 
+%token GOTO
+%token WHERE
 %token SEP
 %token PENUP
 %token PENDOWN
@@ -82,9 +84,18 @@ statement:		command SEP					{ prompt(); }
 		|	error '\n' 					{ yyerrok; prompt(); }
 		;
 command:		PENUP						{ penup(); }
+		|		PENDOWN						{ pendown(); }
+		|		PRINT 						{ printf("%f\n", $2); }		// ????
+		|       COLOR			 			{ change_color($2, $3, $4); }
+		|		CLEAR						{ clear(); }
+		|		TURN 						{ turn($2); }
+		|       MOVE 						{ move($2); }
+		|       GOTO 						{ x = $2; y = $3; }  // :????
+		|       WHERE 						{ printf("x: %f, y: %f\n", x, y); } . //??????
 		;
-expression_list:
-		|	// Complete these and any missing rules
+expression_list:	expression expression_list
+		|			expression
+		// Complete these and any missing rules
 		;
 expression:		NUMBER PLUS expression				{ $$ = $1 + $3; }
 		|	NUMBER MULT expression				{ $$ = $1 * $3; }
