@@ -87,12 +87,12 @@ statement:		command SEP					{ prompt(); }
 		;
 command:		PENUP						{ penup(); }
 		|		PENDOWN						{ pendown(); }
-		|		PRINT 						{ printf("%f\n", $2); }		// ????
-		|       COLOR			 			{ change_color($2, $3, $4); }
+		|		PRINT QSTRING 				{ printf("%f\n", $2); }		// ????
+		|       COLOR NUMBER NUMBER NUMBER	{ change_color($2, $3, $4); }
 		|		CLEAR						{ clear(); }
-		|		TURN 						{ turn($2); }
-		|       MOVE 						{ move($2); }
-		|       GOTO 						{ x = $2; y = $3; }  // :????
+		|		TURN NUMBER 				{ turn($2); }
+		|       MOVE NUMBER					{ move($2); }
+		|       GOTO NUMBER NUMBER			{ x = $2; y = $3; }  // :????
 		|       WHERE 						{ printf("x: %f, y: %f\n", x, y); } . //??????
 		;
 expression_list:	expression expression_list
