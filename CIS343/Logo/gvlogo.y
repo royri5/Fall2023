@@ -17,6 +17,8 @@ static int running = 1;
 static const int PEN_EVENT = SDL_USEREVENT + 1;
 static const int DRAW_EVENT = SDL_USEREVENT + 2;
 static const int COLOR_EVENT = SDL_USEREVENT + 3;
+//
+static const int TELEPORT_EVENT = SDL_USEREVENT + 4;
 
 typedef struct color_t {
 	unsigned char r;
@@ -164,6 +166,13 @@ void clear(){
 	SDL_PushEvent(&event);
 }
 
+void goto(int xval, int yval) {
+	event.type = DRAW_EVENT;
+	event.user.code = 4;
+	event.user.data1 = xval;
+	event.user.data2 = yval;
+}
+
 void startup(){
 	SDL_Init(SDL_INIT_VIDEO);
 	window = SDL_CreateWindow("GV-Logo", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, WIDTH, HEIGHT, SDL_WINDOW_SHOWN);
@@ -223,6 +232,25 @@ void startup(){
 			if(e.type == COLOR_EVENT){
 				SDL_SetRenderTarget(rend, NULL);
 				SDL_SetRenderDrawColor(rend, current_color.r, current_color.g, current_color.b, 255);
+			}
+			if(e.type == TELEPORT_EVENT){
+				if(e.user.code == 4){
+					int xval = (int)event.user.data1;
+					int yval = (int)event.user.data2;
+					if(xval < 0 || xval > WIDTH || yval < 0 || yval > HEIGHT){
+						printf("Error: Invalid coordinates.\n");
+					} else {
+						x = xval;
+						y = yval;
+						if(pen_state != 0){
+							SDL_SetRenderTarget(rend, texture);
+							SDL_RenderDrawLine(rend, x, y, xval, yval);
+							SDL_SetRenderTarget(rend, NULL);
+							SDL_RenderCopy(rend, texture, NULL, NULL);
+						}
+					}
+					
+				}
 			}
 			if(e.type == SDL_KEYDOWN){
 			}
