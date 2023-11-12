@@ -93,7 +93,7 @@ command:		PENUP						{ penup(); }
 		|		TURN NUMBER 				{ turn($2); }
 		|       MOVE NUMBER					{ move($2); }
 		|       GOTO NUMBER NUMBER			{ x = $2; y = $3; }  // :????
-		|       WHERE 						{ printf("x: %f, y: %f\n", x, y); } . //??????
+		|       WHERE 						{ printf("x: %f, y: %f\n", x, y); } //??????
 		;
 expression_list:	expression expression_list
 		|			expression
