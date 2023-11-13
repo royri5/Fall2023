@@ -48,11 +48,11 @@ void save(const char* path);
 void shutdown();
 void go_to(int xval, int yval);
 void move(int num);
-
+//%define parse.error verbose
 
 %}
 
-%define parse.error verbose
+
 %union {
 	float f;
 	char* s;
@@ -89,15 +89,15 @@ statement_list:		statement
 statement:		command SEP					{ prompt(); }
 		|	error '\n' 					{ yyerrok; prompt(); }
 		;
-command:		PENUP						{ penup(); }
-		|		PENDOWN						{ pendown(); }
-		|		PRINT STRING 				{ output($2); }		// ????
-		|       COLOR NUMBER NUMBER NUMBER	{ change_color($2, $3, $4); }
+command:		PENUP						{ penup(); }						//done
+		|		PENDOWN						{ pendown(); }						//done
+		|		PRINT STRING 				{ output($2); }						//done
+		|       COLOR NUMBER NUMBER NUMBER	{ change_color($2, $3, $4); }		//done
 		|		CLEAR						{ clear(); }
-		|		TURN NUMBER 				{ turn($2); }
-		|       MOVE NUMBER					{ move($2); }
-		|       GOTO NUMBER NUMBER			{ go_to($2, $3) }  // :????
-		|       WHERE 						{ printf("x: %d, y: %d\n", x, y); } //??????
+		|		TURN NUMBER 				{ turn($2); }						//done
+		|       MOVE NUMBER					{ move($2); }						//done
+		|       GOTO NUMBER NUMBER			{ go_to($2, $3); }  				//done
+		|       WHERE 						{ where(); } //??????
 		;
 expression_list:	expression
 		|	expression_list expression				
@@ -176,6 +176,10 @@ void go_to(int xval, int yval) {
 	event.user.data1 = xval;
 	event.user.data2 = yval;
 	SDL_PushEvent(&event);
+}
+
+void where(){
+	printf("x: %d, y: %d\n", x, y);
 }
 
 void startup(){

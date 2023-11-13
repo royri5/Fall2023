@@ -10,13 +10,13 @@ extern void yyerror(const char* s);
 [0-9]+                                { yylval.f = atoi(yytext); return NUMBER; }
 penup                                 { return PENUP; }
 pendown                               { return PENDOWN; }
-print                  { return PRINT; }
+print                                 { return PRINT; }
 save                                  { return SAVE; }
-color      { return COLOR; }
+color                                 { return COLOR; }
 clear                                 { return CLEAR; }
-turn                         { return TURN; }
-move                          { return MOVE; }
-goto                  { return GOTO; }
+turn                                  { return TURN; }
+move                                  { return MOVE; }
+goto                                  { return GOTO; }
 where                                 { return WHERE; }
 ;                                     { return SEP; }
 \"[A-Za-z]+\"                         { yylval.s = yytext; return STRING; }
