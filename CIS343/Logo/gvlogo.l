@@ -6,8 +6,10 @@
 extern void yyerror(const char* s);
 %}
 
+%option yylineno
+
 %%
-[0-9]+                                { yylval.num = atoi(yytext); return NUMBER; }
+[0-9]+                                { yylval.n = atoi(yytext); return NUMBER; }
 penup                                 { return PENUP; }
 pendown                               { return PENDOWN; }
 print\ \"[A-Za-z]+\"                  { return PRINT; }

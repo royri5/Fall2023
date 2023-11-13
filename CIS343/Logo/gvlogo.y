@@ -50,13 +50,15 @@ void go_to(int xval, int yval);
 void move(int num);
 void print(const char* s);
 
+extern yylineo;
+
 %}
 
 %define parse.error verbose
 %union {
+	int n;
 	float f;
 	char* s;
-	int num;
 }
 
 %locations
@@ -73,7 +75,7 @@ void print(const char* s);
 %token TURN
 %token LOOP
 %token MOVE
-%token<num> NUMBER
+%type<n> NUMBER
 %token END
 %token SAVE
 %token PLUS SUB MULT DIV
