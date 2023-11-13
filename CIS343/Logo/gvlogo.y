@@ -91,7 +91,7 @@ statement:		command SEP					{ prompt(); }
 		;
 command:		PENUP						{ penup(); }
 		|		PENDOWN						{ pendown(); }
-		|		PRINT STRING 				{ printf("%s\n", $2); }		// ????
+		|		PRINT STRING 				{ printf("%s\n", $1); }		// ????
 		|       COLOR NUMBER NUMBER NUMBER	{ change_color($2, $3, $4); }
 		|		CLEAR						{ clear(); }
 		|		TURN NUMBER 				{ turn($2); }
