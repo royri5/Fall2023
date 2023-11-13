@@ -91,12 +91,12 @@ statement:		command SEP					{ prompt(); }
 		;
 command:		PENUP						{ penup(); }
 		|		PENDOWN						{ pendown(); }
-		|		PRINT STRING 				{ printf("%s\n", $1); }		// ????
-		|       COLOR NUMBER NUMBER NUMBER	{ change_color($2, $3, $4); }
+		|		PRINT STRING 				{ $$ = output($2); }		// ????
+		|       COLOR NUMBER NUMBER NUMBER	{ $$ = change_color($2, $3, $4); }
 		|		CLEAR						{ clear(); }
-		|		TURN NUMBER 				{ turn($2); }
-		|       MOVE NUMBER					{ move($2); }
-		|       GOTO NUMBER NUMBER			{ go_to($2, $3) }  // :????
+		|		TURN NUMBER 				{ $$ = turn($2); }
+		|       MOVE NUMBER					{ $$ = move($2); }
+		|       GOTO NUMBER NUMBER			{ $$ = go_to($2, $3) }  // :????
 		|       WHERE 						{ printf("x: %d, y: %d\n", x, y); } //??????
 		;
 //expression_list:	
