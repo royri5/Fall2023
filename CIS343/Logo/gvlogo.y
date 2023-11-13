@@ -46,6 +46,8 @@ void change_color(int r, int g, int b);
 void clear();
 void save(const char* path);
 void shutdown();
+void go_to(int xval, int yval);
+void move(int num);
 
 %}
 
