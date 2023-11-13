@@ -7,17 +7,18 @@ extern void yyerror(const char* s);
 %}
 
 %%
-[0-9]+                                { yylval.n = atoi(yytext); return NUMBER; }
+[0-9]+                                { yylval.f = atoi(yytext); return NUMBER; }
 penup                                 { return PENUP; }
 pendown                               { return PENDOWN; }
-print\ \"[A-Za-z]+\"                  { return PRINT; }
+print                  { return PRINT; }
 save                                  { return SAVE; }
-color\ [0-255]\ [0-255]\ [0-255]      { return COLOR; }
+color      { return COLOR; }
 clear                                 { return CLEAR; }
-turn\ [0-360]                         { return TURN; }
-move\ [0-9]+                          { return MOVE; }
-goto\ [0-9]+\ [0-9]+                  { return GOTO; }
+turn                         { return TURN; }
+move                          { return MOVE; }
+goto                  { return GOTO; }
 where                                 { return WHERE; }
+;                                     { return SEP; }
 \"[A-Za-z]+\"                         { yylval.s = yytext; return STRING; }
 [ \t\r\n]			                  ;
 .			                          { yyerror("Lexing Syntax error.\n"); } 
