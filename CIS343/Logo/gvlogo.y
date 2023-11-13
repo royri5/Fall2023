@@ -51,9 +51,11 @@ void move(int num);
 
 %}
 
+%define parse.error verbose
 %union {
 	float f;
 	char* s;
+	int num;
 }
 
 %locations
@@ -70,7 +72,7 @@ void move(int num);
 %token TURN
 %token LOOP
 %token MOVE
-%token NUMBER
+%token<num> NUMBER
 %token END
 %token SAVE
 %token PLUS SUB MULT DIV
