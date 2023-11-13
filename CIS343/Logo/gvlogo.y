@@ -19,6 +19,7 @@ static const int DRAW_EVENT = SDL_USEREVENT + 2;
 static const int COLOR_EVENT = SDL_USEREVENT + 3;
 //
 static const int TELEPORT_EVENT = SDL_USEREVENT + 4;
+static const int WHERE_EVENT = SDL_USEREVENT + 5;
 
 typedef struct color_t {
 	unsigned char r;
@@ -180,7 +181,9 @@ void go_to(int xval, int yval) {
 }
 
 void where(){
-	printf("x: %d, y: %d\n", x, y);
+	event.type = WHERE_EVENT;
+	event.user.code = 5;
+	SDL_PushEvent(&event);
 }
 
 void startup(){
@@ -260,6 +263,11 @@ void startup(){
 						}
 					}
 					
+				}
+			}
+			if(e.type == WHERE_EVENT){
+				if(e.user.code == 5) {
+					printf("x: %d, y: %d\n", x, y);
 				}
 			}
 			if(e.type == SDL_KEYDOWN){
