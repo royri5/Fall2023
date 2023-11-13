@@ -91,18 +91,18 @@ statement:		command SEP					{ prompt(); }
 		;
 command:		PENUP						{ penup(); }
 		|		PENDOWN						{ pendown(); }
-		|		PRINT STRING 				{ $$ = output($2); }		// ????
-		|       COLOR NUMBER NUMBER NUMBER	{ $$ = change_color($2, $3, $4); }
+		|		PRINT STRING 				{ output($2); }		// ????
+		|       COLOR NUMBER NUMBER NUMBER	{ change_color($2, $3, $4); }
 		|		CLEAR						{ clear(); }
-		|		TURN NUMBER 				{ $$ = turn($2); }
-		|       MOVE NUMBER					{ $$ = move($2); }
-		|       GOTO NUMBER NUMBER			{ $$ = go_to($2, $3) }  // :????
+		|		TURN NUMBER 				{ turn($2); }
+		|       MOVE NUMBER					{ move($2); }
+		|       GOTO NUMBER NUMBER			{ go_to($2, $3) }  // :????
 		|       WHERE 						{ printf("x: %d, y: %d\n", x, y); } //??????
 		;
-//expression_list:	
-		//|			
-		// Complete these and any missing rules
-		//;
+expression_list:	expression
+		|	expression_list expression				
+		;
+		//Complete these and any missing rules
 expression:		NUMBER PLUS expression				{ $$ = $1 + $3; }
 		|	NUMBER MULT expression				{ $$ = $1 * $3; }
 		|	NUMBER SUB expression				{ $$ = $1 - $3; }
