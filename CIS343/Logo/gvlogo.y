@@ -171,6 +171,7 @@ void go_to(int xval, int yval) {
 	event.user.code = 4;
 	event.user.data1 = xval;
 	event.user.data2 = yval;
+	SDL_PushEvent(&event);
 }
 
 void startup(){
