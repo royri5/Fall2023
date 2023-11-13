@@ -48,6 +48,7 @@ void save(const char* path);
 void shutdown();
 void go_to(int xval, int yval);
 void move(int num);
+void print(const char* s);
 
 %}
 
@@ -91,13 +92,13 @@ statement:		command SEP					{ prompt(); }
 		;
 command:		PENUP						{ penup(); }
 		|		PENDOWN						{ pendown(); }
-		|		PRINT QSTRING 				{ printf("%f\n", $2); }		// ????
+		|		PRINT QSTRING 				{ printf("%s\n", $2); }		// ????
 		|       COLOR NUMBER NUMBER NUMBER	{ change_color($2, $3, $4); }
 		|		CLEAR						{ clear(); }
 		|		TURN NUMBER 				{ turn($2); }
 		|       MOVE NUMBER					{ move($2); }
 		|       GOTO NUMBER NUMBER			{ go_to($2, $3) }  // :????
-		|       WHERE 						{ printf("x: %f, y: %f\n", x, y); } //??????
+		|       WHERE 						{ printf("x: %d, y: %d\n", x, y); } //??????
 		;
 expression_list:	expression expression_list
 		|			expression
