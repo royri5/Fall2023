@@ -48,6 +48,7 @@ void save(const char* path);
 void shutdown();
 void go_to(int xval, int yval);
 void move(int num);
+void where();
 //%define parse.error verbose
 
 %}
