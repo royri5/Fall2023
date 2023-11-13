@@ -6,8 +6,6 @@
 extern void yyerror(const char* s);
 %}
 
-%option yylineno
-
 %%
 [0-9]+                                { yylval.n = atoi(yytext); return NUMBER; }
 penup                                 { return PENUP; }
@@ -20,7 +18,7 @@ turn\ [0-360]                         { return TURN; }
 move\ [0-9]+                          { return MOVE; }
 goto\ [0-9]+\ [0-9]+                  { return GOTO; }
 where                                 { return WHERE; }
-\"[A-Za-z]+\"                         { yylval.s = yytext; return QSTRING; }
+\"[A-Za-z]+\"                         { yylval.s = yytext; return STRING; }
 [ \t\r\n]			                  ;
 .			                          { yyerror("Lexing Syntax error.\n"); } 
 

@@ -48,15 +48,12 @@ void save(const char* path);
 void shutdown();
 void go_to(int xval, int yval);
 void move(int num);
-void print(const char* s);
 
-extern yylineo;
 
 %}
 
 %define parse.error verbose
 %union {
-	int n;
 	float f;
 	char* s;
 }
@@ -75,7 +72,7 @@ extern yylineo;
 %token TURN
 %token LOOP
 %token MOVE
-%type<n> NUMBER
+%token NUMBER
 %token END
 %token SAVE
 %token PLUS SUB MULT DIV
@@ -94,7 +91,7 @@ statement:		command SEP					{ prompt(); }
 		;
 command:		PENUP						{ penup(); }
 		|		PENDOWN						{ pendown(); }
-		|		PRINT QSTRING 				{ printf("%s\n", $2); }		// ????
+		|		PRINT STRING 				{ printf("%s\n", $2); }		// ????
 		|       COLOR NUMBER NUMBER NUMBER	{ change_color($2, $3, $4); }
 		|		CLEAR						{ clear(); }
 		|		TURN NUMBER 				{ turn($2); }
