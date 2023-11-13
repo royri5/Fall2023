@@ -167,7 +167,7 @@ void clear(){
 }
 
 void go_to(int xval, int yval) {
-	event.type = DRAW_EVENT;
+	event.type = TELEPORT_EVENT;
 	event.user.code = 4;
 	event.user.data1 = xval;
 	event.user.data2 = yval;
