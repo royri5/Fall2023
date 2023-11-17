@@ -102,7 +102,7 @@ command:		PENUP						{ penup(); }						//done
 		|       GOTO NUMBER NUMBER			{ go_to($2, $3); }  				//done
 		|       WHERE 						{ where(); } 						//done
 		;
-expression_list:	expression 					{ printf("Result: %f\n", $1); }				
+expression_list:	expression 					{ printf("%f\n", $1); }				
 		|	expression	expression_list			
 		;
 		//Complete these and any missing rules
