@@ -18,6 +18,10 @@ turn                                  { return TURN; }
 move                                  { return MOVE; }
 goto                                  { return GOTO; }
 where                                 { return WHERE; }
+\+                                    { return PLUS; }
+\-                                    { return SUB; }
+\*                                    { return MULT; }
+\/                                    { return DIV; }
 ;                                     { return SEP; }
 \"[A-Za-z]+\"                         { yylval.s = yytext; return STRING; }
 [ \t\r\n]			                  ;

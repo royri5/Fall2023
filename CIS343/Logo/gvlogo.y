@@ -93,7 +93,7 @@ statement:		command SEP					{ prompt(); }
 		;
 command:		PENUP						{ penup(); }						//done
 		|		PENDOWN						{ pendown(); }						//done
-		|		PRINT STRING 				{ output($2); }						//done
+		|		PRINT STRING 				{ output($2); }						
 		|       COLOR NUMBER NUMBER NUMBER	{ change_color($2, $3, $4); }		//done
 		|		CLEAR						{ clear(); }
 		|		TURN NUMBER 				{ turn($2); }						//done
@@ -267,7 +267,7 @@ void startup(){
 			}
 			if(e.type == WHERE_EVENT){
 				if(e.user.code == 5) {
-					printf("x: %d, y: %d\n", x, y);
+					printf("x: %d, y: %d\n", e.user.x, e.user.y);
 				}
 			}
 			if(e.type == SDL_KEYDOWN){
