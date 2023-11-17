@@ -20,6 +20,27 @@ static const int COLOR_EVENT = SDL_USEREVENT + 3;
 //
 static const int TELEPORT_EVENT = SDL_USEREVENT + 4;
 
+// variables array 
+float variables[5];
+variables[0] = NULL;
+variables[1] = NULL;
+variables[2] = NULL;
+variables[3] = NULL;
+variables[4] = NULL;
+
+// variables array names
+// char* var_names[5];
+// var_names[0] = "$0";
+// var_names[1] = "$1";
+// var_names[2] = "$2";
+// var_names[3] = "$3";
+// var_names[4] = "$4";
+float* var0 = &variables[0];
+float* var1 = &variables[1];
+float* var2 = &variables[2];
+float* var3 = &variables[3];
+float* var4 = &variables[4];
+
 typedef struct color_t {
 	unsigned char r;
 	unsigned char g;
@@ -49,18 +70,22 @@ void shutdown();
 void go_to(int xval, int yval);
 void move(int num);
 void where();
+void var(float* name, float value);
 //%define parse.error verbose
 
 %}
 
 
 %union {
+	float* var;
 	float f;
 	char* s;
 }
 
 %locations
 
+%token EQUALS
+%token<s> VAR
 %token GOTO
 %token WHERE
 %token SEP
@@ -101,6 +126,8 @@ command:		PENUP						{ penup(); }						//done
 		|       MOVE NUMBER					{ move($2); }						//done
 		|       GOTO NUMBER NUMBER			{ go_to($2, $3); }  				//done
 		|       WHERE 						{ where(); } 						//done
+		
+		|       VAR EQUALS expression              { var($1, $3); }
 		;
 expression_list:	expression 					{ printf("%f\n", $1); }				
 		|	expression	expression_list			
@@ -181,8 +208,26 @@ void go_to(int xval, int yval) {
 	SDL_PushEvent(&event);
 }
 
-void where(){
+void where() {
 	printf("x: %f, y: %f\n", x, y);
+}
+
+void var(float* name, float value) {
+	if(name == &variables[0]) {
+		variables[0] = value;
+	} else if(name == &variables[1]) {
+		variables[1] = value;
+	} else if(name == &variables[2]) {
+		variables[2] = value;
+	} else if(name == &variables[3]) {
+		variables[3] = value;
+	} else if(name == &variables[4]) {
+		variables[4] = value;
+	} else if(value == NULL) {
+		yyerror("Invalid value.")
+	} else {
+		yyerror("Invalid variable name.");
+	}
 }
 
 void startup(){

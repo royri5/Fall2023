@@ -24,6 +24,7 @@ where                                 { return WHERE; }
 \/                                    { return DIV; }
 ;                                     { return SEP; }
 \"[A-Za-z]+\"                         { yylval.s = yytext; return STRING; }
+(var0|var1|var2|var3|var4)            { yylval.var = yytext; return VAR; }
 [ \t\r\n]			                  ;
 .			                          { yyerror("Lexing Syntax error.\n"); } 
 
