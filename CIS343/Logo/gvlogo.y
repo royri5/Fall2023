@@ -83,12 +83,13 @@ void where();
 %%
 
 program:		statement_list END				{ printf("Program complete."); shutdown(); exit(0); }
-		| 		expression_list END				{ printf("Program complete."); shutdown(); exit(0); }
+		//| 		expression_list END				{ printf("Program complete."); shutdown(); exit(0); }
 		;
 statement_list:		statement					
 		|	statement statement_list
 		;
 statement:		command SEP					{ prompt(); }
+		|   expression_list SEP				{ prompt(); }
 		|	error '\n' 					{ yyerrok; prompt(); }
 		;
 command:		PENUP						{ penup(); }						//done
@@ -110,7 +111,6 @@ expression:		NUMBER PLUS expression				{ $$ = $1 + $3; }
 		|	NUMBER SUB expression				{ $$ = $1 - $3; }
 		|	NUMBER DIV expression				{ $$ = $1 / $3; }
 		|	NUMBER								{ $$ = $1; }
-		|   error '\n'							{ yyerrok; prompt(); }
 		;
 
 %%
