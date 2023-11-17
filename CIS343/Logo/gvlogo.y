@@ -100,8 +100,8 @@ command:		PENUP						{ penup(); }						//done
 		|       GOTO NUMBER NUMBER			{ go_to($2, $3); }  				//done
 		|       WHERE 						{ where(); } 						//done
 		;
-expression_list:	expression
-		|	expression_list expression				
+expression_list:	expression				{ printf("Result: %f\n", $$); }
+		|	expression	expression_list 			
 		;
 		//Complete these and any missing rules
 expression:		NUMBER PLUS expression				{ $$ = $1 + $3; }
