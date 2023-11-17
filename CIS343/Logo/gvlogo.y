@@ -83,6 +83,7 @@ void where();
 %%
 
 program:		statement_list END				{ printf("Program complete."); shutdown(); exit(0); }
+		| 		expression_list END				{ printf("Program complete."); shutdown(); exit(0); }
 		;
 statement_list:		statement					
 		|	statement statement_list
@@ -100,8 +101,8 @@ command:		PENUP						{ penup(); }						//done
 		|       GOTO NUMBER NUMBER			{ go_to($2, $3); }  				//done
 		|       WHERE 						{ where(); } 						//done
 		;
-expression_list:	expression				
-		|	expression	expression_list 			
+expression_list:	expression 					{ printf("Result: %f\n", $1); }				
+		|	expression	expression_list			
 		;
 		//Complete these and any missing rules
 expression:		NUMBER PLUS expression				{ $$ = $1 + $3; }
