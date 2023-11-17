@@ -19,7 +19,6 @@ static const int DRAW_EVENT = SDL_USEREVENT + 2;
 static const int COLOR_EVENT = SDL_USEREVENT + 3;
 //
 static const int TELEPORT_EVENT = SDL_USEREVENT + 4;
-static const int WHERE_EVENT = SDL_USEREVENT + 5;
 
 typedef struct color_t {
 	unsigned char r;
@@ -99,7 +98,7 @@ command:		PENUP						{ penup(); }						//done
 		|		TURN NUMBER 				{ turn($2); }						//done
 		|       MOVE NUMBER					{ move($2); }						//done
 		|       GOTO NUMBER NUMBER			{ go_to($2, $3); }  				//done
-		|       WHERE 						{ where(); } //??????
+		|       WHERE 						{ where(); } 						//done
 		;
 expression_list:	expression
 		|	expression_list expression				
@@ -181,9 +180,7 @@ void go_to(int xval, int yval) {
 }
 
 void where(){
-	event.type = WHERE_EVENT;
-	event.user.code = 5;
-	SDL_PushEvent(&event);
+	printf("x: %f, y: %f\n", x, y);
 }
 
 void startup(){
@@ -255,6 +252,11 @@ void startup(){
 					} else {
 						x = xval;
 						y = yval;
+						//print for testing
+						printf("x: %d, y: %d\n", xval, yval);
+						printf("x: %f, y: %f\n", x, y);
+						// double check this properly
+						// handles both pen up and down
 						if(pen_state != 0){
 							SDL_SetRenderTarget(rend, texture);
 							SDL_RenderDrawLine(rend, x, y, xval, yval);
@@ -263,11 +265,6 @@ void startup(){
 						}
 					}
 					
-				}
-			}
-			if(e.type == WHERE_EVENT){
-				if(e.user.code == 5) {
-					printf("x: %d, y: %d\n", e.user.x, e.user.y);
 				}
 			}
 			if(e.type == SDL_KEYDOWN){
