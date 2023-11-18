@@ -30,8 +30,8 @@ var1                                  { return VAR1; }
 var2                                  { return VAR2; }
 var3                                  { return VAR3; }
 var4                                  { return VAR4; }
-var[5-9]*                             { yyerror("Invalid variable name.\n"); "\n"; }
 [ \t\r\n]			                  ;
+var[5-9]*                             { yyerror("Invalid variable name.\n"); "\n"; }
 .			                          { yyerror("Lexing Syntax error.\n"); } 
 
 %%
