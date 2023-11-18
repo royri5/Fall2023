@@ -1,4 +1,5 @@
 %{
+// Author: Richard Roy
 #define WIDTH 640
 #define HEIGHT 480
 
@@ -7,6 +8,7 @@
 #include <stdlib.h>
 #include <SDL2/SDL.h>
 #include <SDL2/SDL_thread.h>
+#include <string.h>
 
 static SDL_Window* window;
 static SDL_Renderer* rend;
@@ -24,12 +26,6 @@ static const int TELEPORT_EVENT = SDL_USEREVENT + 4;
 float variables[5];
 
 // variables array names
-// char* var_names[5];
-// var_names[0] = "$0";
-// var_names[1] = "$1";
-// var_names[2] = "$2";
-// var_names[3] = "$3";
-// var_names[4] = "$4";
 float* var0 = &variables[0];
 float* var1 = &variables[1];
 float* var2 = &variables[2];
@@ -66,10 +62,8 @@ void go_to(int xval, int yval);
 void move(int num);
 void where();
 void var(float* name, float value);
-//%define parse.error verbose
-//%token<var> VAR
-%}
 
+%}
 
 %union {
 	float* var;
@@ -98,51 +92,49 @@ void var(float* name, float value);
 %token END
 %token SAVE
 %token PLUS SUB MULT DIV
-%token<s> STRING QSTRING
+%token<s> STRING QSTRING PATHNAME
 %type<f> expression expression_list NUMBER num
 
 %%
 
-program:		statement_list END				{ printf("Program complete."); shutdown(); exit(0); }
-		//| 		expression_list END				{ printf("Program complete."); shutdown(); exit(0); }
+program:			statement_list END				{ printf("Program complete."); shutdown(); exit(0); }
 		;
 statement_list:		statement					
-		|	statement statement_list
+		|			statement statement_list
 		;
-statement:		command SEP					{ prompt(); }
-		|   expression_list SEP				{ prompt(); }
-		|	error '\n' 					{ yyerrok; prompt(); }
+statement:			command SEP							{ prompt(); }
+		|			error SEP 							{ yyerrok; prompt(); }
 		;
-command:		PENUP						{ penup(); }						//done
-		|		PENDOWN						{ pendown(); }						//done
-		|		PRINT STRING 				{ output($2); }						
-		|       COLOR NUMBER NUMBER NUMBER	{ change_color($2, $3, $4); }		//done
-		|		CLEAR						{ clear(); }
-		|		TURN num	 				{ turn($2); }						//done
-		|       MOVE num					{ move($2); }						//done
-		|       GOTO num num				{ go_to($2, $3); }  				//done
-		|       WHERE 						{ where(); } 						//done
-		
-		|       var EQUAL expression              { var($1, $3); }
+command:			PENUP								{ penup(); }						
+		|			PENDOWN								{ pendown(); }						
+		|			PRINT STRING 						{ output($2); }
+		|			SAVE PATHNAME							{ save($2); }					
+		|       	COLOR NUMBER NUMBER NUMBER			{ change_color($2, $3, $4); }		
+		|			CLEAR								{ clear(); }
+		|			TURN num	 						{ turn($2); }						
+		|       	MOVE num							{ move($2); }						
+		|       	GOTO num num						{ go_to($2, $3); }  				
+		|       	WHERE 								{ where(); } 						
+		|			expression_list							
+		|       	var EQUAL expression              	{ var($1, $3); }
 		;
-var:		VAR0							{ $$ = var0; }
-		|		VAR1							{ $$ = var1; }
-		|		VAR2							{ $$ = var2; }
-		|		VAR3							{ $$ = var3; }
-		|		VAR4							{ $$ = var4; }
+var:				VAR0								{ $$ = var0; }
+		|			VAR1								{ $$ = var1; }
+		|			VAR2								{ $$ = var2; }
+		|			VAR3								{ $$ = var3; }
+		|			VAR4								{ $$ = var4; }
 		;
-num:		NUMBER							
-		|		var								{ $$ = *$1; }
+num:				NUMBER							
+		|			var									{ $$ = *$1; }
 		;
-expression_list:	expression 					{ printf("%f\n", $1); }				
-		|	expression	expression_list			
+expression_list:	expression 							{ printf("%f\n", $1); }				
+		|			expression	expression_list			
 		;
-		//Complete these and any missing rules
-expression:		NUMBER PLUS expression				{ $$ = $1 + $3; }
-		|	NUMBER MULT expression				{ $$ = $1 * $3; }
-		|	NUMBER SUB expression				{ $$ = $1 - $3; }
-		|	NUMBER DIV expression				{ $$ = $1 / $3; }
-		|	NUMBER								{ $$ = $1; }
+expression:			NUMBER PLUS expression				{ $$ = $1 + $3; }
+		|			NUMBER MULT expression				{ $$ = $1 * $3; }
+		|			NUMBER SUB expression				{ $$ = $1 - $3; }
+		|			NUMBER DIV expression				{ $$ = $1 / $3; }
+		|			NUMBER   							{ $$ = $1; }
 		;
 
 %%
@@ -298,15 +290,11 @@ void startup(){
 					int xval = (int)event.user.data1;
 					int yval = (int)event.user.data2;
 					if(xval < 0 || xval > WIDTH || yval < 0 || yval > HEIGHT){
-						printf("Error: Invalid coordinates.\n");
+						yyerror("Invalid coordinates.");
 					} else {
 						x = xval;
 						y = yval;
-						//print for testing
-						printf("x: %d, y: %d\n", xval, yval);
-						printf("x: %f, y: %f\n", x, y);
-						// double check this properly
-						// handles both pen up and down
+						
 						if(pen_state != 0){
 							SDL_SetRenderTarget(rend, texture);
 							SDL_RenderDrawLine(rend, x, y, xval, yval);
@@ -330,6 +318,7 @@ void startup(){
 int run(void* data){
 	prompt();
 	yyparse();
+	return 0;
 }
 
 void shutdown(){
