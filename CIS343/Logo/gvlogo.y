@@ -22,11 +22,6 @@ static const int TELEPORT_EVENT = SDL_USEREVENT + 4;
 
 // variables array 
 float variables[5];
-variables[0] = NULL;
-variables[1] = NULL;
-variables[2] = NULL;
-variables[3] = NULL;
-variables[4] = NULL;
 
 // variables array names
 // char* var_names[5];
@@ -72,7 +67,7 @@ void move(int num);
 void where();
 void var(float* name, float value);
 //%define parse.error verbose
-
+//%token<var> VAR
 %}
 
 
@@ -84,8 +79,9 @@ void var(float* name, float value);
 
 %locations
 
-%token EQUALS
-%token<s> VAR
+%token EQUAL
+%token<var> VAR0 VAR1 VAR2 VAR3 VAR4
+%type<var> var
 %token GOTO
 %token WHERE
 %token SEP
@@ -103,7 +99,7 @@ void var(float* name, float value);
 %token SAVE
 %token PLUS SUB MULT DIV
 %token<s> STRING QSTRING
-%type<f> expression expression_list NUMBER
+%type<f> expression expression_list NUMBER num
 
 %%
 
@@ -122,12 +118,21 @@ command:		PENUP						{ penup(); }						//done
 		|		PRINT STRING 				{ output($2); }						
 		|       COLOR NUMBER NUMBER NUMBER	{ change_color($2, $3, $4); }		//done
 		|		CLEAR						{ clear(); }
-		|		TURN NUMBER 				{ turn($2); }						//done
-		|       MOVE NUMBER					{ move($2); }						//done
-		|       GOTO NUMBER NUMBER			{ go_to($2, $3); }  				//done
+		|		TURN num	 				{ turn($2); }						//done
+		|       MOVE num					{ move($2); }						//done
+		|       GOTO num num				{ go_to($2, $3); }  				//done
 		|       WHERE 						{ where(); } 						//done
 		
-		|       VAR EQUALS expression              { var($1, $3); }
+		|       var EQUAL expression              { var($1, $3); }
+		;
+var:		VAR0							{ $$ = var0; }
+		|		VAR1							{ $$ = var1; }
+		|		VAR2							{ $$ = var2; }
+		|		VAR3							{ $$ = var3; }
+		|		VAR4							{ $$ = var4; }
+		;
+num:		NUMBER							
+		|		var								{ $$ = *$1; }
 		;
 expression_list:	expression 					{ printf("%f\n", $1); }				
 		|	expression	expression_list			
@@ -223,8 +228,6 @@ void var(float* name, float value) {
 		variables[3] = value;
 	} else if(name == &variables[4]) {
 		variables[4] = value;
-	} else if(value == NULL) {
-		yyerror("Invalid value.")
 	} else {
 		yyerror("Invalid variable name.");
 	}
