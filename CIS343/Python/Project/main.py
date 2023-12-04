@@ -2,7 +2,7 @@
 
 import pygame as pg
 import os
-#from projectile import Projectile
+from projectile import Projectile
 from pygame.locals import *
 
 def main():
@@ -21,21 +21,21 @@ def main():
     #projectiles = pg.sprite.Group()
     
     # placing in class enemies at spawns
-    # for i in range(500, 1000, 75):
-    #     for j in range(100, 600, 50):
-    #         enemy = Enemy((i, j))
-    #         enemies.add(enemy)
+    for i in range(500, 1000, 75):
+        for j in range(100, 600, 50):
+            enemy = Enemy((i, j))
+            enemies.add(enemy)
     
     # Start sound
-    # pg.mixer.music.load('./assets/cpu-talk.mp3')
-    # pg.mixer.music.play(-1)
+    pg.mixer.music.load('./assets/cpu-talk.mp3')
+    pg.mixer.music.play(-1)
     
     # Get font setup
-    # pg.freetype.init()
-    # font_path = os.path.join(os.path.dirname(os.path.realpath(__file__)), "./assets/", "PermanentMarker-Regular.ttf")
-    # font_size = 64
-    # font = pg.freetype.Font(font_path, font_size)
-    # WHITE = (254, 254, 254)
+    pg.freetype.init()
+    font_path = os.path.join(os.path.dirname(os.path.realpath(__file__)), "./assets/", "PermanentMarker-Regular.ttf")
+    font_size = 64
+    font = pg.freetype.Font(font_path, font_size)
+    WHITE = (254, 254, 254)
     
     # Startup the main game loop
     running = True
@@ -50,51 +50,49 @@ def main():
         for event in pg.event.get():
             if event.type == pg.QUIT:
                 running = False
-            # score event thing
             if event.type == pg.USEREVENT + 1:
                 score += 100
-        # Movement input, try to change to mouse click loc
-        # keys = pg.key.get_pressed()
-        # if keys[K_w]:
-        #     #player.up(delta)
-        #     pass
-        # if keys[K_a]:
-        #     #player.left(delta)
-        #     pass
-        # if keys[K_s]:
-        #     #player.down(delta)
-        #     pass
-        # if keys[K_d]:
-        #     #player.right(delta)
-        #     pass
-        # # Attacking input
-        # if keys[K_SPACE]:
-        #     if shotDelta >= .25:
-        #         projectile = Projectile(player.rect, enemies)
-        #         projectiles.add(projectile)
-        #         shotDelta = 0
-        #         pass
-        # # Win condition    
-        # if len(enemies) == 0:
-        #     print("You win!")
-        #     return
+        keys = pg.key.get_pressed()
+        if keys[K_w]:
+            #player.up(delta)
+            pass
+        if keys[K_a]:
+            #player.left(delta)
+            pass
+        if keys[K_s]:
+            #player.down(delta)
+            pass
+        if keys[K_d]:
+            #player.right(delta)
+            pass
+        # Attacking input
+        if keys[K_SPACE]:
+            if shotDelta >= .25:
+                projectile = Projectile(player.rect, enemies)
+                projectiles.add(projectile)
+                shotDelta = 0
+                pass
+        # Win condition    
+        if len(enemies) == 0:
+            print("You win!")
+            return
         
         # Ok, events are handled, let's draw!
-        #screen.fill((0, 0, 0))
+
+        # background instantiation 
         screen.blit(background, (0, 0))
-        pg.display.update()
+        pg.display.update
         
         # player.update(delta)
+        for entity in entities:
+            entity.update(delta)
+        for projectile in projectiles:
+            projectile.update(delta)
         
-        # for enemy in enemies:
-        #     enemy.update(delta)
-        # for projectile in projectiles:
-        #     projectile.update(delta)
-        
-        # player.draw(screen)
-        # enemies.draw(screen)
-        # projectiles.draw(screen)
-        # font.render_to(screen, (10, 10), "Score: " + str(score), WHITE, None, size=64)
+        entities.draw(screen)
+        projectiles.draw(screen)
+        projectiles.draw(screen)
+        font.render_to(screen, (10, 10), "Score: " + str(score), WHITE, None, size=64)
     
         # When drawing is done, flip the buffer.
         pg.display.flip()
