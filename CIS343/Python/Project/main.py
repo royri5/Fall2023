@@ -10,7 +10,7 @@ def main():
     pg.init()
     
     # Get a screen object
-    screen = pg.display.set_mode([1024, 768]) # class dimensions
+    screen = pg.display.set_mode([960, 960]) # class dimensions
     
     #player = Player()
     

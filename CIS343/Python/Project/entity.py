@@ -13,16 +13,11 @@ class Entity(pg.sprite.Sprite):
         self.startLocation = startLocation
         self.direction = 1
 
-        # Player or enemy
-        self.team = team
-        # Health
-        self.hp = 100
-        # Melee or ranged or gather
-        self.attackType = 'melee'
-        # Damage per attack
-        self.damage = 10
-        # Movement speed in pixels per second
-        self.moveSpeed = 100
+        self.team = team                # Player or enemy
+        self.hp = 100                   # Health
+        self.attackType = 'melee'       # Melee or ranged or gather
+        self.damage = 10                # Damage per attack
+        self.moveSpeed = 100            # Movement speed in pixels per second
     
     def draw(self, screen):
         screen.blit(self.image, self.rect)
