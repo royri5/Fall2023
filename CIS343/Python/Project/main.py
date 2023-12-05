@@ -2,7 +2,7 @@
 
 import pygame as pg
 import os
-from projectile import Projectile
+#from projectile import Projectile
 from pygame.locals import *
 
 def main():
@@ -21,18 +21,19 @@ def main():
     #projectiles = pg.sprite.Group()
     
     # placing in class enemies at spawns
-    for i in range(500, 1000, 75):
-        for j in range(100, 600, 50):
-            enemy = Enemy((i, j))
-            enemies.add(enemy)
+    # for i in range(500, 1000, 75):
+    #     for j in range(100, 600, 50):
+    #         enemy = Enemy((i, j))
+    #         enemies.add(enemy)
     
-    # Start sound
-    pg.mixer.music.load('./assets/cpu-talk.mp3')
-    pg.mixer.music.play(-1)
+    # Start sound (NOT WORKING ON ANY FILE)
+    #pg.mixer.music.load('./assets/Human1.mp3')
+    #pg.mixer.music.play(-1)
     
     # Get font setup
     pg.freetype.init()
-    font_path = os.path.join(os.path.dirname(os.path.realpath(__file__)), "./assets/", "PermanentMarker-Regular.ttf")
+    #font_path = os.path.join(os.path.dirname(os.path.realpath(__file__)), "./assets/", "PlayfairDisplay-Black.ttf")
+    font_path = './assets/PlayfairDisplay-Black.ttf'
     font_size = 64
     font = pg.freetype.Font(font_path, font_size)
     WHITE = (254, 254, 254)
@@ -53,29 +54,29 @@ def main():
             if event.type == pg.USEREVENT + 1:
                 score += 100
         keys = pg.key.get_pressed()
-        if keys[K_w]:
-            #player.up(delta)
-            pass
-        if keys[K_a]:
-            #player.left(delta)
-            pass
-        if keys[K_s]:
-            #player.down(delta)
-            pass
-        if keys[K_d]:
-            #player.right(delta)
-            pass
-        # Attacking input
-        if keys[K_SPACE]:
-            if shotDelta >= .25:
-                projectile = Projectile(player.rect, enemies)
-                projectiles.add(projectile)
-                shotDelta = 0
-                pass
-        # Win condition    
-        if len(enemies) == 0:
-            print("You win!")
-            return
+        # if keys[K_w]:
+        #     #player.up(delta)
+        #     pass
+        # if keys[K_a]:
+        #     #player.left(delta)
+        #     pass
+        # if keys[K_s]:
+        #     #player.down(delta)
+        #     pass
+        # if keys[K_d]:
+        #     #player.right(delta)
+        #     pass
+        # # Attacking input
+        # if keys[K_SPACE]:
+        #     if shotDelta >= .25:
+        #         projectile = Projectile(player.rect, enemies)
+        #         projectiles.add(projectile)
+        #         shotDelta = 0
+        #         pass
+        # # Win condition    
+        # if len(enemies) == 0:
+        #     print("You win!")
+        #     return
         
         # Ok, events are handled, let's draw!
 
@@ -84,14 +85,14 @@ def main():
         pg.display.update
         
         # player.update(delta)
-        for entity in entities:
-            entity.update(delta)
-        for projectile in projectiles:
-            projectile.update(delta)
+        # for entity in entities:
+        #     entity.update(delta)
+        # for projectile in projectiles:
+        #     projectile.update(delta)
         
-        entities.draw(screen)
-        projectiles.draw(screen)
-        projectiles.draw(screen)
+        # entities.draw(screen)
+        # projectiles.draw(screen)
+        # projectiles.draw(screen)
         font.render_to(screen, (10, 10), "Score: " + str(score), WHITE, None, size=64)
     
         # When drawing is done, flip the buffer.
