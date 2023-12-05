@@ -57,8 +57,10 @@ def main():
     #         entity = Entity((i, j))
     #         entities.add(entity)
 
-    # place 1 enemy in middle for testing
+    # place 2 entities in middle for testing
     entity = Entity((500, 500))
+    entities.add(entity)
+    entity = Entity((600, 500))
     entities.add(entity)
     
     
@@ -91,11 +93,13 @@ def main():
                 score += 100
             if event.type == pg.MOUSEBUTTONUP:
                 pos = pg.mouse.get_pos()
+                entityClicked = False
                 for entity in entities:
                     if entity.rect.collidepoint(pos):
                         onEntityClick(entities, entity)
-                    else:
-                        onGameFieldClick(entities, pos[0], pos[1])
+                        entityClicked = True
+                if entityClicked == False:
+                    onGameFieldClick(entities, pos[0], pos[1])
                 # for resource in resources:
                 #     if resource.rect.collidepoint(pos):
                 #         onResourceClick(entities, resource)
@@ -132,7 +136,7 @@ def main():
         
         # player.update(delta)
         for entity in entities:
-            entity.update(delta)
+            entity.update(entities, delta)
         # for projectile in projectiles:
         #     projectile.update(delta)
         

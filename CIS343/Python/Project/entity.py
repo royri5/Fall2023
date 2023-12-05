@@ -117,8 +117,7 @@ class Entity(pg.sprite.Sprite):
         self.destination = (x, y)
         
     # "AI" movement
-    # make sure it works for all 4 directions (might need abs())
-    def update(self, delta):
+    def update(self, entities, delta):
         # update location
         # GPT ASSISTED
         
@@ -126,7 +125,7 @@ class Entity(pg.sprite.Sprite):
             xDiff = self.destination[0] - self.location[0]
             yDiff = self.destination[1] - self.location[1]
             distance = math.sqrt(xDiff**2 + yDiff**2)
-            if distance > 1:
+            if distance > 10:
                 directionX = xDiff / distance
                 directionY = yDiff / distance
                 # direction faced is based on direction of movement
@@ -146,6 +145,22 @@ class Entity(pg.sprite.Sprite):
                 self.doing = 'idle'
             
         self.location = (self.rect.centerx, self.rect.centery)
+        
+        # Collision detection
+        for entity in entities:
+            if entity != self:
+                if pg.sprite.collide_rect(self, entity):
+                    if self.isMoving == True:
+                        self.isMoving = False
+                        self.doing = 'idle'
+                        self.rect.centerx -= directionX * self.speed * delta
+                        self.rect.centery -= directionY * self.speed * delta
+                        self.destination = self.location
+                        break
+                    else:
+                        pass
+                        #self.doing = 'action'
+                        #self.callback(entity)
         
         # update frame (idle)
         # use delta to determine how long to wait before updating frame
