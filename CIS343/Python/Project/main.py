@@ -77,6 +77,7 @@ def main():
     running = True
     delta = 0
     shotDelta = 500
+    animationDelta = 500
     fps = 60
     clock = pg.time.Clock()
     clock.tick(fps)
@@ -135,6 +136,12 @@ def main():
         # for projectile in projectiles:
         #     projectile.update(delta)
         
+        # update entities animation
+        if animationDelta >= .10:
+            for entity in entities:
+                entity.updateAnimation()
+            animationDelta = 0
+        
         entities.draw(screen)
         # projectiles.draw(screen)
         # projectiles.draw(screen)
@@ -145,6 +152,7 @@ def main():
         
         delta = clock.tick(fps) / 1000.0
         shotDelta += delta
+        animationDelta += delta
 
 # Startup the main method to get things going.
 if __name__ == "__main__":
