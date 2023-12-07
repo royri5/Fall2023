@@ -8,7 +8,7 @@ from pygame.locals import *
 from entity import Entity as Entity
 
 #change to private vars later
-def onEntityClick(entities, entity):
+def onEntityClick(entities, entity, delta):
     if entity.team == 'player':
         if entity.selected == False:
             entity.selected = True
@@ -18,8 +18,8 @@ def onEntityClick(entities, entity):
         for entityIt in entities:
             if entityIt.team == 'player':
                 if entityIt.selected == True:
-                    # entityIt.attack(entity)
-                    pass
+                    entityIt.attack(entity, delta)
+                    
                     
 # def onResourceClick(entities, resource):
 #     for entity in entities:
@@ -41,7 +41,7 @@ def main():
     pg.init()
     
     # Get a screen object
-    screen = pg.display.set_mode([960, 960]) # class dimensions
+    screen = pg.display.set_mode([825, 825]) # class dimensions
 
     # Background
     background = pg.image.load('./assets/tile_sheet_960px_by_960px.png')
@@ -58,11 +58,27 @@ def main():
     #         entities.add(entity)
 
     # place 2 entities in middle for testing
-    entity = Entity((500, 500))
+    entity = Entity((100, 800), 'player')
     entities.add(entity)
-    entity = Entity((600, 500))
+    entity = Entity((150, 750), 'player')
     entities.add(entity)
-    
+    entity = Entity((200, 800), 'player')
+    entities.add(entity)
+    entity = Entity((250, 750), 'player')
+    entities.add(entity)
+    entity = Entity((300, 800), 'player')
+    entities.add(entity)
+    entity = Entity((600, 100), 'enemy')
+    entities.add(entity)
+    entity = Entity((650, 150), 'enemy')
+    entities.add(entity)
+    entity = Entity((700, 100), 'enemy')
+    entities.add(entity)
+    entity = Entity((750, 150), 'enemy')
+    entities.add(entity)
+    entity = Entity((800, 100), 'enemy')
+    entities.add(entity)
+    #MORE!!!
     
     # Start sound
     pg.mixer.music.load("./assets/04 - Human 1.mp3", "mp3")
@@ -80,6 +96,7 @@ def main():
     delta = 0
     shotDelta = 500
     animationDelta = 500
+    combatDelta = 500
     fps = 60
     clock = pg.time.Clock()
     clock.tick(fps)
@@ -89,44 +106,39 @@ def main():
         for event in pg.event.get():
             if event.type == pg.QUIT:
                 running = False
-            if event.type == pg.USEREVENT + 1:
-                score += 100
+            #if event.type == pg.USEREVENT + 1:
+            #    score += 100
             if event.type == pg.MOUSEBUTTONUP:
                 pos = pg.mouse.get_pos()
                 entityClicked = False
                 for entity in entities:
                     if entity.rect.collidepoint(pos):
-                        onEntityClick(entities, entity)
+                        onEntityClick(entities, entity, delta)
                         entityClicked = True
+                        #if entity.team == 'enemy':
+                            # hacky way to force collision for combat
+                            
+                        #    entityClicked = False
                 if entityClicked == False:
                     onGameFieldClick(entities, pos[0], pos[1])
                 # for resource in resources:
                 #     if resource.rect.collidepoint(pos):
                 #         onResourceClick(entities, resource)
-        keys = pg.key.get_pressed()
-        # if keys[K_w]:
-        #     #player.up(delta)
-        #     pass
-        # if keys[K_a]:
-        #     #player.left(delta)
-        #     pass
-        # if keys[K_s]:
-        #     #player.down(delta)
-        #     pass
-        # if keys[K_d]:
-        #     #player.right(delta)
-        #     pass
-        # # Attacking input
-        # if keys[K_SPACE]:
-        #     if shotDelta >= .25:
-        #         projectile = Projectile(player.rect, enemies)
-        #         projectiles.add(projectile)
-        #         shotDelta = 0
-        #         pass
-        # # Win condition    
-        # if len(enemies) == 0:
-        #     print("You win!")
-        #     return
+        
+        # Win condition 
+        #enemyExists = False
+        #playerExists = False   
+        #for entity in entities:
+        #    if entity.team == 'enemy':
+        #        enemyExists = True
+        #    if entity.team == 'player':
+        #        playerExists = True
+        #    #if enemyExists == False and playerExists == True:
+        #    #    print("You win!")
+        #    #    return
+        #    if playerExists == False:
+        #        print("You lose!")
+        #        return
         
         # Ok, events are handled, let's draw!
 
@@ -136,17 +148,30 @@ def main():
         
         # player.update(delta)
         for entity in entities:
-            entity.update(entities, delta)
+            entity.update(entities,  delta)
         # for projectile in projectiles:
         #     projectile.update(delta)
+        
+         # update combat
+        if combatDelta >= .50:
+            for entity in entities:
+                if entity.inCombatWith != None:
+                    entity.attack(entity.inCombatWith, delta)
+            combatDelta = 0
         
         # update entities animation
         if animationDelta >= .10:
             for entity in entities:
                 entity.updateAnimation()
             animationDelta = 0
+            
+        
+            
+       
         
         entities.draw(screen)
+        
+        
         # projectiles.draw(screen)
         # projectiles.draw(screen)
         font.render_to(screen, (10, 10), "Score: " + str(score), WHITE, None, size=64)
@@ -157,6 +182,16 @@ def main():
         delta = clock.tick(fps) / 1000.0
         shotDelta += delta
         animationDelta += delta
+        combatDelta += delta
+        
+        # Check for deaths first
+        # for entity in entities:
+        #     if entity.dead == True:
+        #         if entity.team == 'enemy':
+        #             score += 100
+        #         if entity.team == 'player':
+        #             score -= 100
+        #         entities.remove(entity)
 
 # Startup the main method to get things going.
 if __name__ == "__main__":
