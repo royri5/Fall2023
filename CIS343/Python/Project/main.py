@@ -97,6 +97,7 @@ def main():
     shotDelta = 500
     animationDelta = 500
     combatDelta = 500
+    attackSpeedDelta = 500
     fps = 60
     clock = pg.time.Clock()
     clock.tick(fps)
@@ -153,11 +154,21 @@ def main():
         #     projectile.update(delta)
         
          # update combat
-        if combatDelta >= .50:
+        if attackSpeedDelta >= .50:
             for entity in entities:
                 if entity.inCombatWith != None:
                     entity.attack(entity.inCombatWith, delta)
-            combatDelta = 0
+            attackSpeedDelta = 0
+            
+        #if combatDelta > 3:
+        #    for entity in entities:
+        for entity in entities:
+            if entity.inCombatWith != None:
+                if entity.timeSinceAttack >= 3:
+                    entity.inCombatWith = None
+                    entity.timeSinceAttack = 0
+                    # TODO:
+                    # work with entity class to check for hit
         
         # update entities animation
         if animationDelta >= .10:
@@ -182,9 +193,11 @@ def main():
         delta = clock.tick(fps) / 1000.0
         shotDelta += delta
         animationDelta += delta
+        attackSpeedDelta += delta
+        # needs to be in entity class
         combatDelta += delta
         
-        # Check for deaths first
+        # Check for deaths
         # for entity in entities:
         #     if entity.dead == True:
         #         if entity.team == 'enemy':

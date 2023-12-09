@@ -37,6 +37,7 @@ class Entity(pg.sprite.Sprite):
         self.animationFramerate = 10
         self.inCombatWith = None
         self.dead = False
+        self.timeSinceAttack = 0
         
         
         # add 10 frames to the idle frame set
@@ -121,6 +122,7 @@ class Entity(pg.sprite.Sprite):
     def attack(self, entity, delta):
         if entity.doing == 'death':
             self.inCombatWith = None
+            self.idle()
             return
         if entity.team != self.team:
             # Range check
@@ -133,12 +135,14 @@ class Entity(pg.sprite.Sprite):
                 # no longer in combat
                 # moving towards entity loc
                 # to trigger aggro 
-                if self.selected == False:
-                    self.moveToAggro(entity.location[0], entity.location[1])
-                    self.inCombatWith = entity
-                else: 
-                    self.moveTo(entity.location[0], entity.location[1])
-                    self.inCombatWith = entity
+                # if self.selected == False:
+                #     self.moveToAggro(entity.location[0], entity.location[1])
+                #     self.inCombatWith = entity
+                # else: 
+                #     self.moveTo(entity.location[0], entity.location[1])
+                #     self.inCombatWith = entity
+                # return
+                self.moveToAggro(entity.location[0], entity.location[1])
                 return
             # face each other when attacking
             if entity.inCombatWith == None or entity.inCombatWith == self:
@@ -200,7 +204,25 @@ class Entity(pg.sprite.Sprite):
         self.walkAggro()
         self.destination = (x, y)
     
+    def threatDrop(self, combatDelta):
+        # interact with attack timer
+        # if unable to get a hit in
+        # in 3 seconds
+        # drop aggro
+        # allowing the stuck, or
+        # kited unit to attack
+        # something else
+        if self.timeSinceAttack > 3:
+            self.inCombatWith = None
+            self.doing = 'idle'
+            self. destination = self.location
+        else:
+            pass
+            #self.timeSinceAttack += 
             
+
+        
+
     # "AI" movement
     def update(self, entities, delta):
         # update location
@@ -219,8 +241,10 @@ class Entity(pg.sprite.Sprite):
         
         # movement
         if self.destination != self.location:
+            #if self.doing != 'walk':
+            #    self.walk()
             if self.doing != 'walk':
-                self.walk()
+                self.walkAggro()
             xDiff = self.destination[0] - self.location[0]
             yDiff = self.destination[1] - self.location[1]
             distance = math.sqrt(xDiff**2 + yDiff**2)
@@ -232,17 +256,21 @@ class Entity(pg.sprite.Sprite):
                     self.direction = 1
                 else:
                     self.direction = -1
+                    
                 self.rect.centerx += directionX * self.speed * delta
-                self.rect.centery += directionY * self.speed * delta
-                # Collision detection
+                # Collision detection (x-axis)
                 for entity in entities:
                     if entity != self:
                         if pg.sprite.collide_rect(self, entity):
-                                # auto engage in combat
                             self.rect.centerx -= directionX * self.speed * delta
+                
+                self.rect.centery += directionY * self.speed * delta
+                # Collision detection (y-axis)
+                for entity in entities:
+                    if entity != self:
+                        if pg.sprite.collide_rect(self, entity):
                             self.rect.centery -= directionY * self.speed * delta
-                                
-                            
+            # not sure this does anything                
             else:
                 self.idle()
         else:
@@ -251,7 +279,7 @@ class Entity(pg.sprite.Sprite):
         self.location = (self.rect.centerx, self.rect.centery)
         
         # Aggro range
-        if self.inCombatWith == None and self.selected == False:
+        if self.inCombatWith == None: #and self.selected == False:
             for entity in entities:
                 if entity != self:
                     if entity.doing != 'death':
