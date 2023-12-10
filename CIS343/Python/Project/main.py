@@ -6,6 +6,7 @@ import os
 from pygame.locals import *
 #from Python.Project.entity import Entity as Entity
 from entity import Entity as Entity
+from melee import Melee as Melee
 
 #change to private vars later
 def onEntityClick(entities, entity, delta):
@@ -58,26 +59,30 @@ def main():
     #         entities.add(entity)
 
     # place 2 entities in middle for testing
-    entity = Entity((100, 800), 'player')
-    entities.add(entity)
-    entity = Entity((150, 750), 'player')
-    entities.add(entity)
-    entity = Entity((200, 800), 'player')
-    entities.add(entity)
-    entity = Entity((250, 750), 'player')
-    entities.add(entity)
-    entity = Entity((300, 800), 'player')
-    entities.add(entity)
-    entity = Entity((600, 100), 'enemy')
-    entities.add(entity)
-    entity = Entity((650, 150), 'enemy')
-    entities.add(entity)
-    entity = Entity((700, 100), 'enemy')
-    entities.add(entity)
-    entity = Entity((750, 150), 'enemy')
-    entities.add(entity)
-    entity = Entity((800, 100), 'enemy')
-    entities.add(entity)
+    melee = Melee((300, 500), 'player')
+    entities.add(melee)
+    melee = Melee((700, 500), 'enemy')
+    entities.add(melee)
+    # entity = Entity((100, 800), 'player')
+    # entities.add(entity)
+    # entity = Entity((150, 750), 'player')
+    # entities.add(entity)
+    # entity = Entity((200, 800), 'player')
+    # entities.add(entity)
+    # entity = Entity((250, 750), 'player')
+    # entities.add(entity)
+    # entity = Entity((300, 800), 'player')
+    # entities.add(entity)
+    # entity = Entity((600, 100), 'enemy')
+    # entities.add(entity)
+    # entity = Entity((650, 150), 'enemy')
+    # entities.add(entity)
+    # entity = Entity((700, 100), 'enemy')
+    # entities.add(entity)
+    # entity = Entity((750, 150), 'enemy')
+    # entities.add(entity)
+    # entity = Entity((800, 100), 'enemy')
+    # entities.add(entity)
     #MORE!!!
     
     # Start sound

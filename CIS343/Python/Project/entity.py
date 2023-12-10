@@ -24,17 +24,18 @@ class Entity(pg.sprite.Sprite):
         self.width = 32         # width of each sprite on spritesheet
         self.height = 32        # height of each sprite on spritesheet
         
+        startframe = 0
         frameRange = 9          # group of frames in row to be loaded
         row = 0                 # row of spritesheet to look in
-        self.addIdleFrameSet('./assets/warrior spritesheet calciumtrice.png', frameRange, row, self.width, self.height)
+        self.addIdleFrameSet('./assets/warrior spritesheet calciumtrice.png', startframe, frameRange, row, self.width, self.height)
         row = 1
-        self.addIdleFrameSet('./assets/warrior spritesheet calciumtrice.png', frameRange, row, self.width, self.height)
+        self.addIdleFrameSet('./assets/warrior spritesheet calciumtrice.png', startframe, frameRange, row, self.width, self.height)
         row = 2
-        self.addWalkFrameSet('./assets/warrior spritesheet calciumtrice.png', frameRange, row, self.width, self.height)
+        self.addWalkFrameSet('./assets/warrior spritesheet calciumtrice.png', startframe, frameRange, row, self.width, self.height)
         row = 3
-        self.addActionFrameSet('./assets/warrior spritesheet calciumtrice.png', frameRange, row, self.width, self.height)
+        self.addActionFrameSet('./assets/warrior spritesheet calciumtrice.png', startframe, frameRange, row, self.width, self.height)
         row = 4    
-        self.addDeathFrameSet('./assets/warrior spritesheet calciumtrice.png', frameRange, row, self.width, self.height)
+        self.addDeathFrameSet('./assets/warrior spritesheet calciumtrice.png', startframe, frameRange, row, self.width, self.height)
         
         #startFrame = self.sprite_sheet.get_image(3, 4, 32, 32, (0, 0, 0))
         
@@ -329,29 +330,29 @@ class Entity(pg.sprite.Sprite):
     
     
     
-    def addIdleFrameSet(self, spritesheet, framerange, row, width, height):
+    def addIdleFrameSet(self, spritesheet, startframe, framerange, row, width, height):
         sprite_sheet_image = pg.image.load(spritesheet).convert_alpha()
         self.sprite_sheet = Spritesheet(sprite_sheet_image)
-        for i in range(framerange):
+        for i in range(startframe, framerange):
             frame = self.sprite_sheet.get_image(i, row, width, height, (0, 0, 0))
             self.__idleFrameSet.append(frame)
             
-    def addWalkFrameSet(self, spritesheet, framerange, row, width, height):
+    def addWalkFrameSet(self, spritesheet, startframe, framerange, row, width, height):
         sprite_sheet_image = pg.image.load(spritesheet).convert_alpha()
         self.sprite_sheet = Spritesheet(sprite_sheet_image)
-        for i in range(framerange):
+        for i in range(startframe, framerange):
             frame = self.sprite_sheet.get_image(i, row, width, height, (0, 0, 0))
             self.__walkFrameSet.append(frame)
-    def addActionFrameSet(self, spritesheet, framerange, row, width, height):
+    def addActionFrameSet(self, spritesheet, startframe, framerange, row, width, height):
         sprite_sheet_image = pg.image.load(spritesheet).convert_alpha()
         self.sprite_sheet = Spritesheet(sprite_sheet_image)
-        for i in range(framerange):
+        for i in range(startframe, framerange):
             frame = self.sprite_sheet.get_image(i, row, width, height, (0, 0, 0))
             self.__actionFrameSet.append(frame)
-    def addDeathFrameSet(self, spritesheet, framerange, row, width, height):
+    def addDeathFrameSet(self, spritesheet, startframe, framerange, row, width, height):
         sprite_sheet_image = pg.image.load(spritesheet).convert_alpha()
         self.sprite_sheet = Spritesheet(sprite_sheet_image)
-        for i in range(framerange):
+        for i in range(startframe, framerange):
             frame = self.sprite_sheet.get_image(i, row, width, height, (0, 0, 0))
             self.__deathFrameSet.append(frame)
     
