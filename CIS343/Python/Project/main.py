@@ -162,12 +162,12 @@ def main():
             
         #if combatDelta > 3:
         #    for entity in entities:
-        for entity in entities:
-            if entity.inCombatWith != None:
-                if entity.timeSinceAttack >= 3:
-                    entity.inCombatWith = None
-                    entity.timeSinceAttack = 0
-                    # TODO:
+        #for entity in entities:
+        #    if entity.inCombatWith != None:
+        #        if entity.timeSinceAttack >= 3:
+        #            entity.inCombatWith = None
+        #            entity.timeSinceAttack = 0
+        #            # TODO:
                     # work with entity class to check for hit
         
         # update entities animation
