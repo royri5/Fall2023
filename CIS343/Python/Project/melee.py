@@ -32,12 +32,11 @@ class Melee(Entity):
             # print test
             self.width = 65
             self.height = 65
-            self.attackRange = 130
+            self.attackRange = 65 + 32
             
             # goblin sprite sheet does not have as many idle frames as warrior
             # so we will have to add the same frame multiple times to make it look
             # uniform
-            
             
             # frame group idle
             #startframe = 5
@@ -47,7 +46,6 @@ class Melee(Entity):
             row = 1
             self.addIdleFrameSet('./assets/goblinsword.png', startframe, endframe, row, self.width, self.height)
             self.addIdleFrameSet('./assets/goblinsword.png', startframe, endframe, row, self.width, self.height)
-            print('idle frames: ', self.idleFrameSet)
             startframe = 6
             endframe = 7
             self.addIdleFrameSet('./assets/goblinsword.png', startframe, endframe, row, self.width, self.height)
@@ -89,7 +87,6 @@ class Melee(Entity):
             endframe = 6
             self.addWalkFrameSet('./assets/goblinsword.png', startframe, endframe, row, self.width, self.height)
             self.addWalkFrameSet('./assets/goblinsword.png', startframe, endframe, row, self.width, self.height)
-            
             
             # frame group action
             #startframe = 7
@@ -137,13 +134,6 @@ class Melee(Entity):
             self.addDeathFrameSet('./assets/goblinsword.png', startframe, endframe, row, self.width, self.height)
             self.addDeathFrameSet('./assets/goblinsword.png', startframe, endframe, row, self.width, self.height)
             
-                 
-        
-        
-        # default sprite and image creation
-        # print out the frame sets
-        print('idle frames: ', self.idleFrameSet)
-        
         startFrame = self.idleFrameSet[self.frameNumber]
         self.updateFrame(startFrame)
         

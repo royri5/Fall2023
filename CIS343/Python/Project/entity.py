@@ -9,10 +9,6 @@ class Entity(pg.sprite.Sprite):
     def __init__(self, startLocation, team):
         super(Entity, self).__init__()
         
-        # TODO:
-        # implement default sprite
-        # allow child classes to override sprites
-        
         # Initialize sprites to empty list
         self.__idleFrameSet = []
         self.__walkFrameSet = []
@@ -25,27 +21,23 @@ class Entity(pg.sprite.Sprite):
         self.height = 32        # height of each sprite on spritesheet
         
         startframe = 0
-        frameRange = 9          # group of frames in row to be loaded
+        endframe = 9          # group of frames in row to be loaded
         row = 0                 # row of spritesheet to look in
-        self.addIdleFrameSet('./assets/warrior spritesheet calciumtrice.png', startframe, frameRange, row, self.width, self.height)
+        self.addIdleFrameSet('./assets/warrior spritesheet calciumtrice.png', startframe, endframe, row, self.width, self.height)
         row = 1
-        self.addIdleFrameSet('./assets/warrior spritesheet calciumtrice.png', startframe, frameRange, row, self.width, self.height)
+        self.addIdleFrameSet('./assets/warrior spritesheet calciumtrice.png', startframe, endframe, row, self.width, self.height)
         row = 2
-        self.addWalkFrameSet('./assets/warrior spritesheet calciumtrice.png', startframe, frameRange, row, self.width, self.height)
+        self.addWalkFrameSet('./assets/warrior spritesheet calciumtrice.png', startframe, endframe, row, self.width, self.height)
         row = 3
-        self.addActionFrameSet('./assets/warrior spritesheet calciumtrice.png', startframe, frameRange, row, self.width, self.height)
+        self.addActionFrameSet('./assets/warrior spritesheet calciumtrice.png', startframe, endframe, row, self.width, self.height)
         row = 4    
-        self.addDeathFrameSet('./assets/warrior spritesheet calciumtrice.png', startframe, frameRange, row, self.width, self.height)
-        
-        #startFrame = self.sprite_sheet.get_image(3, 4, 32, 32, (0, 0, 0))
-        
+        self.addDeathFrameSet('./assets/warrior spritesheet calciumtrice.png', startframe, endframe, row, self.width, self.height)
         
         # default unit stats
         self.hp = 100
         self.speed = 100
         self.attackDamage = 10
         self.attackRange = 46
-        #self.type = 'melee'
         self.unitType = 'melee'
         
         # default unit state variables
@@ -57,10 +49,6 @@ class Entity(pg.sprite.Sprite):
         self.location = startLocation
         self.destination = startLocation
         self.direction = 1          # 1 = Right, -1 = Left
-        
-        # if time allows...
-        #self.timeSinceAttack = 0
-        
         
         # default sprite and image creation
         startFrame = self.idleFrameSet[self.frameNumber]
@@ -127,9 +115,8 @@ class Entity(pg.sprite.Sprite):
             raise ValueError("unitType cannot be blank")
         if not isinstance(unitType, str):
             raise ValueError("unitType must be a string")
-        #if unitType != "melee" or unitType != 'ranged' or unitType != 'gatherer':
-        if unitType not in ["melee", "ranged", "gatherer"]:
-            raise ValueError("unitType must be melee, ranged, or gatherer")
+        if unitType not in ["melee", "ranged", "projectile"]:
+            raise ValueError("unitType must be melee, ranged, or projectile")
         self.__unitType = unitType
         
     # unit state variables
@@ -142,7 +129,6 @@ class Entity(pg.sprite.Sprite):
             raise ValueError("team cannot be blank")
         if not isinstance(team, str):
             raise ValueError("team must be a string")
-        #if team != 'player' or team != 'enemy':
         if team not in ['player', 'enemy']:
             raise ValueError("team must be 'player' or 'enemy'")
         self.__team = team
@@ -165,7 +151,6 @@ class Entity(pg.sprite.Sprite):
             raise ValueError("doing cannot be blank")
         if not isinstance(doing, str):
             raise ValueError("doing must be a string")
-        #if doing != 'idle' or doing != 'walk' or doing != 'action' or doing != 'death':
         if doing not in ['idle', 'walk', 'action', 'death']:
             raise ValueError("doing must be 'idle', 'walk', 'action', or 'death'")
         self.__doing = doing
@@ -177,6 +162,8 @@ class Entity(pg.sprite.Sprite):
         if inCombatWith != None:
             if not isinstance(inCombatWith, Entity):
                 raise ValueError("inCombatWith must be an Entity or None")
+            if inCombatWith.unitType == 'projectile':
+                raise ValueError("inCombatWith cannot be a projectile")
         self.__inCombatWith = inCombatWith
     @property
     def dead(self):
@@ -225,7 +212,6 @@ class Entity(pg.sprite.Sprite):
             raise ValueError("direction cannot be blank")
         if not isinstance(direction, int):
             raise ValueError("direction must be an integer")
-        #if direction != 1 or direction != -1:
         if direction not in [1, -1]:
             raise ValueError("direction must be 1 (Right) or -1 (Left)")
         self.__direction = direction
@@ -276,11 +262,6 @@ class Entity(pg.sprite.Sprite):
             raise ValueError("idleFrameSet cannot be blank")
         if not isinstance(idleFrameSet, list):
             raise ValueError("idleFrameSet must be a list")
-        #if idleFrameSet.__len__() <= 0:
-        #    raise ValueError("idleFrameSet must contain at least one frame")
-        #for frame in idleFrameSet:
-        #    if not isinstance(frame, pg.Surface):
-        #        raise ValueError("idleFrameSet must contain only pygame Surfaces")
         self.__idleFrameSet = idleFrameSet
     @property
     def walkFrameSet(self):
@@ -291,11 +272,6 @@ class Entity(pg.sprite.Sprite):
             raise ValueError("walkFrameSet cannot be blank")
         if not isinstance(walkFrameSet, list):
             raise ValueError("walkFrameSet must be a list")
-        #if walkFrameSet.__len__() <= 0:
-        #    raise ValueError("walkFrameSet must contain at least one frame")
-        #for frame in walkFrameSet:
-        #    if not isinstance(frame, pg.Surface):
-        #        raise ValueError("walkFrameSet must contain only pygame Surfaces")
         self.__walkFrameSet = walkFrameSet
     @property
     def actionFrameSet(self):
@@ -306,11 +282,6 @@ class Entity(pg.sprite.Sprite):
             raise ValueError("actionFrameSet cannot be blank")
         if not isinstance(actionFrameSet, list):
             raise ValueError("actionFrameSet must be a list")
-        # if actionFrameSet.__len__() <= 0:
-        #     raise ValueError("actionFrameSet must contain at least one frame") 
-        # for frame in actionFrameSet:
-        #     if not isinstance(frame, pg.Surface):
-        #         raise ValueError("actionFrameSet must contain only pygame Surfaces")
         self.__actionFrameSet = actionFrameSet
     @property
     def deathFrameSet(self):
@@ -321,38 +292,31 @@ class Entity(pg.sprite.Sprite):
             raise ValueError("deathFrameSet cannot be blank")
         if not isinstance(deathFrameSet, list):
             raise ValueError("deathFrameSet must be a list")
-        # if deathFrameSet.__len__() <= 0:
-        #     raise ValueError("deathFrameSet must contain at least one frame")
-        # for frame in deathFrameSet:
-        #     if not isinstance(frame, pg.Surface):
-        #         raise ValueError("deathFrameSet must contain only pygame Surfaces")
         self.__deathFrameSet = deathFrameSet
     
-    
-    
-    def addIdleFrameSet(self, spritesheet, startframe, framerange, row, width, height):
+    def addIdleFrameSet(self, spritesheet, startframe, endframe, row, width, height):
         sprite_sheet_image = pg.image.load(spritesheet).convert_alpha()
         self.sprite_sheet = Spritesheet(sprite_sheet_image)
-        for i in range(startframe, framerange):
+        for i in range(startframe, endframe):
             frame = self.sprite_sheet.get_image(i, row, width, height, (0, 0, 0))
             self.__idleFrameSet.append(frame)
             
-    def addWalkFrameSet(self, spritesheet, startframe, framerange, row, width, height):
+    def addWalkFrameSet(self, spritesheet, startframe, endframe, row, width, height):
         sprite_sheet_image = pg.image.load(spritesheet).convert_alpha()
         self.sprite_sheet = Spritesheet(sprite_sheet_image)
-        for i in range(startframe, framerange):
+        for i in range(startframe, endframe):
             frame = self.sprite_sheet.get_image(i, row, width, height, (0, 0, 0))
             self.__walkFrameSet.append(frame)
-    def addActionFrameSet(self, spritesheet, startframe, framerange, row, width, height):
+    def addActionFrameSet(self, spritesheet, startframe, endframe, row, width, height):
         sprite_sheet_image = pg.image.load(spritesheet).convert_alpha()
         self.sprite_sheet = Spritesheet(sprite_sheet_image)
-        for i in range(startframe, framerange):
+        for i in range(startframe, endframe):
             frame = self.sprite_sheet.get_image(i, row, width, height, (0, 0, 0))
             self.__actionFrameSet.append(frame)
-    def addDeathFrameSet(self, spritesheet, startframe, framerange, row, width, height):
+    def addDeathFrameSet(self, spritesheet, startframe, endframe, row, width, height):
         sprite_sheet_image = pg.image.load(spritesheet).convert_alpha()
         self.sprite_sheet = Spritesheet(sprite_sheet_image)
-        for i in range(startframe, framerange):
+        for i in range(startframe, endframe):
             frame = self.sprite_sheet.get_image(i, row, width, height, (0, 0, 0))
             self.__deathFrameSet.append(frame)
     
@@ -373,9 +337,10 @@ class Entity(pg.sprite.Sprite):
                 self.frameNumber += 1
             else:
                 self.dead = True
-                # TODO:
-                # implement score
                 self.kill()
+                if self.team == 'enemy':
+                    return 100
+                return 0
             self.updateFrame(self.deathFrameSet[self.frameNumber])
         elif self.doing == 'idle':
             if self.frameNumber < self.idleFrameSet.__len__() - 1:
@@ -395,6 +360,7 @@ class Entity(pg.sprite.Sprite):
             else:
                 self.frameNumber = 0
             self.updateFrame(self.actionFrameSet[self.frameNumber])
+        return 0
         
     def attack(self, entity, delta):
         if entity.doing == 'death':
@@ -412,13 +378,7 @@ class Entity(pg.sprite.Sprite):
                 # no longer in combat
                 # moving towards entity loc
                 # to trigger aggro 
-                # if self.selected == False:
-                #     self.moveToAggro(entity.location[0], entity.location[1])
-                #     self.inCombatWith = entity
-                # else: 
-                #     self.moveTo(entity.location[0], entity.location[1])
-                #     self.inCombatWith = entity
-                # return
+              
                 self.moveToAggro(entity.location[0], entity.location[1])
                 return
             # face each other when attacking
@@ -431,13 +391,9 @@ class Entity(pg.sprite.Sprite):
             self.action()
             self.inCombatWith = entity
             
-            if self.unitType != 'ranged':
-                entity.hp -= self.attackDamage
-           # else:
-                # TODO:
-                # implement ranged attack
-                # with projectiles
-            #    pass
+            #if self.unitType != 'ranged':
+            entity.hp -= self.attackDamage
+           
             # Death setup
             if entity.hp <= 0:
                 entity.death()
@@ -481,26 +437,7 @@ class Entity(pg.sprite.Sprite):
         self.walkAggro()
         self.destination = (x, y)
     
-    #def threatDrop(self, combatDelta):
-        # interact with attack timer
-        # if unable to get a hit in
-        # in 3 seconds
-        # drop aggro
-        # allowing the stuck, or
-        # kited unit to attack
-        # something else
-    #    if self.timeSinceAttack > 3:
-    #        self.inCombatWith = None
-    #        self.doing = 'idle'
-    #        self. destination = self.location
-    #    else:
-    #        pass
-            #self.timeSinceAttack += 
-            
-
-        
-
-    # "AI" movement
+       # "AI" movement
     def update(self, entities, delta):
         # update location
         # GPT ASSISTED
@@ -518,8 +455,6 @@ class Entity(pg.sprite.Sprite):
         
         # movement
         if self.destination != self.location:
-            #if self.doing != 'walk':
-            #    self.walk()
             if self.doing != 'walk':
                 self.walkAggro()
             xDiff = self.destination[0] - self.location[0]
@@ -537,14 +472,14 @@ class Entity(pg.sprite.Sprite):
                 self.rect.centerx += directionX * self.speed * delta
                 # Collision detection (x-axis)
                 for entity in entities:
-                    if entity != self:
+                    if entity != self and entity.unitType != 'projectile':
                         if pg.sprite.collide_rect(self, entity):
                             self.rect.centerx -= directionX * self.speed * delta
                 
                 self.rect.centery += directionY * self.speed * delta
                 # Collision detection (y-axis)
                 for entity in entities:
-                    if entity != self:
+                    if entity != self and entity.unitType != 'projectile':
                         if pg.sprite.collide_rect(self, entity):
                             self.rect.centery -= directionY * self.speed * delta
             # not sure this does anything                
@@ -558,13 +493,20 @@ class Entity(pg.sprite.Sprite):
         # Aggro range
         if self.inCombatWith == None: #and self.selected == False:
             for entity in entities:
-                if entity != self:
+                if entity != self and entity.unitType != 'projectile':
                     if entity.doing != 'death':
                         if entity.team != self.team:
                             xDiff = self.location[0] - entity.location[0]
                             yDiff = self.location[1] - entity.location[1]
                             distance = math.sqrt(xDiff**2 + yDiff**2)
-                            if distance <= self.attackRange*6:
+                            if self.unitType == 'ranged':
+                                if distance <= self.attackRange*1.5:
+                                    self.attack(entity, delta)
+                                    break
+                            # based off of smallest sprite size
+                            # otherwise goblin will aggro from
+                            # the other side of the solar system
+                            if distance <= 32*6:
                                 self.attack(entity, delta)
                                 break
         
