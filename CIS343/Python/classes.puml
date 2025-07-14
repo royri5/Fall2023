@@ -1,0 +1,88 @@
+@startuml classes
+set namespaceSeparator none
+class "Entity" as Project.src.entity.Entity {
+  action_frame_set
+  attack_damage
+  attack_range
+  dead
+  death_frame_set
+  destination
+  direction
+  doing
+  frame_number
+  height
+  hp
+  idle_frame_set
+  image
+  in_combat_with
+  location
+  rect
+  selected
+  speed
+  sprite_sheet
+  team
+  unit_type
+  walk_frame_set
+  width
+  action()
+  add_action_frame_set(spritesheet, start_frame, end_frame, row, width, height)
+  add_death_frame_set(spritesheet, start_frame, end_frame, row, width, height)
+  add_idle_frame_set(spritesheet, start_frame, end_frame, row, width, height)
+  add_walk_frame_set(spritesheet, start_frame, end_frame, row, width, height)
+  ani_swap()
+  attack(entity)
+  death()
+  draw(screen)
+  idle()
+  move_to(x, y)
+  move_to_aggro(x, y)
+  update(entities, delta)
+  update_animation()
+  update_frame(frame)
+  walk()
+  walk_aggro()
+}
+class "Melee" as Project.src.melee.Melee {
+  action_frame_set : list
+  attack_range : int
+  death_frame_set : list
+  frame_number : int
+  height : int
+  idle_frame_set : list
+  walk_frame_set : list
+  width : int
+}
+class "Projectile" as Project.src.projectile.Projectile {
+  action_frame_set : list
+  death_frame_set : list
+  direction : int
+  frame_number : int
+  height : int
+  idle_frame_set : list
+  location : tuple
+  speed : int
+  target
+  unit_type : str
+  walk_frame_set : list
+  width : int
+  update(entities, delta)
+}
+class "Ranged" as Project.src.ranged.Ranged {
+  action_frame_set : list
+  attack_range : int
+  death_frame_set : list
+  frame_number : int
+  height : int
+  idle_frame_set : list
+  in_combat_with : NoneType
+  in_range
+  unit_type : str
+  walk_frame_set : list
+  width : int
+  attack(entity)
+}
+class "Spritesheet" as Project.src.spritesheet.Spritesheet {
+  sheet
+  get_image(frame, row, width, height)
+}
+@enduml

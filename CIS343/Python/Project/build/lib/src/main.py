@@ -19,7 +19,6 @@ Date:
     
 Resources:
     Background tileset: https://opengameart.org/content/cave-tileset-2
-    Font: https://www.dafont.com/bitmap.php
 """
 
 import os
@@ -133,11 +132,11 @@ def main(): # pylint: disable=too-many-locals, too-many-statements, too-many-bra
 
     # Start sound
     
-    # I do not have the license to use my music (Warcraft 1 Human theme)
-    # Realizing this too late to find a replacement
-    # So i will not be using music in my game
-    #pg.mixer.music.load()
-    #pg.mixer.music.play(-1)
+    # I do not have the license to use this music (Warcraft 1 Human theme)
+    # Realizing this too late to find a replacement and
+    # it won't run without it
+    pg.mixer.music.load("./assets/04 - Human 1.mp3", "mp3")
+    pg.mixer.music.play(-1)
 
     # Get font setup
     pg.freetype.init()

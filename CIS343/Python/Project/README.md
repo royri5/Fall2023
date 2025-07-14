@@ -1,0 +1,1 @@
+This game is a lite-remaking of Blizzard's Warcraft 1 RTS game.

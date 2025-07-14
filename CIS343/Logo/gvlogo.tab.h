@@ -39,60 +39,79 @@
    /* Put the tokens into the symbol table, so that GDB and other debuggers
       know about them.  */
    enum yytokentype {
-     SEP = 258,
-     PENUP = 259,
-     PENDOWN = 260,
-     PRINT = 261,
-     CHANGE_COLOR = 262,
-     COLOR = 263,
-     CLEAR = 264,
-     TURN = 265,
-     LOOP = 266,
-     MOVE = 267,
-     NUMBER = 268,
-     END = 269,
-     SAVE = 270,
-     PLUS = 271,
-     SUB = 272,
-     MULT = 273,
-     DIV = 274,
-     STRING = 275,
-     QSTRING = 276
+     EQUAL = 258,
+     VAR0 = 259,
+     VAR1 = 260,
+     VAR2 = 261,
+     VAR3 = 262,
+     VAR4 = 263,
+     GOTO = 264,
+     WHERE = 265,
+     SEP = 266,
+     PENUP = 267,
+     PENDOWN = 268,
+     PRINT = 269,
+     CHANGE_COLOR = 270,
+     COLOR = 271,
+     CLEAR = 272,
+     TURN = 273,
+     LOOP = 274,
+     MOVE = 275,
+     NUMBER = 276,
+     END = 277,
+     SAVE = 278,
+     PLUS = 279,
+     SUB = 280,
+     MULT = 281,
+     DIV = 282,
+     STRING = 283,
+     QSTRING = 284,
+     PATHNAME = 285
    };
 #endif
 /* Tokens.  */
-#define SEP 258
-#define PENUP 259
-#define PENDOWN 260
-#define PRINT 261
-#define CHANGE_COLOR 262
-#define COLOR 263
-#define CLEAR 264
-#define TURN 265
-#define LOOP 266
-#define MOVE 267
-#define NUMBER 268
-#define END 269
-#define SAVE 270
-#define PLUS 271
-#define SUB 272
-#define MULT 273
-#define DIV 274
-#define STRING 275
-#define QSTRING 276
+#define EQUAL 258
+#define VAR0 259
+#define VAR1 260
+#define VAR2 261
+#define VAR3 262
+#define VAR4 263
+#define GOTO 264
+#define WHERE 265
+#define SEP 266
+#define PENUP 267
+#define PENDOWN 268
+#define PRINT 269
+#define CHANGE_COLOR 270
+#define COLOR 271
+#define CLEAR 272
+#define TURN 273
+#define LOOP 274
+#define MOVE 275
+#define NUMBER 276
+#define END 277
+#define SAVE 278
+#define PLUS 279
+#define SUB 280
+#define MULT 281
+#define DIV 282
+#define STRING 283
+#define QSTRING 284
+#define PATHNAME 285
 
 
 
 
 #if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED
 typedef union YYSTYPE
-#line 50 "gvlogo.y"
+#line 67 "gvlogo.y"
 {
+	float* var;
 	float f;
 	char* s;
 }
 /* Line 1529 of yacc.c.  */
-#line 96 "gvlogo.tab.h"
+#line 115 "gvlogo.tab.h"
 	YYSTYPE;
 # define yystype YYSTYPE /* obsolescent; will be withdrawn */
 # define YYSTYPE_IS_DECLARED 1

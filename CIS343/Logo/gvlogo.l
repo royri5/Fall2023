@@ -4,7 +4,7 @@
 #include <stdlib.h>
 #include "gvlogo.tab.h"
 
-extern void yyerror(const char* s);
+extern void yyerror(const char* s);]
 %}
 
 %%

@@ -1,0 +1,28 @@
+@startuml packages
+set namespaceSeparator none
+package "Project" as Project {
+}
+package "Project.setup" as Project.setup {
+}
+package "Project.src" as Project.src {
+}
+package "Project.src.entity" as Project.src.entity {
+}
+package "Project.src.main" as Project.src.main {
+}
+package "Project.src.melee" as Project.src.melee {
+}
+package "Project.src.projectile" as Project.src.projectile {
+}
+package "Project.src.ranged" as Project.src.ranged {
+}
+package "Project.src.spritesheet" as Project.src.spritesheet {
+}
+Project.src.entity --> Project.src.spritesheet
+Project.src.main --> Project.src.melee
+Project.src.main --> Project.src.projectile
+Project.src.main --> Project.src.ranged
+Project.src.melee --> Project.src.entity
+Project.src.projectile --> Project.src.entity
+Project.src.ranged --> Project.src.entity
+@enduml

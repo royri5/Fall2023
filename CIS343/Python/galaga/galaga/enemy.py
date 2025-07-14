@@ -14,6 +14,7 @@ class Enemy(pg.sprite.Sprite):
     def draw(self, screen):
         screen.blit(self.image, self.rect)
 
+    # "AI" movement
     def update(self, delta):
         self.rect.y += 100 * delta * self.direction
         if self.rect.y > self.startLocation[1] + 100 or self.rect.y < self.startLocation[1] - 100:

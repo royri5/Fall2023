@@ -1,0 +1,6 @@
+Metadata-Version: 2.1
+Name: CraftWarI
+Version: 1.48596
+Requires-Dist: pygame
+Requires-Dist: math
+Requires-Dist: os

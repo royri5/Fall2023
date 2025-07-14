@@ -1,0 +1,14 @@
+README.md
+setup.py
+CraftWarI.egg-info/PKG-INFO
+CraftWarI.egg-info/SOURCES.txt
+CraftWarI.egg-info/dependency_links.txt
+CraftWarI.egg-info/requires.txt
+CraftWarI.egg-info/top_level.txt
+src/__init__.py
+src/entity.py
+src/main.py
+src/melee.py
+src/projectile.py
+src/ranged.py
+src/spritesheet.py

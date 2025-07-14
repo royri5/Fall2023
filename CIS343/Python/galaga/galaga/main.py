@@ -14,11 +14,15 @@ def main():
     # Get a screen object
     screen = pg.display.set_mode([1024, 768])
     
+    # Create game objects
     player = Player()
-
     enemies = pg.sprite.Group()
     projectiles = pg.sprite.Group()
 
+    # Spawn enemies?
+    # Start at x = 500, y = 100
+    # Place enemies every +75 x and +50 y
+    # Until x = 1000 and y = 600
     for i in range(500, 1000, 75):
         for j in range(100, 600, 50):
             enemy = Enemy((i, j))
@@ -36,13 +40,13 @@ def main():
     WHITE = (254, 254, 254)
     
     # Startup the main game loop
-    running = True
-    delta = 0
-    shotDelta = 500
-    fps = 60
-    clock = pg.time.Clock()
-    clock.tick(fps)
-    score = 0
+    running = True               
+    delta = 0                   # Time between frames used for updating 
+    shotDelta = 500             # Time between frames used for shooting
+    fps = 60                    # Frames per second
+    clock = pg.time.Clock()     # Clock for using delta
+    clock.tick(fps)             # How often to update the clock
+    score = 0                   # Used for wincon
     while running:
         # First thing we need to clear the events.
         for event in pg.event.get():
@@ -77,11 +81,13 @@ def main():
         player.draw(screen)
         enemies.draw(screen)
         projectiles.draw(screen)
+        # Text on screen
         font.render_to(screen, (10, 10), "Score: " + str(score), WHITE, None, size=64)
 
         # When drawing is done, flip the buffer.
         pg.display.flip()
 
+        # Update the delta and shotDelta
         delta = clock.tick(fps) / 1000.0
         shotDelta += delta
 

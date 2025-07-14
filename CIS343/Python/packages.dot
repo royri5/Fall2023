@@ -1,0 +1,20 @@
+digraph "packages" {
+rankdir=BT
+charset="utf-8"
+"Project" [color="black", label=<Project>, shape="box", style="solid"];
+"Project.setup" [color="black", label=<Project.setup>, shape="box", style="solid"];
+"Project.src" [color="black", label=<Project.src>, shape="box", style="solid"];
+"Project.src.entity" [color="black", label=<Project.src.entity>, shape="box", style="solid"];
+"Project.src.main" [color="black", label=<Project.src.main>, shape="box", style="solid"];
+"Project.src.melee" [color="black", label=<Project.src.melee>, shape="box", style="solid"];
+"Project.src.projectile" [color="black", label=<Project.src.projectile>, shape="box", style="solid"];
+"Project.src.ranged" [color="black", label=<Project.src.ranged>, shape="box", style="solid"];
+"Project.src.spritesheet" [color="black", label=<Project.src.spritesheet>, shape="box", style="solid"];
+"Project.src.entity" -> "Project.src.spritesheet" [arrowhead="open", arrowtail="none"];
+"Project.src.main" -> "Project.src.melee" [arrowhead="open", arrowtail="none"];
+"Project.src.main" -> "Project.src.projectile" [arrowhead="open", arrowtail="none"];
+"Project.src.main" -> "Project.src.ranged" [arrowhead="open", arrowtail="none"];
+"Project.src.melee" -> "Project.src.entity" [arrowhead="open", arrowtail="none"];
+"Project.src.projectile" -> "Project.src.entity" [arrowhead="open", arrowtail="none"];
+"Project.src.ranged" -> "Project.src.entity" [arrowhead="open", arrowtail="none"];
+}
